@@ -1,0 +1,2 @@
+# Add only the Python packages required by this project.
+# TODO: Pin package versions after the project has a tested working environment.

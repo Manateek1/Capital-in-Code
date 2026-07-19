@@ -1,0 +1,63 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Python build output
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Downloaded raw data (keep the folder itself)
+**/data/raw/*
+!**/data/raw/.gitkeep
+
+# Generated results (keep the folder itself)
+**/results/*
+!**/results/.gitkeep
+
+# Generated chart files (keep the folder itself)
+**/charts/*.png
+**/charts/*.jpg
+**/charts/*.jpeg
+**/charts/*.gif
+**/charts/*.svg
+**/charts/*.pdf
+!**/charts/.gitkeep

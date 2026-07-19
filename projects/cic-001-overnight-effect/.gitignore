@@ -1,0 +1,20 @@
+# Python and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment variables
+.env
+
+# Downloaded data and generated output
+data/raw/*
+!data/raw/.gitkeep
+results/*
+!results/.gitkeep
+charts/*
+!charts/.gitkeep
+
+# Operating system files
+.DS_Store
+Thumbs.db

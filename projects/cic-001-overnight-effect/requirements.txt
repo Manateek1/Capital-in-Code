@@ -1,0 +1,5 @@
+# Planned dependencies for CIC-001.
+# TODO: Pin tested versions when the backtest is implemented.
+pandas
+matplotlib
+yfinance

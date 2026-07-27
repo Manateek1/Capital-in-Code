@@ -42,7 +42,7 @@ Annualized results use 252 trading days and a 0% annual risk-free rate.
 | --- | ---: | ---: | ---: |
 | Mean daily return | 0.03962% | 0.00785% | 0.04748% |
 | Median daily return | 0.06070% | 0.04775% | 0.07081% |
-| Cumulative return | 1,917.13% | 28.63% | 2,494.63% |
+| Cumulative return | 1,917.13% | 28.63% | 2,494.64% |
 | Annualized return | 9.86% | 0.79% | 10.73% |
 | Annualized volatility | 10.75% | 15.43% | 18.84% |
 | Sharpe ratio | 0.929 | 0.128 | 0.635 |

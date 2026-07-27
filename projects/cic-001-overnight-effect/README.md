@@ -43,7 +43,7 @@ date would have ended at:
 - **$20.17 overnight** — a cumulative return of **1,917.13%**
 - **$1.29 during regular hours** — a cumulative return of **28.63%**
 - **$25.95 in close-to-close buy and hold** — a cumulative return of
-  **2,494.63%**
+  **2,494.64%**
 
 The two component returns multiply rather than add. The ending buy-and-hold
 growth is therefore approximately `20.17 × 1.286 = 25.95`.
@@ -56,7 +56,7 @@ growth is therefore approximately `20.17 × 1.286 = 25.95`.
 | Arithmetic mean per day | 0.03962% | 0.00785% | 0.04748% |
 | Median per day | 0.06070% | 0.04775% | 0.07081% |
 | Positive observations | 56.33% | 52.61% | 54.28% |
-| Cumulative return | 1,917.13% | 28.63% | 2,494.63% |
+| Cumulative return | 1,917.13% | 28.63% | 2,494.64% |
 | Annualized return | 9.86% | 0.79% | 10.73% |
 | Annualized volatility | 10.75% | 15.43% | 18.84% |
 | Sharpe ratio | 0.929 | 0.128 | 0.635 |

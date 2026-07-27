@@ -1,5 +1,12 @@
-# Planned dependencies for CIC-001.
-# TODO: Pin tested versions when the backtest is implemented.
-pandas
-matplotlib
-yfinance
+# Runtime dependencies
+numpy>=2.0,<3
+pandas>=2.2,<4
+scipy>=1.14,<2
+matplotlib>=3.9,<4
+yfinance>=0.2.54,<2
+
+# Reproducibility and quality tools
+pytest>=8.3,<10
+ruff>=0.9,<1
+mypy>=1.14,<2
+pandas-stubs>=2.2,<4

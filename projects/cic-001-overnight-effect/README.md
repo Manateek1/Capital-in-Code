@@ -3,6 +3,11 @@
 This project asks a simple question with an important detail: **when did SPY
 historically earn its return?**
 
+This README is the project landing page: it summarizes the verified findings
+and explains how to reproduce the analysis. For the formal research paper, see
+[research-report.md](research-report.md); for concise technical findings, see
+[analysis/summary.md](analysis/summary.md).
+
 A trading day can be separated into two periods:
 
 1. **Overnight:** the previous trading day's close to the current trading day's

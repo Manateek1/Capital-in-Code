@@ -1,5 +1,9 @@
 # CIC-001 Analysis Summary
 
+This is the concise technical findings summary. For installation and
+reproduction instructions, see the project [README](../README.md). For the
+formal paper, see [research-report.md](../research-report.md).
+
 ## Research Question
 
 From January 1994 through December 2025, did SPY historically produce more of

@@ -50,10 +50,24 @@ financial data, models, charts, and a concise written analysis.
 - Each project should include a focused question, testable hypothesis, source
   code, data/method notes, charts, a written analysis, limitations, and
   reproducibility instructions.
-- The future website should be simple, fast, readable, and consistent with the
-  repository's branding direction.
+- The public website should remain simple, fast, readable, and consistent with
+  the repository's branding direction.
 
 ## Current Status
+
+### Current completion status — 2026-08-08
+
+- `CIC-001`, **The Overnight Effect**, is complete on `main`, including its
+  tested Python research pipeline, verified results, formal research report,
+  concise technical summary, charts, and reproducibility instructions.
+- The public Capital in Code site is a React/Vite application in `site/` with
+  Home, CIC-001, Methods, and About routes. It is connected to GitHub for
+  deployments from `main`; its Vercel project uses `site` as the root directory
+  and `dist` as the build output.
+- The site identifies Dillon Nagar as its creator, links to the public GitHub
+  repository and the CIC-001 research materials, and includes a site-wide
+  educational disclaimer. It is intended as a public admissions-oriented
+  research portfolio, not investment advice.
 
 ### Dated branding decision — 2026-08-08
 
@@ -63,18 +77,18 @@ financial data, models, charts, and a concise written analysis.
 - The mark supports the existing minimalist, geometric, circle-based identity
   and is explicitly not a promise of financial performance.
 
-### Dated repository snapshot — 2026-07-29
+### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.
 - The repository foundation is present on `main`.
-- The local working branch is `codex/repository-foundation` and is synchronized
-  with its remote tracking branch.
+- The local working branch was `codex/repository-foundation` and was
+  synchronized with its remote tracking branch.
 - `CIC-001`, **The Overnight Effect**, is the selected first research project.
-- A substantial implementation and verified analysis exist on the downloaded
-  remote branch `origin/codex/cic-001-overnight-effect`; that branch is not
+- A substantial implementation and verified analysis existed on the downloaded
+  remote branch `origin/codex/cic-001-overnight-effect`; it had not yet been
   merged into `main` as of this snapshot.
-- The public website remains a future placeholder; no website framework has
-  been added.
+- The public website was still a future placeholder; no website framework had
+  yet been added as of this snapshot.
 
 ## Direction History
 

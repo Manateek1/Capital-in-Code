@@ -33,7 +33,10 @@ function Footer() {
   return (
     <footer>
       <Link className="wordmark" to="/">Capital in Code <Mark /></Link>
-      <p>Independent research in quantitative finance, investing, coding, and statistics.</p>
+      <div className="footer-copy">
+        <p>Independent research in quantitative finance, investing, coding, and statistics.</p>
+        <p className="disclaimer">Educational research only. Not investment, tax, or legal advice, and not a recommendation to buy or sell any security.</p>
+      </div>
       <a href={REPOSITORY} target="_blank" rel="noreferrer">View the repository <ExternalArrow /></a>
     </footer>
   );

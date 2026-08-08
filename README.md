@@ -31,8 +31,8 @@ Each project is designed to include:
 
 ## Links
 
-- [Capital in Code website — coming soon](https://example.com)
-- [Dillon Nagar on GitHub — profile link to be added](https://github.com/your-username)
+- [Capital in Code website](https://site-dillon-nagars-projects.vercel.app)
+- [Capital in Code on GitHub](https://github.com/Manateek1/Capital-in-Code)
 
 ## Disclaimer
 

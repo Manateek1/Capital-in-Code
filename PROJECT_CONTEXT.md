@@ -63,7 +63,8 @@ financial data, models, charts, and a concise written analysis.
 - The public Capital in Code site is a React/Vite application in `site/` with
   Home, CIC-001, Methods, and About routes. It is connected to GitHub for
   deployments from `main`; its Vercel project uses `site` as the root directory
-  and `dist` as the build output.
+  and `dist` as the build output. Its public production address is
+  `https://capitalincode.vercel.app`.
 - The site identifies Dillon Nagar as its creator, links to the public GitHub
   repository and the CIC-001 research materials, and includes a site-wide
   educational disclaimer. It is intended as a public admissions-oriented

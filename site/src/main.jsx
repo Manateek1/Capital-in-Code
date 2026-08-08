@@ -8,7 +8,7 @@ const PROJECT_PATH = `${REPOSITORY}/tree/main/projects/cic-001-overnight-effect`
 const REPORT_PATH = `${REPOSITORY}/blob/main/projects/cic-001-overnight-effect/research-report.md`;
 
 function Mark() {
-  return <span className="mark" aria-hidden="true"><i /><b /></span>;
+  return <img className="mark" src="/brand-mark.png" alt="" aria-hidden="true" />;
 }
 
 function ExternalArrow() {

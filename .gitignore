@@ -45,6 +45,11 @@ Desktop.ini
 # Logs
 *.log
 
+# JavaScript dependencies and Vite build output
+node_modules/
+**/node_modules/
+site/dist/
+
 # Downloaded raw data (keep the folder itself)
 **/data/raw/*
 !**/data/raw/.gitkeep

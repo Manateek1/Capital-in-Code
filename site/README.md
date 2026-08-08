@@ -1,13 +1,19 @@
-# Future Capital in Code Website
+# Capital in Code website
 
-This folder is reserved for a future public website for Capital in Code. No website framework or application has been added yet.
+The public portfolio site for Capital in Code. It is a React/Vite single-page
+application with client-side routes for the home page, CIC-001, methods, and
+about pages.
 
-The website should eventually include:
+## Development
 
-- **Home** — a short introduction and selected work
-- **Projects** — the full project index and individual project pages
-- **About Dillon** — background, interests, and the purpose of the portfolio
-- **Methods** — plain-language notes about data, testing, assumptions, and reproducibility
-- **GitHub** — a direct link to the source repository and Dillon's profile
+```powershell
+cd site
+npm install
+npm run dev
+```
 
-The site should remain simple, fast, readable, and consistent with the visual direction in `assets/branding/README.md`.
+## Production
+
+`npm run build` creates the deployable `dist/` directory. Vercel is configured
+to serve the application and rewrite direct route visits to the client entry
+point.

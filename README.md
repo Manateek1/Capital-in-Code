@@ -27,7 +27,7 @@ Each project is designed to include:
 
 | Code | Project | Status |
 | --- | --- | --- |
-| CIC-001 | [The Overnight Effect](projects/cic-001-overnight-effect/) | Planned |
+| CIC-001 | [The Overnight Effect](projects/cic-001-overnight-effect/) | Complete |
 
 ## Links
 

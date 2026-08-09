@@ -78,6 +78,15 @@ financial data, models, charts, and a concise written analysis.
 - The mark supports the existing minimalist, geometric, circle-based identity
   and is explicitly not a promise of financial performance.
 
+### Public-report access - 2026-08-08
+
+- The CIC-001 project page includes a direct, downloadable PDF report at
+  `/reports/cic-001-the-overnight-effect.pdf`, so readers can inspect the
+  completed findings without using GitHub. The committed source builder is
+  `scripts/generate_cic001_report.py`; it presents the verified fixed-sample
+  results, charts, robustness checks, reproducibility notes, and research
+  caveats in a public-facing format.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

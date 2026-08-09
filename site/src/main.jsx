@@ -5,7 +5,7 @@ import "./styles.css";
 
 const REPOSITORY = "https://github.com/Manateek1/Capital-in-Code";
 const PROJECT_PATH = `${REPOSITORY}/tree/main/projects/cic-001-overnight-effect`;
-const REPORT_PATH = `${REPOSITORY}/blob/main/projects/cic-001-overnight-effect/research-report.md`;
+const REPORT_PATH = "/reports/cic-001-the-overnight-effect.pdf";
 
 function Mark() {
   return <img className="mark" src="/brand-mark.png" alt="" aria-hidden="true" />;
@@ -85,7 +85,7 @@ function Project() {
     </section>
     <section className="chart-section"><h2>Growth of $1 by return component</h2><img src="/images/cic-001/growth-of-one-dollar.png" alt="Logarithmic growth chart comparing overnight, regular-hours, and buy-and-hold returns for SPY." /><p className="caption">Adjusted SPY data from Yahoo Finance via yfinance; 8,053 aligned return observations from 1994-01-04 through 2025-12-31. The logarithmic axis preserves proportional changes.</p></section>
     <section className="finding"><div><p className="section-label">What the test found</p><h2>Historical growth was concentrated in the close-to-next-open interval.</h2></div><div><p>The average overnight-minus-regular-hours difference was 3.18 basis points per trading day. The result was statistically detectable in the paired tests, but statistical significance does not establish a realistic or superior trading strategy.</p><LinkArrow to="/methods">How the analysis was designed</LinkArrow></div></section>
-    <section className="project-links"><a href={REPORT_PATH} target="_blank" rel="noreferrer">Read the research report <ExternalArrow /></a><a href={PROJECT_PATH} target="_blank" rel="noreferrer">View source code <ExternalArrow /></a><a href={`${PROJECT_PATH}#run-the-analysis`} target="_blank" rel="noreferrer">Reproduce the analysis <ExternalArrow /></a><p><strong>Limitations</strong>Results are historical, adjusted-price evidence for one ETF and one sample. They are not a forecast or investment recommendation.</p></section>
+    <section className="project-links"><a href={REPORT_PATH} download="CIC-001-The-Overnight-Effect-in-SPY.pdf">Download full report (PDF) <span aria-hidden="true">↓</span></a><a href={PROJECT_PATH} target="_blank" rel="noreferrer">View source code <ExternalArrow /></a><a href={`${PROJECT_PATH}#run-the-analysis`} target="_blank" rel="noreferrer">Reproduce the analysis <ExternalArrow /></a><p><strong>Limitations</strong>Results are historical, adjusted-price evidence for one ETF and one sample. They are not a forecast or investment recommendation.</p></section>
     <section className="two-charts"><img src="/images/cic-001/yearly-return-comparison.png" alt="Annual comparison of overnight and regular-hours compounded returns." /><img src="/images/cic-001/drawdown-comparison.png" alt="Drawdown comparison for the three return components." /></section>
   </Layout>;
 }

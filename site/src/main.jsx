@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Link, NavLink, Route, Routes } from "react-router-dom";
 import "./styles.css";
 
+const CycleQuantDashboard = React.lazy(() => import("./cyclequant/CycleQuantDashboard"));
+
 const REPOSITORY = "https://github.com/Manateek1/Capital-in-Code";
 const PROJECT_PATH = `${REPOSITORY}/tree/main/projects/cic-001-overnight-effect`;
 const REPORT_PATH = "/reports/cic-001-the-overnight-effect.pdf";
@@ -20,7 +22,8 @@ function Header() {
     <header className="site-header">
       <Link className="wordmark" to="/">Capital in Code <Mark /></Link>
       <nav aria-label="Primary navigation">
-        <NavLink to="/projects/cic-001-overnight-effect">Projects</NavLink>
+        <NavLink to="/projects/cic-001-overnight-effect">CIC-001</NavLink>
+        <NavLink to="/projects/cic-002-cyclequant">CycleQuant</NavLink>
         <NavLink to="/methods">Methods</NavLink>
         <NavLink to="/about">About</NavLink>
       </nav>
@@ -60,11 +63,18 @@ function Home() {
       </div>
       <div className="hero-figure" aria-hidden="true"><div className="orbit orbit-one" /><div className="orbit orbit-two" /><svg viewBox="0 0 620 260" role="presentation"><path d="M0 177 L34 168 L64 179 L94 148 L122 154 L151 137 L183 173 L213 165 L246 197 L279 184 L310 153 L339 164 L370 112 L403 141 L439 98 L465 109 L493 55 L522 82 L553 40 L584 56 L620 15" /></svg></div>
     </section>
-    <section className="featured">
+    <section className="featured" id="projects">
       <div className="section-label">Featured project</div>
       <div className="feature-grid">
         <div><h2>CIC-001 — The Overnight Effect</h2><p>SPY's return is separated into close-to-open and open-to-close components to examine where its historical adjusted growth occurred.</p><LinkArrow to="/projects/cic-001-overnight-effect">View project</LinkArrow></div>
         <img src="/images/cic-001/growth-of-one-dollar.png" alt="Growth of one dollar across the overnight, regular-hours, and buy-and-hold return components." />
+      </div>
+    </section>
+    <section className="featured cyclequant-feature">
+      <div className="section-label">New research system</div>
+      <div className="feature-grid">
+        <div><h2>CIC-002 — CycleQuant</h2><p>A transparent multi-factor Bitcoin allocation experiment with paper-only execution, hard risk controls, daily decisions, and a permanent audit journal.</p><LinkArrow to="/projects/cic-002-cyclequant">Open the dashboard</LinkArrow></div>
+        <div className="cyclequant-preview" aria-label="CycleQuant dashboard preview"><div><span>Paper portfolio</span><b>$1,082.40</b><small>+8.24% since inception</small></div><div><span>Signal</span><b>74</b><small>75% BTC exposure</small></div><i /><i /><i /></div>
       </div>
     </section>
     <section className="principles">
@@ -96,11 +106,11 @@ function Methods() {
 }
 
 function About() {
-  return <Layout><section className="about-hero"><div><h1>A place to make the work visible.</h1><p>Capital in Code was created by Dillon Nagar as an independent portfolio at the intersection of quantitative finance, investing, coding, and statistics.</p><p>The projects are a record of the process: carefully framed questions, transparent methods, reproducible code, and conclusions that state their limits.</p></div><div className="about-orbits" aria-hidden="true"><i /><i /><i /></div></section><section className="about-facts"><div><h2>Focus</h2><p>Quantitative finance, investing, coding, and statistics.</p></div><div><h2>Format</h2><p>Open projects, documented methods, research reports, and source code.</p></div><div><h2>Principle</h2><p>Clarity over complexity; evidence over opinion; reproducibility over polish.</p></div></section><section className="explore"><h2>Explore the work</h2><LinkArrow to="/projects/cic-001-overnight-effect">CIC-001 — The Overnight Effect</LinkArrow><LinkArrow to="/methods">Research methods</LinkArrow><a className="text-link" href={REPOSITORY} target="_blank" rel="noreferrer">GitHub repository <ExternalArrow /></a></section></Layout>;
+  return <Layout><section className="about-hero"><div><h1>A place to make the work visible.</h1><p>Capital in Code was created by Dillon Nagar as an independent portfolio at the intersection of quantitative finance, investing, coding, and statistics.</p><p>The projects are a record of the process: carefully framed questions, transparent methods, reproducible code, and conclusions that state their limits.</p></div><div className="about-orbits" aria-hidden="true"><i /><i /><i /></div></section><section className="about-facts"><div><h2>Focus</h2><p>Quantitative finance, investing, coding, and statistics.</p></div><div><h2>Format</h2><p>Open projects, documented methods, research reports, and source code.</p></div><div><h2>Principle</h2><p>Clarity over complexity; evidence over opinion; reproducibility over polish.</p></div></section><section className="explore"><h2>Explore the work</h2><LinkArrow to="/projects/cic-001-overnight-effect">CIC-001 — The Overnight Effect</LinkArrow><LinkArrow to="/projects/cic-002-cyclequant">CIC-002 — CycleQuant</LinkArrow><LinkArrow to="/methods">Research methods</LinkArrow><a className="text-link" href={REPOSITORY} target="_blank" rel="noreferrer">GitHub repository <ExternalArrow /></a></section></Layout>;
 }
 
 function NotFound() { return <Layout><section className="not-found"><h1>Page not found.</h1><LinkArrow to="/">Return home</LinkArrow></section></Layout>; }
 
-function App() { return <Routes><Route path="/" element={<Home />} /><Route path="/projects/cic-001-overnight-effect" element={<Project />} /><Route path="/methods" element={<Methods />} /><Route path="/about" element={<About />} /><Route path="*" element={<NotFound />} /></Routes>; }
+function App() { return <Routes><Route path="/" element={<Home />} /><Route path="/projects/cic-001-overnight-effect" element={<Project />} /><Route path="/projects/cic-002-cyclequant" element={<React.Suspense fallback={<div className="route-loading">Loading CycleQuant…</div>}><CycleQuantDashboard /></React.Suspense>} /><Route path="/methods" element={<Methods />} /><Route path="/about" element={<About />} /><Route path="*" element={<NotFound />} /></Routes>; }
 
 createRoot(document.getElementById("root")).render(<React.StrictMode><BrowserRouter><App /></BrowserRouter></React.StrictMode>);

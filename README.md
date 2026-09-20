@@ -28,10 +28,11 @@ Each project is designed to include:
 | Code | Project | Status |
 | --- | --- | --- |
 | CIC-001 | [The Overnight Effect](projects/cic-001-overnight-effect/) | Complete |
+| CIC-002 | [CycleQuant](projects/cic-002-cyclequant/) | Built; paper experiment setup pending |
 
 ## Links
 
-- [Capital in Code website](https://capitalincode.vercel.app)
+- [Capital in Code website](https://capitalincode.com)
 - [Capital in Code on GitHub](https://github.com/Manateek1/Capital-in-Code)
 
 ## Disclaimer

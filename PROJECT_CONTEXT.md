@@ -131,6 +131,21 @@ caveats in a public-facing format.
   no broker submission; optional Binance funding was unavailable in the local
   region and was isolated as designed.
 
+### CIC-002 cloud publication status — 2026-09-20
+
+- The complete CycleQuant implementation is published on the
+  `codex/cyclequant-cloud` branch with GitHub pull request #3 open against
+  `main`.
+- Vercel successfully built a ready review deployment from that branch. The
+  production site and canonical domain remain unchanged until the reviewed
+  branch is merged.
+- A separate Supabase project still needs to be created, migrated, and linked
+  to GitHub Actions and Vercel. Project creation is pending the required
+  billing-organization and exact-cost confirmation; no cloud secret has been
+  created, stored, or exposed.
+- Trading remains disabled, and the cloud dashboard continues to use its
+  clearly labeled deterministic demo until the Supabase connection is ready.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

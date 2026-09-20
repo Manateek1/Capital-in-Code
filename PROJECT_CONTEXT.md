@@ -124,27 +124,32 @@ caveats in a public-facing format.
 - The public React dashboard is integrated at
   `/projects/cic-002-cyclequant`. It uses a clearly labeled deterministic demo
   fixture until the RLS-protected Supabase public views are configured.
-- A versioned Supabase migration and scheduled GitHub Actions workflow are
-  committed locally, but no external Supabase project, GitHub secrets, Alpaca
-  credentials, or trading-enabled setting has been created or changed.
+- The versioned Supabase migrations and scheduled GitHub Actions workflow are
+  deployed. GitHub stores only the public Supabase connection values and a
+  CycleQuant-specific writer token; no Alpaca credential is configured.
 - Trading remains disabled by default. The validated live-data smoke run made
   no broker submission; optional Binance funding was unavailable in the local
   region and was isolated as designed.
 
 ### CIC-002 cloud publication status — 2026-09-20
 
-- The complete CycleQuant implementation is published on the
-  `codex/cyclequant-cloud` branch with GitHub pull request #3 open against
-  `main`.
-- Vercel successfully built a ready review deployment from that branch. The
-  production site and canonical domain remain unchanged until the reviewed
-  branch is merged.
-- A separate Supabase project still needs to be created, migrated, and linked
-  to GitHub Actions and Vercel. Project creation is pending the required
-  billing-organization and exact-cost confirmation; no cloud secret has been
-  created, stored, or exposed.
-- Trading remains disabled, and the cloud dashboard continues to use its
-  clearly labeled deterministic demo until the Supabase connection is ready.
+- GitHub pull request #3 is merged into `main`, and Vercel successfully
+  deployed CycleQuant to the canonical production domain at
+  `https://capitalincode.com/projects/cic-002-cyclequant`.
+- Supabase quoted $0/month for another free project but rejected creation
+  because the account-level two-active-free-project limit was already reached.
+  CycleQuant therefore uses only prefixed `cq_*` objects in the existing free
+  database, with RLS and a separate 256-bit writer token. The workflow has no
+  service-role credential and cannot bypass unrelated table policies.
+- The first GitHub Actions cloud evaluation completed successfully and wrote
+  one market snapshot, one published decision, and one performance row. Its
+  2026-09-20 decision was HOLD with a 72.68 score, zero BTC exposure, and order
+  status `NOT_SUBMITTED`.
+- The public view exposes the published decision while an ordinary browser key
+  cannot see market snapshots. The daily schedule runs at 06:30 UTC without a
+  personal computer.
+- Trading remains disabled, broker mode remains simulated, and the operating
+  baseline remains $0/month within the selected free-tier limits.
 
 ### Historical repository snapshot — 2026-07-29
 

@@ -1,4 +1,8 @@
 const STATIC_DEMO_URL = "/data/cyclequant-dashboard.json";
+// Supabase publishable keys are designed for browser bundles. RLS remains the
+// authorization boundary; the private CycleQuant writer token is never sent.
+const DEFAULT_SUPABASE_URL = "https://gkaslphhalivcxpweuqm.supabase.co";
+const DEFAULT_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_EMazjbjj8zmQjD9MX1r5_g_mm8XsKxz";
 
 function dailyReturns(values) {
   return values.slice(1).map((value, index) => value / values[index] - 1);
@@ -96,8 +100,8 @@ async function fetchJson(url, key, signal) {
 }
 
 export async function loadCycleQuantData(signal) {
-  const url = import.meta.env.VITE_SUPABASE_URL?.replace(/\/$/, "");
-  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  const url = (import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, "");
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
   if (url && key) {
     try {
       const [decisions, performance] = await Promise.all([

@@ -21,36 +21,40 @@ def _integrity_hash(payload: Any) -> str:
 
 
 class SupabaseDatabase:
-    """Service-role REST repository for the scheduled writer only.
+    """Scoped REST repository for the scheduled writer only.
 
-    The service key must never be used by a frontend. Browser reads use the
-    RLS-protected public views created by the migration.
+    The writer uses a publishable key plus a CycleQuant-only token enforced by
+    RLS. Browser reads use the same publishable key without the writer token.
     """
 
     def __init__(
         self,
         url: str,
-        service_role_key: str,
+        publishable_key: str,
+        write_token: str,
         *,
         timeout_seconds: float = 20.0,
         client: httpx.Client | None = None,
     ) -> None:
         if not url.startswith("https://"):
             raise ValueError("SUPABASE_URL must use HTTPS")
-        if not service_role_key.strip():
-            raise ValueError("SUPABASE_SERVICE_ROLE_KEY cannot be empty")
+        if not publishable_key.strip():
+            raise ValueError("SUPABASE_PUBLISHABLE_KEY cannot be empty")
+        if not write_token.strip():
+            raise ValueError("CYCLEQUANT_WRITE_TOKEN cannot be empty")
         self.url = url.rstrip("/")
         self._owns_client = client is None
         self.client = client or httpx.Client(timeout=timeout_seconds)
         self.headers = {
-            "apikey": service_role_key,
-            "Authorization": f"Bearer {service_role_key}",
+            "apikey": publishable_key,
+            "Authorization": f"Bearer {publishable_key}",
+            "x-cyclequant-write-token": write_token,
             "Content-Type": "application/json",
         }
 
     @property
     def description(self) -> str:
-        return f"{self.url}/rest/v1 (service writer)"
+        return f"{self.url}/rest/v1 (scoped writer)"
 
     def close(self) -> None:
         if self._owns_client:
@@ -143,26 +147,26 @@ class SupabaseDatabase:
     def _get_decision(self, filters: dict[str, str]) -> DecisionRecord | None:
         rows = self._select(
             "cq_decisions",
-            {"select": "private_payload,integrity_hash", "limit": "1", **filters},
+            {"select": "public_payload,integrity_hash", "limit": "1", **filters},
         )
         if not rows:
             return None
-        self._verify(rows[0]["private_payload"], rows[0]["integrity_hash"])
-        return DecisionRecord.model_validate(rows[0]["private_payload"])
+        self._verify(rows[0]["public_payload"], rows[0]["integrity_hash"])
+        return DecisionRecord.model_validate(rows[0]["public_payload"])
 
     def list_decisions(self, limit: int = 100) -> list[DecisionRecord]:
         rows = self._select(
             "cq_decisions",
             {
-                "select": "private_payload,integrity_hash",
+                "select": "public_payload,integrity_hash",
                 "order": "decision_date.desc",
                 "limit": str(min(max(limit, 1), 1000)),
             },
         )
         decisions = []
         for row in rows:
-            self._verify(row["private_payload"], row["integrity_hash"])
-            decisions.append(DecisionRecord.model_validate(row["private_payload"]))
+            self._verify(row["public_payload"], row["integrity_hash"])
+            decisions.append(DecisionRecord.model_validate(row["public_payload"]))
         return decisions
 
     def append_order_event(self, event: OrderEvent) -> None:
@@ -189,15 +193,15 @@ class SupabaseDatabase:
         rows = self._select(
             "cq_order_events",
             {
-                "select": "private_payload,integrity_hash",
+                "select": "public_payload,integrity_hash",
                 "decision_id": f"eq.{decision_id}",
                 "order": "occurred_at.asc",
             },
         )
         events = []
         for row in rows:
-            self._verify(row["private_payload"], row["integrity_hash"])
-            events.append(OrderEvent.model_validate(row["private_payload"]))
+            self._verify(row["public_payload"], row["integrity_hash"])
+            events.append(OrderEvent.model_validate(row["public_payload"]))
         return events
 
     def claim_idempotency_key(self, key: str, decision_date: date) -> bool:

@@ -50,13 +50,19 @@ def _parse_as_of(value: str | None) -> datetime:
 
 def _database(settings: Settings) -> Repository:
     if settings.database_backend == "supabase":
-        if not settings.supabase_url or not settings.supabase_service_role_key:
+        if (
+            not settings.supabase_url
+            or not settings.supabase_publishable_key
+            or not settings.supabase_write_token
+        ):
             raise RuntimeError(
-                "Supabase mode requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY"
+                "Supabase mode requires SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, "
+                "and CYCLEQUANT_WRITE_TOKEN"
             )
         database: Repository = SupabaseDatabase(
             settings.supabase_url,
-            settings.supabase_service_role_key,
+            settings.supabase_publishable_key,
+            settings.supabase_write_token,
             timeout_seconds=settings.request_timeout_seconds,
         )
     else:

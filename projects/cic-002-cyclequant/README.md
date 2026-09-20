@@ -186,7 +186,7 @@ remain an optional fallback. No paid service is required by the implementation,
 and paper trading remains disabled until explicitly enabled.
 
 Follow [docs/deployment.md](docs/deployment.md) to connect the free hosted
-services without exposing the Supabase service-role key.
+services without granting the scheduled writer a Supabase service-role key.
 
 ## Repository layout
 

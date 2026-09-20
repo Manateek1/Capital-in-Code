@@ -24,7 +24,8 @@ jobs:
       CQ_NEWS_ANALYZER: ${{ vars.CYCLEQUANT_NEWS_ANALYZER || 'heuristic' }}
       CQ_LOG_JSON: "true"
       SUPABASE_URL: ${{ secrets.CYCLEQUANT_SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.CYCLEQUANT_SUPABASE_SERVICE_ROLE_KEY }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ secrets.CYCLEQUANT_SUPABASE_PUBLISHABLE_KEY }}
+      CYCLEQUANT_WRITE_TOKEN: ${{ secrets.CYCLEQUANT_WRITE_TOKEN }}
       ALPACA_API_KEY_ID: ${{ secrets.CYCLEQUANT_ALPACA_API_KEY_ID }}
       ALPACA_API_SECRET_KEY: ${{ secrets.CYCLEQUANT_ALPACA_API_SECRET_KEY }}
       GEMINI_API_KEY: ${{ secrets.CYCLEQUANT_GEMINI_API_KEY }}
@@ -34,7 +35,7 @@ jobs:
         id: configuration
         shell: bash
         run: |
-          if [[ -n "$SUPABASE_URL" && -n "$SUPABASE_SERVICE_ROLE_KEY" ]]; then
+          if [[ -n "$SUPABASE_URL" && -n "$SUPABASE_PUBLISHABLE_KEY" && -n "$CYCLEQUANT_WRITE_TOKEN" ]]; then
             echo "configured=true" >> "$GITHUB_OUTPUT"
           else
             echo "configured=false" >> "$GITHUB_OUTPUT"

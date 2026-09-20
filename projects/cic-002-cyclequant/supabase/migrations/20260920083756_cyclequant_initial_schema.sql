@@ -1,6 +1,47 @@
 -- CycleQuant's hosted store is append-only for research/audit records and
 -- exposes only explicitly published projections to browser clients.
 
+create schema if not exists cyclequant_private;
+
+revoke all on schema cyclequant_private from public;
+
+create table cyclequant_private.cq_runtime_secrets (
+    name text primary key,
+    value_hash text not null check (length(value_hash) = 64)
+);
+
+revoke all on cyclequant_private.cq_runtime_secrets
+from public, anon, authenticated;
+
+create or replace function cyclequant_private.cq_request_is_writer()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+    select exists (
+        select 1
+        from cyclequant_private.cq_runtime_secrets
+        where name = 'writer_token'
+          and value_hash = encode(
+              extensions.digest(
+                  coalesce(
+                      nullif(current_setting('request.headers', true), '')::jsonb
+                          ->> 'x-cyclequant-write-token',
+                      ''
+                  ),
+                  'sha256'
+              ),
+              'hex'
+          )
+    );
+$$;
+
+revoke all on function cyclequant_private.cq_request_is_writer() from public;
+grant usage on schema cyclequant_private to anon;
+grant execute on function cyclequant_private.cq_request_is_writer() to anon;
+
 create table public.cq_market_snapshots (
     id text primary key,
     as_of timestamptz not null,
@@ -111,6 +152,47 @@ on public.cq_performance_daily for select
 to anon, authenticated
 using (is_published = true);
 
+create policy "scoped writer reads market snapshots"
+on public.cq_market_snapshots for select
+to anon
+using ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer inserts market snapshots"
+on public.cq_market_snapshots for insert
+to anon
+with check ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer inserts decisions"
+on public.cq_decisions for insert
+to anon
+with check ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer inserts order events"
+on public.cq_order_events for insert
+to anon
+with check ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer reads idempotency keys"
+on public.cq_idempotency_keys for select
+to anon
+using ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer inserts idempotency keys"
+on public.cq_idempotency_keys for insert
+to anon
+with check ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer inserts performance"
+on public.cq_performance_daily for insert
+to anon
+with check ((select cyclequant_private.cq_request_is_writer()));
+
+create policy "scoped writer updates performance"
+on public.cq_performance_daily for update
+to anon
+using ((select cyclequant_private.cq_request_is_writer()))
+with check ((select cyclequant_private.cq_request_is_writer()));
+
 revoke all on public.cq_market_snapshots from anon, authenticated;
 revoke all on public.cq_decisions from anon, authenticated;
 revoke all on public.cq_order_events from anon, authenticated;
@@ -145,6 +227,12 @@ grant select (
 ) on public.cq_order_events to anon, authenticated;
 
 grant select on public.cq_performance_daily to anon, authenticated;
+
+grant select, insert on public.cq_market_snapshots to anon;
+grant insert on public.cq_decisions to anon;
+grant insert on public.cq_order_events to anon;
+grant select, insert on public.cq_idempotency_keys to anon;
+grant insert, update on public.cq_performance_daily to anon;
 
 grant all on public.cq_market_snapshots to service_role;
 grant all on public.cq_decisions to service_role;

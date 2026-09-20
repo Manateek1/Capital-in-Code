@@ -28,13 +28,14 @@ authority.
 
 SQLite uses WAL mode and immutable triggers for reproducible local development.
 The cloud schedule selects `SupabaseDatabase`, which writes through the
-service-role REST interface. Supabase row-level security grants anonymous users
-only selected columns from published decisions/events and published performance
-rows. Full snapshots, private payloads, and idempotency keys have no anonymous
-grant.
+REST interface with a publishable key and a separate high-entropy writer token.
+Supabase row-level security grants ordinary anonymous users only selected
+columns from published decisions/events and published performance rows. Full
+snapshots and idempotency keys require the writer token.
 
-The service-role key belongs only in GitHub Actions. The browser uses a
-publishable key and security-invoker views.
+GitHub Actions receives the writer token; Vercel never does. The browser uses
+only the publishable key and security-invoker views. The workflow receives no
+service-role credential and therefore cannot bypass unrelated RLS policies.
 
 ## Failure semantics
 

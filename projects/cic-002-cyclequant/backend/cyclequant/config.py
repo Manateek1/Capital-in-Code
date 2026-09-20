@@ -61,8 +61,11 @@ class Settings(BaseSettings):
     )
 
     supabase_url: str | None = Field(default=None, validation_alias="SUPABASE_URL")
-    supabase_service_role_key: str | None = Field(
-        default=None, validation_alias="SUPABASE_SERVICE_ROLE_KEY"
+    supabase_publishable_key: str | None = Field(
+        default=None, validation_alias="SUPABASE_PUBLISHABLE_KEY"
+    )
+    supabase_write_token: str | None = Field(
+        default=None, validation_alias="CYCLEQUANT_WRITE_TOKEN"
     )
 
     @field_validator("log_level")

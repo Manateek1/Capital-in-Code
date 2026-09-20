@@ -10,13 +10,14 @@ from cyclequant.indicators import IndicatorEngine
 from cyclequant.models import MarketDataBundle, SourceHealth, SourceState
 
 
-def test_supabase_writer_uses_service_headers_and_validates_integrity(daily_bars) -> None:
+def test_supabase_writer_uses_scoped_headers_and_validates_integrity(daily_bars) -> None:
     stored_snapshots: list[dict] = []
 
     def handler(request: httpx.Request) -> httpx.Response:
-        assert request.headers["apikey"] == "service-test"
-        assert request.headers["authorization"] == "Bearer service-test"
-        assert "service-test" not in str(request.url)
+        assert request.headers["apikey"] == "publishable-test"
+        assert request.headers["authorization"] == "Bearer publishable-test"
+        assert request.headers["x-cyclequant-write-token"] == "writer-test"
+        assert "writer-test" not in str(request.url)
         table = request.url.path.rsplit("/", 1)[-1]
         if table == "cq_decisions":
             return httpx.Response(200, json=[])
@@ -59,7 +60,8 @@ def test_supabase_writer_uses_service_headers_and_validates_integrity(daily_bars
     with httpx.Client(transport=httpx.MockTransport(handler)) as client:
         database = SupabaseDatabase(
             "https://project.supabase.co",
-            "service-test",
+            "publishable-test",
+            "writer-test",
             client=client,
         )
         database.initialize()
@@ -74,4 +76,4 @@ def test_supabase_writer_uses_service_headers_and_validates_integrity(daily_bars
 
 def test_supabase_writer_rejects_non_https_url() -> None:
     with pytest.raises(ValueError, match="HTTPS"):
-        SupabaseDatabase("http://project.supabase.co", "service-test")
+        SupabaseDatabase("http://project.supabase.co", "publishable-test", "writer-test")

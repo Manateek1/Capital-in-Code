@@ -1,0 +1,65 @@
+name: CycleQuant daily evaluation
+
+on:
+  schedule:
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: cyclequant-daily
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CQ_ENVIRONMENT: production
+      CQ_DATABASE_BACKEND: supabase
+      CQ_BROKER_MODE: ${{ vars.CYCLEQUANT_BROKER_MODE || 'simulated' }}
+      CQ_TRADING_ENABLED: ${{ vars.CYCLEQUANT_TRADING_ENABLED || 'false' }}
+      CQ_NEWS_ANALYZER: ${{ vars.CYCLEQUANT_NEWS_ANALYZER || 'heuristic' }}
+      CQ_LOG_JSON: "true"
+      SUPABASE_URL: ${{ secrets.CYCLEQUANT_SUPABASE_URL }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ secrets.CYCLEQUANT_SUPABASE_PUBLISHABLE_KEY }}
+      CYCLEQUANT_WRITE_TOKEN: ${{ secrets.CYCLEQUANT_WRITE_TOKEN }}
+      ALPACA_API_KEY_ID: ${{ secrets.CYCLEQUANT_ALPACA_API_KEY_ID }}
+      ALPACA_API_SECRET_KEY: ${{ secrets.CYCLEQUANT_ALPACA_API_SECRET_KEY }}
+      GEMINI_API_KEY: ${{ secrets.CYCLEQUANT_GEMINI_API_KEY }}
+
+    steps:
+      - name: Check cloud configuration
+        id: configuration
+        shell: bash
+        run: |
+          if [[ -n "$SUPABASE_URL" && -n "$SUPABASE_PUBLISHABLE_KEY" && -n "$CYCLEQUANT_WRITE_TOKEN" ]]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "CycleQuant is not configured yet; skipping the scheduled run."
+          fi
+
+      - name: Check out repository
+        if: steps.configuration.outputs.configured == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.configuration.outputs.configured == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: projects/cic-002-cyclequant/requirements.txt
+
+      - name: Install CycleQuant
+        if: steps.configuration.outputs.configured == 'true'
+        working-directory: projects/cic-002-cyclequant
+        run: python -m pip install --disable-pip-version-check .
+
+      - name: Run daily evaluator
+        if: steps.configuration.outputs.configured == 'true'
+        working-directory: projects/cic-002-cyclequant
+        run: cyclequant daily

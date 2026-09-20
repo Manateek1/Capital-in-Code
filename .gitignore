@@ -45,10 +45,17 @@ Desktop.ini
 # Logs
 *.log
 
+# CycleQuant local runtime state
+**/cyclequant.db
+**/cyclequant.db-*
+**/data/KILL_SWITCH
+**/data/*.jsonl
+
 # JavaScript dependencies and Vite build output
 node_modules/
 **/node_modules/
 site/dist/
+**/frontend/dist/
 **/.vercel/
 
 # Downloaded raw data (keep the folder itself)

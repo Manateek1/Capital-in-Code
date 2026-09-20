@@ -1,0 +1,5286 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-20T08:43:00.343042+00:00",
+  "mode": "paper-research",
+  "disclaimer": "Educational research only. Not investment advice and not a recommendation to buy or sell Bitcoin.",
+  "summary": {
+    "portfolio_value": 1082.4,
+    "total_return": 0.08240000000000003,
+    "current_exposure": 75,
+    "btc_price": 61240.0,
+    "signal_score": 74.2,
+    "confidence": "High",
+    "latest_action": "BUY",
+    "last_evaluated_at": "2026-09-20T23:59:59.999999+00:00"
+  },
+  "performance": [
+    {
+      "date": "2026-06-23",
+      "cyclequant": 1000.0,
+      "btc_buy_hold": 1000.0,
+      "cash": 1000.0,
+      "ma200": 1000.0,
+      "btc_price": 59017.09,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-24",
+      "cyclequant": 1001.84,
+      "btc_buy_hold": 997.18,
+      "cash": 1000.0,
+      "ma200": 1001.68,
+      "btc_price": 58850.5,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-25",
+      "cyclequant": 1003.68,
+      "btc_buy_hold": 994.43,
+      "cash": 1000.0,
+      "ma200": 1003.35,
+      "btc_price": 58688.16,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-26",
+      "cyclequant": 1005.51,
+      "btc_buy_hold": 991.77,
+      "cash": 1000.0,
+      "ma200": 1004.99,
+      "btc_price": 58531.29,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-27",
+      "cyclequant": 1007.33,
+      "btc_buy_hold": 989.22,
+      "cash": 1000.0,
+      "ma200": 1006.58,
+      "btc_price": 58381.05,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-28",
+      "cyclequant": 1009.12,
+      "btc_buy_hold": 986.81,
+      "cash": 1000.0,
+      "ma200": 1008.11,
+      "btc_price": 58238.57,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-29",
+      "cyclequant": 1010.9,
+      "btc_buy_hold": 984.54,
+      "cash": 1000.0,
+      "ma200": 1009.57,
+      "btc_price": 58104.92,
+      "exposure": 50
+    },
+    {
+      "date": "2026-06-30",
+      "cyclequant": 1012.65,
+      "btc_buy_hold": 982.45,
+      "cash": 1000.0,
+      "ma200": 1010.94,
+      "btc_price": 57981.13,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-01",
+      "cyclequant": 1014.36,
+      "btc_buy_hold": 980.53,
+      "cash": 1000.0,
+      "ma200": 1012.21,
+      "btc_price": 57868.19,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-02",
+      "cyclequant": 1016.05,
+      "btc_buy_hold": 978.82,
+      "cash": 1000.0,
+      "ma200": 1013.39,
+      "btc_price": 57766.98,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-03",
+      "cyclequant": 1017.69,
+      "btc_buy_hold": 977.32,
+      "cash": 1000.0,
+      "ma200": 1014.45,
+      "btc_price": 57678.36,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-04",
+      "cyclequant": 1019.3,
+      "btc_buy_hold": 976.04,
+      "cash": 1000.0,
+      "ma200": 1015.39,
+      "btc_price": 57603.08,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-05",
+      "cyclequant": 1020.85,
+      "btc_buy_hold": 975.0,
+      "cash": 1000.0,
+      "ma200": 1016.2,
+      "btc_price": 57541.83,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-06",
+      "cyclequant": 1022.36,
+      "btc_buy_hold": 974.21,
+      "cash": 1000.0,
+      "ma200": 1016.9,
+      "btc_price": 57495.2,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-07",
+      "cyclequant": 1023.82,
+      "btc_buy_hold": 973.68,
+      "cash": 1000.0,
+      "ma200": 1017.47,
+      "btc_price": 57463.72,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-08",
+      "cyclequant": 1025.22,
+      "btc_buy_hold": 973.41,
+      "cash": 1000.0,
+      "ma200": 1017.91,
+      "btc_price": 57447.8,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-09",
+      "cyclequant": 1026.57,
+      "btc_buy_hold": 973.41,
+      "cash": 1000.0,
+      "ma200": 1018.24,
+      "btc_price": 57447.79,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-10",
+      "cyclequant": 1027.86,
+      "btc_buy_hold": 973.68,
+      "cash": 1000.0,
+      "ma200": 1018.45,
+      "btc_price": 57463.91,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-11",
+      "cyclequant": 1029.08,
+      "btc_buy_hold": 974.23,
+      "cash": 1000.0,
+      "ma200": 1018.56,
+      "btc_price": 57496.32,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-12",
+      "cyclequant": 1030.25,
+      "btc_buy_hold": 975.06,
+      "cash": 1000.0,
+      "ma200": 1018.57,
+      "btc_price": 57545.05,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-13",
+      "cyclequant": 1031.35,
+      "btc_buy_hold": 976.16,
+      "cash": 1000.0,
+      "ma200": 1018.5,
+      "btc_price": 57610.06,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-14",
+      "cyclequant": 1032.39,
+      "btc_buy_hold": 977.53,
+      "cash": 1000.0,
+      "ma200": 1018.34,
+      "btc_price": 57691.21,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-15",
+      "cyclequant": 1033.37,
+      "btc_buy_hold": 979.18,
+      "cash": 1000.0,
+      "ma200": 1018.13,
+      "btc_price": 57788.25,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-16",
+      "cyclequant": 1034.28,
+      "btc_buy_hold": 981.09,
+      "cash": 1000.0,
+      "ma200": 1017.87,
+      "btc_price": 57900.85,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-17",
+      "cyclequant": 1035.12,
+      "btc_buy_hold": 983.25,
+      "cash": 1000.0,
+      "ma200": 1017.58,
+      "btc_price": 58028.58,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-18",
+      "cyclequant": 1035.9,
+      "btc_buy_hold": 985.66,
+      "cash": 1000.0,
+      "ma200": 1017.27,
+      "btc_price": 58170.92,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-19",
+      "cyclequant": 1036.62,
+      "btc_buy_hold": 988.31,
+      "cash": 1000.0,
+      "ma200": 1016.95,
+      "btc_price": 58327.27,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-20",
+      "cyclequant": 1037.27,
+      "btc_buy_hold": 991.19,
+      "cash": 1000.0,
+      "ma200": 1016.66,
+      "btc_price": 58496.94,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-21",
+      "cyclequant": 1037.87,
+      "btc_buy_hold": 994.27,
+      "cash": 1000.0,
+      "ma200": 1016.38,
+      "btc_price": 58679.17,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-22",
+      "cyclequant": 1038.4,
+      "btc_buy_hold": 997.56,
+      "cash": 1000.0,
+      "ma200": 1016.16,
+      "btc_price": 58873.13,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-23",
+      "cyclequant": 1038.88,
+      "btc_buy_hold": 1001.03,
+      "cash": 1000.0,
+      "ma200": 1015.99,
+      "btc_price": 59077.89,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-24",
+      "cyclequant": 1039.3,
+      "btc_buy_hold": 1004.67,
+      "cash": 1000.0,
+      "ma200": 1015.89,
+      "btc_price": 59292.5,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-25",
+      "cyclequant": 1039.67,
+      "btc_buy_hold": 1008.45,
+      "cash": 1000.0,
+      "ma200": 1015.88,
+      "btc_price": 59515.91,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-26",
+      "cyclequant": 1039.99,
+      "btc_buy_hold": 1012.37,
+      "cash": 1000.0,
+      "ma200": 1015.96,
+      "btc_price": 59747.05,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-27",
+      "cyclequant": 1040.26,
+      "btc_buy_hold": 1016.4,
+      "cash": 1000.0,
+      "ma200": 1016.14,
+      "btc_price": 59984.78,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-28",
+      "cyclequant": 1040.48,
+      "btc_buy_hold": 1020.52,
+      "cash": 1000.0,
+      "ma200": 1016.44,
+      "btc_price": 60227.95,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-29",
+      "cyclequant": 1040.67,
+      "btc_buy_hold": 1024.71,
+      "cash": 1000.0,
+      "ma200": 1016.85,
+      "btc_price": 60475.34,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-30",
+      "cyclequant": 1040.82,
+      "btc_buy_hold": 1028.95,
+      "cash": 1000.0,
+      "ma200": 1017.39,
+      "btc_price": 60725.75,
+      "exposure": 50
+    },
+    {
+      "date": "2026-07-31",
+      "cyclequant": 1040.94,
+      "btc_buy_hold": 1033.22,
+      "cash": 1000.0,
+      "ma200": 1018.05,
+      "btc_price": 60977.91,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-01",
+      "cyclequant": 1041.03,
+      "btc_buy_hold": 1037.51,
+      "cash": 1000.0,
+      "ma200": 1018.84,
+      "btc_price": 61230.59,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-02",
+      "cyclequant": 1041.09,
+      "btc_buy_hold": 1041.77,
+      "cash": 1000.0,
+      "ma200": 1019.74,
+      "btc_price": 61482.52,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-03",
+      "cyclequant": 1041.14,
+      "btc_buy_hold": 1046.01,
+      "cash": 1000.0,
+      "ma200": 1020.77,
+      "btc_price": 61732.46,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-04",
+      "cyclequant": 1041.17,
+      "btc_buy_hold": 1050.19,
+      "cash": 1000.0,
+      "ma200": 1021.92,
+      "btc_price": 61979.16,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-05",
+      "cyclequant": 1041.19,
+      "btc_buy_hold": 1054.29,
+      "cash": 1000.0,
+      "ma200": 1023.16,
+      "btc_price": 62221.41,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-06",
+      "cyclequant": 1041.2,
+      "btc_buy_hold": 1058.3,
+      "cash": 1000.0,
+      "ma200": 1024.51,
+      "btc_price": 62458.01,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-07",
+      "cyclequant": 1041.2,
+      "btc_buy_hold": 1062.2,
+      "cash": 1000.0,
+      "ma200": 1025.95,
+      "btc_price": 62687.79,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-08",
+      "cyclequant": 1041.21,
+      "btc_buy_hold": 1065.96,
+      "cash": 1000.0,
+      "ma200": 1027.46,
+      "btc_price": 62909.65,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-09",
+      "cyclequant": 1041.23,
+      "btc_buy_hold": 1069.56,
+      "cash": 1000.0,
+      "ma200": 1029.04,
+      "btc_price": 63122.5,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-10",
+      "cyclequant": 1041.26,
+      "btc_buy_hold": 1073.0,
+      "cash": 1000.0,
+      "ma200": 1030.66,
+      "btc_price": 63325.33,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-11",
+      "cyclequant": 1041.31,
+      "btc_buy_hold": 1076.25,
+      "cash": 1000.0,
+      "ma200": 1032.32,
+      "btc_price": 63517.17,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-12",
+      "cyclequant": 1041.37,
+      "btc_buy_hold": 1079.3,
+      "cash": 1000.0,
+      "ma200": 1034.0,
+      "btc_price": 63697.13,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-13",
+      "cyclequant": 1041.46,
+      "btc_buy_hold": 1082.13,
+      "cash": 1000.0,
+      "ma200": 1035.69,
+      "btc_price": 63864.38,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-14",
+      "cyclequant": 1041.58,
+      "btc_buy_hold": 1084.74,
+      "cash": 1000.0,
+      "ma200": 1037.36,
+      "btc_price": 64018.17,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-15",
+      "cyclequant": 1041.73,
+      "btc_buy_hold": 1087.11,
+      "cash": 1000.0,
+      "ma200": 1039.01,
+      "btc_price": 64157.84,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-16",
+      "cyclequant": 1041.92,
+      "btc_buy_hold": 1089.22,
+      "cash": 1000.0,
+      "ma200": 1040.61,
+      "btc_price": 64282.79,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-17",
+      "cyclequant": 1042.14,
+      "btc_buy_hold": 1091.08,
+      "cash": 1000.0,
+      "ma200": 1042.16,
+      "btc_price": 64392.52,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-18",
+      "cyclequant": 1042.41,
+      "btc_buy_hold": 1092.68,
+      "cash": 1000.0,
+      "ma200": 1043.64,
+      "btc_price": 64486.63,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-19",
+      "cyclequant": 1042.73,
+      "btc_buy_hold": 1094.0,
+      "cash": 1000.0,
+      "ma200": 1045.03,
+      "btc_price": 64564.8,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-20",
+      "cyclequant": 1043.1,
+      "btc_buy_hold": 1095.05,
+      "cash": 1000.0,
+      "ma200": 1046.34,
+      "btc_price": 64626.79,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-21",
+      "cyclequant": 1043.52,
+      "btc_buy_hold": 1095.83,
+      "cash": 1000.0,
+      "ma200": 1047.54,
+      "btc_price": 64672.49,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-22",
+      "cyclequant": 1044.0,
+      "btc_buy_hold": 1096.32,
+      "cash": 1000.0,
+      "ma200": 1048.63,
+      "btc_price": 64701.86,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-23",
+      "cyclequant": 1044.53,
+      "btc_buy_hold": 1096.55,
+      "cash": 1000.0,
+      "ma200": 1049.6,
+      "btc_price": 64714.97,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-24",
+      "cyclequant": 1045.13,
+      "btc_buy_hold": 1096.5,
+      "cash": 1000.0,
+      "ma200": 1050.45,
+      "btc_price": 64711.98,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-25",
+      "cyclequant": 1045.78,
+      "btc_buy_hold": 1096.18,
+      "cash": 1000.0,
+      "ma200": 1051.18,
+      "btc_price": 64693.14,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-26",
+      "cyclequant": 1046.5,
+      "btc_buy_hold": 1095.59,
+      "cash": 1000.0,
+      "ma200": 1051.78,
+      "btc_price": 64658.81,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-27",
+      "cyclequant": 1047.28,
+      "btc_buy_hold": 1094.76,
+      "cash": 1000.0,
+      "ma200": 1052.26,
+      "btc_price": 64609.42,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-28",
+      "cyclequant": 1048.12,
+      "btc_buy_hold": 1093.68,
+      "cash": 1000.0,
+      "ma200": 1052.62,
+      "btc_price": 64545.52,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-29",
+      "cyclequant": 1049.03,
+      "btc_buy_hold": 1092.36,
+      "cash": 1000.0,
+      "ma200": 1052.86,
+      "btc_price": 64467.7,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-30",
+      "cyclequant": 1050.01,
+      "btc_buy_hold": 1090.81,
+      "cash": 1000.0,
+      "ma200": 1052.99,
+      "btc_price": 64376.68,
+      "exposure": 50
+    },
+    {
+      "date": "2026-08-31",
+      "cyclequant": 1051.05,
+      "btc_buy_hold": 1089.06,
+      "cash": 1000.0,
+      "ma200": 1053.03,
+      "btc_price": 64273.23,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-01",
+      "cyclequant": 1052.15,
+      "btc_buy_hold": 1087.11,
+      "cash": 1000.0,
+      "ma200": 1052.98,
+      "btc_price": 64158.19,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-02",
+      "cyclequant": 1053.32,
+      "btc_buy_hold": 1084.98,
+      "cash": 1000.0,
+      "ma200": 1052.84,
+      "btc_price": 64032.5,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-03",
+      "cyclequant": 1054.54,
+      "btc_buy_hold": 1082.69,
+      "cash": 1000.0,
+      "ma200": 1052.65,
+      "btc_price": 63897.13,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-04",
+      "cyclequant": 1055.83,
+      "btc_buy_hold": 1080.25,
+      "cash": 1000.0,
+      "ma200": 1052.4,
+      "btc_price": 63753.12,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-05",
+      "cyclequant": 1057.18,
+      "btc_buy_hold": 1077.68,
+      "cash": 1000.0,
+      "ma200": 1052.11,
+      "btc_price": 63601.56,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-06",
+      "cyclequant": 1058.58,
+      "btc_buy_hold": 1075.0,
+      "cash": 1000.0,
+      "ma200": 1051.8,
+      "btc_price": 63443.58,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-07",
+      "cyclequant": 1060.04,
+      "btc_buy_hold": 1072.24,
+      "cash": 1000.0,
+      "ma200": 1051.49,
+      "btc_price": 63280.37,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-08",
+      "cyclequant": 1061.55,
+      "btc_buy_hold": 1069.4,
+      "cash": 1000.0,
+      "ma200": 1051.18,
+      "btc_price": 63113.12,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-09",
+      "cyclequant": 1063.1,
+      "btc_buy_hold": 1066.52,
+      "cash": 1000.0,
+      "ma200": 1050.9,
+      "btc_price": 62943.05,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-10",
+      "cyclequant": 1064.71,
+      "btc_buy_hold": 1063.61,
+      "cash": 1000.0,
+      "ma200": 1050.66,
+      "btc_price": 62771.43,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-11",
+      "cyclequant": 1066.35,
+      "btc_buy_hold": 1060.7,
+      "cash": 1000.0,
+      "ma200": 1050.48,
+      "btc_price": 62599.49,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-12",
+      "cyclequant": 1068.04,
+      "btc_buy_hold": 1057.8,
+      "cash": 1000.0,
+      "ma200": 1050.36,
+      "btc_price": 62428.5,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-13",
+      "cyclequant": 1069.75,
+      "btc_buy_hold": 1054.94,
+      "cash": 1000.0,
+      "ma200": 1050.32,
+      "btc_price": 62259.7,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-14",
+      "cyclequant": 1071.5,
+      "btc_buy_hold": 1052.14,
+      "cash": 1000.0,
+      "ma200": 1050.38,
+      "btc_price": 62094.33,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-15",
+      "cyclequant": 1073.28,
+      "btc_buy_hold": 1049.42,
+      "cash": 1000.0,
+      "ma200": 1050.54,
+      "btc_price": 61933.61,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-16",
+      "cyclequant": 1075.07,
+      "btc_buy_hold": 1046.79,
+      "cash": 1000.0,
+      "ma200": 1050.8,
+      "btc_price": 61778.73,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-17",
+      "cyclequant": 1076.89,
+      "btc_buy_hold": 1044.29,
+      "cash": 1000.0,
+      "ma200": 1051.18,
+      "btc_price": 61630.83,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-18",
+      "cyclequant": 1078.72,
+      "btc_buy_hold": 1041.92,
+      "cash": 1000.0,
+      "ma200": 1051.69,
+      "btc_price": 61491.05,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-19",
+      "cyclequant": 1080.56,
+      "btc_buy_hold": 1039.71,
+      "cash": 1000.0,
+      "ma200": 1052.31,
+      "btc_price": 61360.43,
+      "exposure": 50
+    },
+    {
+      "date": "2026-09-20",
+      "cyclequant": 1082.4,
+      "btc_buy_hold": 1037.67,
+      "cash": 1000.0,
+      "ma200": 1053.07,
+      "btc_price": 61240.0,
+      "exposure": 75
+    }
+  ],
+  "metrics": {
+    "cyclequant": {
+      "total_return": 0.08240000000000003,
+      "annualized_return": 0.383657338115742,
+      "max_drawdown": 0.0,
+      "annualized_volatility": 0.01193899352659258,
+      "approximate_sharpe": 27.217197028754416
+    },
+    "btc_buy_hold": {
+      "total_return": 0.03767000000000009,
+      "annualized_return": 0.16375353838280238,
+      "max_drawdown": -0.05369568191144947,
+      "annualized_volatility": 0.047744172611794644,
+      "approximate_sharpe": 3.200832143270106
+    },
+    "cash": {
+      "total_return": 0.0,
+      "annualized_return": 0.0,
+      "max_drawdown": 0.0,
+      "annualized_volatility": 0.0,
+      "approximate_sharpe": null
+    },
+    "ma200": {
+      "total_return": 0.05306999999999995,
+      "annualized_return": 0.2362318251692308,
+      "max_drawdown": -0.0026409574206976982,
+      "annualized_volatility": 0.012992085048200416,
+      "approximate_sharpe": 16.334088003396857
+    },
+    "trade_count": 4,
+    "filled_trade_count": 4
+  },
+  "latest_decision": {
+    "id": "demo-2026-09-20",
+    "decision_date": "2026-09-20",
+    "timestamp": "2026-09-20T23:59:59.999999Z",
+    "strategy_version": "2026.1",
+    "market_snapshot_id": "05e4ecffffc9483cb8af7d1c324e52b6",
+    "btc_price": "61240.0",
+    "portfolio_value": "1082.4",
+    "current_exposure": 50,
+    "target_exposure": 75,
+    "signals": {
+      "components": {
+        "drawdown": {
+          "name": "drawdown",
+          "score": 82.0,
+          "configured_weight": 0.15,
+          "effective_weight": 0.15,
+          "available": true,
+          "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+          "inputs": {
+            "demo": true
+          }
+        },
+        "macro": {
+          "name": "macro",
+          "score": 57.0,
+          "configured_weight": 0.1,
+          "effective_weight": 0.1,
+          "available": true,
+          "rationale": "Demo macro reading from the documented deterministic methodology.",
+          "inputs": {
+            "demo": true
+          }
+        },
+        "news": {
+          "name": "news",
+          "score": 51.0,
+          "configured_weight": 0.1,
+          "effective_weight": 0.1,
+          "available": true,
+          "rationale": "Demo news reading from the documented deterministic methodology.",
+          "inputs": {
+            "demo": true
+          }
+        },
+        "onchain": {
+          "name": "onchain",
+          "score": 74.0,
+          "configured_weight": 0.15,
+          "effective_weight": 0.15,
+          "available": true,
+          "rationale": "Demo onchain reading from the documented deterministic methodology.",
+          "inputs": {
+            "demo": true
+          }
+        },
+        "trend": {
+          "name": "trend",
+          "score": 72.0,
+          "configured_weight": 0.25,
+          "effective_weight": 0.25,
+          "available": true,
+          "rationale": "Demo trend reading from the documented deterministic methodology.",
+          "inputs": {
+            "demo": true
+          }
+        },
+        "valuation": {
+          "name": "valuation",
+          "score": 88.0,
+          "configured_weight": 0.25,
+          "effective_weight": 0.25,
+          "available": true,
+          "rationale": "Demo valuation reading from the documented deterministic methodology.",
+          "inputs": {
+            "demo": true
+          }
+        }
+      },
+      "total_score": 74.2,
+      "confidence": "High",
+      "coverage": 1.0,
+      "dispersion": 12.4
+    },
+    "allocation_recommendation": {
+      "raw_exposure": 75,
+      "target_exposure": 75,
+      "candidate_exposure": 75,
+      "changed": true,
+      "confirmations": 2,
+      "reason": "Score cleared hysteresis with broad component agreement."
+    },
+    "important_news": [
+      {
+        "id": "demo-news-29",
+        "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+        "source": "Demo research feed",
+        "url": "https://example.com/cyclequant-demo",
+        "published_at": "2026-09-20T00:00:00Z",
+        "summary": null,
+        "sentiment": "mixed",
+        "relevance": 0.9
+      }
+    ],
+    "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+    "action": "BUY",
+    "trade_value": "250",
+    "trade_quantity": "0.004082299150881776616590463749",
+    "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+    "broker_order_id": "demo-paper-29",
+    "order_status": "FILLED",
+    "fill_price": "61240.0",
+    "risk_checks": [
+      {
+        "name": "paper_endpoint",
+        "passed": true,
+        "reason": "Demo paper account."
+      },
+      {
+        "name": "no_margin",
+        "passed": true,
+        "reason": "Cash-funded allocation."
+      }
+    ]
+  },
+  "trade_history": [
+    {
+      "id": "demo-2026-09-20",
+      "decision_date": "2026-09-20",
+      "timestamp": "2026-09-20T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "05e4ecffffc9483cb8af7d1c324e52b6",
+      "btc_price": "61240.0",
+      "portfolio_value": "1082.4",
+      "current_exposure": 50,
+      "target_exposure": 75,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 82.0,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 57.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 51.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 74.0,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 72.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 88.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 74.2,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 75,
+        "target_exposure": 75,
+        "candidate_exposure": 75,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-29",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-20T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "BUY",
+      "trade_value": "250",
+      "trade_quantity": "0.004082299150881776616590463749",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-29",
+      "order_status": "FILLED",
+      "fill_price": "61240.0",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-13",
+      "decision_date": "2026-09-13",
+      "timestamp": "2026-09-13T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "303bf7798ce2497dbb2937dddbb254a5",
+      "btc_price": "62259.7",
+      "portfolio_value": "1062.51",
+      "current_exposure": 25,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 45.28,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 68.61,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 71.42,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 56.04,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 46.21,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 57.98,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 55.25,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": 50,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-22",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-13T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "BUY",
+      "trade_value": "250",
+      "trade_quantity": "0.004015438558168446041339743044",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-22",
+      "order_status": "FILLED",
+      "fill_price": "62259.7",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-08",
+      "decision_date": "2026-09-08",
+      "timestamp": "2026-09-08T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "f334afc47a4e47fc96b1d4d3bf2bdad7",
+      "btc_price": "63113.12",
+      "portfolio_value": "1048.3",
+      "current_exposure": 50,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 44.56,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 60.03,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 70.75,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 47.44,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 54.04,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 67.16,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 57.18,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": 25,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-17",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-08T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "SELL",
+      "trade_value": "250",
+      "trade_quantity": "0.003961141518593915179601325366",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-17",
+      "order_status": "FILLED",
+      "fill_price": "63113.12",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-29",
+      "decision_date": "2026-08-29",
+      "timestamp": "2026-08-29T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "9e268b317b364d86b683f5327831408f",
+      "btc_price": "64467.7",
+      "portfolio_value": "1019.89",
+      "current_exposure": 25,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 59.98,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 44.58,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 54.09,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 47.4,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 70.73,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 69.78,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.1,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": 50,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-7",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-29T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "BUY",
+      "trade_value": "250",
+      "trade_quantity": "0.003877910953857513142240222623",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-7",
+      "order_status": "FILLED",
+      "fill_price": "64467.7",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    }
+  ],
+  "decision_journal": [
+    {
+      "id": "demo-2026-09-20",
+      "decision_date": "2026-09-20",
+      "timestamp": "2026-09-20T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "05e4ecffffc9483cb8af7d1c324e52b6",
+      "btc_price": "61240.0",
+      "portfolio_value": "1082.4",
+      "current_exposure": 50,
+      "target_exposure": 75,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 82.0,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 57.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 51.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 74.0,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 72.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 88.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 74.2,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 75,
+        "target_exposure": 75,
+        "candidate_exposure": 75,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-29",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-20T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "BUY",
+      "trade_value": "250",
+      "trade_quantity": "0.004082299150881776616590463749",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-29",
+      "order_status": "FILLED",
+      "fill_price": "61240.0",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-19",
+      "decision_date": "2026-09-19",
+      "timestamp": "2026-09-19T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "5bdf4fa547434d5e8820e3e534537a4f",
+      "btc_price": "61360.43",
+      "portfolio_value": "1079.56",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 54.09,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 71.85,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 63.77,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 67.2,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 44.58,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 47.4,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 54.75,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-28",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-19T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-18",
+      "decision_date": "2026-09-18",
+      "timestamp": "2026-09-18T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "24692f3a9f0d4bd593f102743bc18c81",
+      "btc_price": "61491.05",
+      "portfolio_value": "1076.72",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 52.21,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 72.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 65.53,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 65.6,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 44.15,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 48.82,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 54.67,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-27",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-18T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-17",
+      "decision_date": "2026-09-17",
+      "timestamp": "2026-09-17T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "538188eaf98a4d4b802a56bd267ac2c8",
+      "btc_price": "61630.83",
+      "portfolio_value": "1073.88",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 50.46,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 71.86,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 67.13,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 63.85,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 44.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 50.41,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 54.65,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-26",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-17T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-16",
+      "decision_date": "2026-09-16",
+      "timestamp": "2026-09-16T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "732f9a95225747e89bc2b567ee5bc503",
+      "btc_price": "61778.73",
+      "portfolio_value": "1071.03",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 48.86,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 71.44,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 68.55,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 61.98,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 44.14,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 52.17,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 54.7,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-25",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-16T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-15",
+      "decision_date": "2026-09-15",
+      "timestamp": "2026-09-15T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "5b2506ce89d84b53928844f756993f63",
+      "btc_price": "61933.61",
+      "portfolio_value": "1068.19",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 47.44,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 70.75,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 69.75,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 60.03,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 44.56,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 54.04,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 54.82,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-24",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-15T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-14",
+      "decision_date": "2026-09-14",
+      "timestamp": "2026-09-14T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "d8a9243045214c1c8e987d7a766c45eb",
+      "btc_price": "62094.33",
+      "portfolio_value": "1065.35",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 46.24,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 69.8,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 70.72,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 58.04,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 45.26,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 55.99,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 55.01,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-23",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-14T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-13",
+      "decision_date": "2026-09-13",
+      "timestamp": "2026-09-13T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "303bf7798ce2497dbb2937dddbb254a5",
+      "btc_price": "62259.7",
+      "portfolio_value": "1062.51",
+      "current_exposure": 25,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 45.28,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 68.61,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 71.42,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 56.04,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 46.21,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 57.98,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 55.25,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": 50,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-22",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-13T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "BUY",
+      "trade_value": "250",
+      "trade_quantity": "0.004015438558168446041339743044",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-22",
+      "order_status": "FILLED",
+      "fill_price": "62259.7",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-12",
+      "decision_date": "2026-09-12",
+      "timestamp": "2026-09-12T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "f7a95a6fdb944f6fac3e8a4921fcd83b",
+      "btc_price": "62428.5",
+      "portfolio_value": "1059.67",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 44.58,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 67.2,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 71.85,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 54.09,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 47.4,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 59.98,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 55.55,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-21",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-12T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-11",
+      "decision_date": "2026-09-11",
+      "timestamp": "2026-09-11T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "c9b371546dea438e9e1874ff63a8c2d4",
+      "btc_price": "62599.49",
+      "portfolio_value": "1056.83",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 44.15,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 65.6,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 72.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 52.21,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 48.82,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 61.93,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 55.9,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-20",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-11T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-10",
+      "decision_date": "2026-09-10",
+      "timestamp": "2026-09-10T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "03033b6a566c4aaeb6787f543a3e8801",
+      "btc_price": "62771.43",
+      "portfolio_value": "1053.99",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 44.0,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 63.85,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 71.86,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 50.46,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 50.41,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 63.8,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 56.29,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-19",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-10T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-09",
+      "decision_date": "2026-09-09",
+      "timestamp": "2026-09-09T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "0c1683c7eba54d7498d5cdf468a58233",
+      "btc_price": "62943.05",
+      "portfolio_value": "1051.14",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 44.14,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 61.98,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 71.44,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 48.86,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 52.17,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 65.56,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 56.72,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-18",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-09T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-08",
+      "decision_date": "2026-09-08",
+      "timestamp": "2026-09-08T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "f334afc47a4e47fc96b1d4d3bf2bdad7",
+      "btc_price": "63113.12",
+      "portfolio_value": "1048.3",
+      "current_exposure": 50,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 44.56,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 60.03,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 70.75,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 47.44,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 54.04,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 67.16,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 57.18,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": 25,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-17",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-08T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "SELL",
+      "trade_value": "250",
+      "trade_quantity": "0.003961141518593915179601325366",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-17",
+      "order_status": "FILLED",
+      "fill_price": "63113.12",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-07",
+      "decision_date": "2026-09-07",
+      "timestamp": "2026-09-07T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "a99aa73d2a9a458cb32f09e2f5fb2be6",
+      "btc_price": "63280.37",
+      "portfolio_value": "1045.46",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 45.26,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 58.04,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 69.8,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 46.24,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 55.99,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 68.57,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 57.65,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-16",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-07T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-06",
+      "decision_date": "2026-09-06",
+      "timestamp": "2026-09-06T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "c2a30916306e481f8ed72a2c0dc5f45d",
+      "btc_price": "63443.58",
+      "portfolio_value": "1042.62",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 46.21,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 56.04,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 68.61,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 45.28,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 57.98,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 69.77,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 58.13,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-15",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-06T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-05",
+      "decision_date": "2026-09-05",
+      "timestamp": "2026-09-05T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "09d2b5845a564df4bbe25d3c3aa62e61",
+      "btc_price": "63601.56",
+      "portfolio_value": "1039.78",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 47.4,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 54.09,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 67.2,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 44.58,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 59.98,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 70.73,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 58.6,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-14",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-05T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-04",
+      "decision_date": "2026-09-04",
+      "timestamp": "2026-09-04T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "558fe075a24d4737a2912cca21baa747",
+      "btc_price": "63753.12",
+      "portfolio_value": "1036.94",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 48.82,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 52.21,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 65.6,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 44.15,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 61.93,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 71.43,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 59.07,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-13",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-04T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-03",
+      "decision_date": "2026-09-03",
+      "timestamp": "2026-09-03T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "7006f67d43634b3187f657f470d0b5f6",
+      "btc_price": "63897.13",
+      "portfolio_value": "1034.1",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 50.41,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 50.46,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 63.85,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 44.0,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 63.8,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 71.86,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 59.51,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-12",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-03T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-02",
+      "decision_date": "2026-09-02",
+      "timestamp": "2026-09-02T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "37ab7f5be8754cde99fd3fdd134acd9b",
+      "btc_price": "64032.5",
+      "portfolio_value": "1031.26",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 52.17,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 48.86,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 61.98,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 44.14,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 65.56,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 72.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 59.92,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-11",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-02T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-09-01",
+      "decision_date": "2026-09-01",
+      "timestamp": "2026-09-01T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "7395468569a944e483f6c3e655387ede",
+      "btc_price": "64158.19",
+      "portfolio_value": "1028.41",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 54.04,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 47.44,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 60.03,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 44.56,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 67.16,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 71.86,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 60.29,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-10",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-09-01T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-31",
+      "decision_date": "2026-08-31",
+      "timestamp": "2026-08-31T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "7ecaa73a61f24ea3b6b613ec2bf486ff",
+      "btc_price": "64273.23",
+      "portfolio_value": "1025.57",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 55.99,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 46.24,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 58.04,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 45.26,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 68.57,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 71.43,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 60.62,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-9",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-31T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-30",
+      "decision_date": "2026-08-30",
+      "timestamp": "2026-08-30T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "c6f1ae93416e46bcaddd298c1d3ee824",
+      "btc_price": "64376.68",
+      "portfolio_value": "1022.73",
+      "current_exposure": 50,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 57.98,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 45.28,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 56.04,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 46.21,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 69.77,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 70.74,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 60.89,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-8",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-30T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-29",
+      "decision_date": "2026-08-29",
+      "timestamp": "2026-08-29T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "9e268b317b364d86b683f5327831408f",
+      "btc_price": "64467.7",
+      "portfolio_value": "1019.89",
+      "current_exposure": 25,
+      "target_exposure": 50,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 59.98,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 44.58,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 54.09,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 47.4,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 70.73,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 69.78,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.1,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 50,
+        "target_exposure": 50,
+        "candidate_exposure": 50,
+        "changed": true,
+        "confirmations": 2,
+        "reason": "Score cleared hysteresis with broad component agreement."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-7",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-29T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "BUY",
+      "trade_value": "250",
+      "trade_quantity": "0.003877910953857513142240222623",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": "demo-paper-7",
+      "order_status": "FILLED",
+      "fill_price": "64467.7",
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-28",
+      "decision_date": "2026-08-28",
+      "timestamp": "2026-08-28T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "5a0899ec31824749b412a16c6112a79b",
+      "btc_price": "64545.52",
+      "portfolio_value": "1017.05",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 61.93,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 44.15,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 52.21,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 48.82,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 71.43,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 68.58,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.25,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-6",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-28T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-27",
+      "decision_date": "2026-08-27",
+      "timestamp": "2026-08-27T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "88e0c459c81b480e85d5548fc6de850d",
+      "btc_price": "64609.42",
+      "portfolio_value": "1014.21",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 63.8,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 44.0,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 50.46,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 50.41,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 71.86,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 67.17,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.34,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-5",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-27T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-26",
+      "decision_date": "2026-08-26",
+      "timestamp": "2026-08-26T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "d5eb6f74c3b04b7489139b5d7c1137d8",
+      "btc_price": "64658.81",
+      "portfolio_value": "1011.37",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 65.56,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 44.14,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 48.86,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 52.17,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 72.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 65.57,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.35,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-4",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-26T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-25",
+      "decision_date": "2026-08-25",
+      "timestamp": "2026-08-25T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "682554b2bc3141ce8bd86a3d5b203893",
+      "btc_price": "64693.14",
+      "portfolio_value": "1008.52",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 67.16,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 44.56,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 47.44,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 54.04,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 71.86,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 63.82,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.3,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-3",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-25T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-24",
+      "decision_date": "2026-08-24",
+      "timestamp": "2026-08-24T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "e8c7649b653947d48f166e054c242012",
+      "btc_price": "64711.98",
+      "portfolio_value": "1005.68",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 68.57,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 45.26,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 46.24,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 55.99,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 71.43,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 61.95,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 61.18,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-2",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-24T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-23",
+      "decision_date": "2026-08-23",
+      "timestamp": "2026-08-23T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "3777ada1114448edb5787a0c329c5302",
+      "btc_price": "64714.97",
+      "portfolio_value": "1002.84",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 69.77,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 46.21,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 45.28,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 57.98,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 70.74,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 59.99,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 60.99,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-1",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-23T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    },
+    {
+      "id": "demo-2026-08-22",
+      "decision_date": "2026-08-22",
+      "timestamp": "2026-08-22T23:59:59.999999Z",
+      "strategy_version": "2026.1",
+      "market_snapshot_id": "41d27d8dd5524c0ab4ad351e99153a06",
+      "btc_price": "64701.86",
+      "portfolio_value": "1000.0",
+      "current_exposure": 25,
+      "target_exposure": 25,
+      "signals": {
+        "components": {
+          "drawdown": {
+            "name": "drawdown",
+            "score": 70.73,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo drawdown reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "macro": {
+            "name": "macro",
+            "score": 47.4,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo macro reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "news": {
+            "name": "news",
+            "score": 44.58,
+            "configured_weight": 0.1,
+            "effective_weight": 0.1,
+            "available": true,
+            "rationale": "Demo news reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "onchain": {
+            "name": "onchain",
+            "score": 59.98,
+            "configured_weight": 0.15,
+            "effective_weight": 0.15,
+            "available": true,
+            "rationale": "Demo onchain reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "trend": {
+            "name": "trend",
+            "score": 69.78,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo trend reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          },
+          "valuation": {
+            "name": "valuation",
+            "score": 58.0,
+            "configured_weight": 0.25,
+            "effective_weight": 0.25,
+            "available": true,
+            "rationale": "Demo valuation reading from the documented deterministic methodology.",
+            "inputs": {
+              "demo": true
+            }
+          }
+        },
+        "total_score": 60.75,
+        "confidence": "High",
+        "coverage": 1.0,
+        "dispersion": 12.4
+      },
+      "allocation_recommendation": {
+        "raw_exposure": 25,
+        "target_exposure": 25,
+        "candidate_exposure": null,
+        "changed": false,
+        "confirmations": 0,
+        "reason": "Composite score remains inside the current allocation band."
+      },
+      "important_news": [
+        {
+          "id": "demo-news-0",
+          "title": "Institutional Bitcoin flows remain constructive while macro signals are mixed",
+          "source": "Demo research feed",
+          "url": "https://example.com/cyclequant-demo",
+          "published_at": "2026-08-22T00:00:00Z",
+          "summary": null,
+          "sentiment": "mixed",
+          "relevance": 0.9
+        }
+      ],
+      "ai_news_summary": "News tone is balanced: institutional participation is constructive, while macro uncertainty limits conviction.",
+      "action": "HOLD",
+      "trade_value": "0",
+      "trade_quantity": "0",
+      "reasoning": "Long-term valuation and drawdown conditions remain constructive. Trend and on-chain readings confirm the move, while mixed macro and news inputs keep the allocation below 100%.",
+      "broker_order_id": null,
+      "order_status": "NOT_SUBMITTED",
+      "fill_price": null,
+      "risk_checks": [
+        {
+          "name": "paper_endpoint",
+          "passed": true,
+          "reason": "Demo paper account."
+        },
+        {
+          "name": "no_margin",
+          "passed": true,
+          "reason": "Cash-funded allocation."
+        }
+      ]
+    }
+  ],
+  "source_health": [
+    {
+      "name": "coinbase_exchange",
+      "state": "fresh",
+      "required": true,
+      "observed_at": "2026-09-20T00:00:00Z",
+      "checked_at": "2026-09-20T08:42:56.204134Z",
+      "error": null,
+      "metadata": {}
+    },
+    {
+      "name": "fred_macro",
+      "state": "fresh",
+      "required": false,
+      "observed_at": "2026-09-20T00:00:00Z",
+      "checked_at": "2026-09-20T08:42:56.204142Z",
+      "error": null,
+      "metadata": {}
+    },
+    {
+      "name": "coinmetrics_community",
+      "state": "fresh",
+      "required": false,
+      "observed_at": "2026-09-20T00:00:00Z",
+      "checked_at": "2026-09-20T08:42:56.204144Z",
+      "error": null,
+      "metadata": {}
+    },
+    {
+      "name": "binance_funding",
+      "state": "fresh",
+      "required": false,
+      "observed_at": "2026-09-20T00:00:00Z",
+      "checked_at": "2026-09-20T08:42:56.204146Z",
+      "error": null,
+      "metadata": {}
+    },
+    {
+      "name": "google_news_rss",
+      "state": "fresh",
+      "required": false,
+      "observed_at": "2026-09-20T00:00:00Z",
+      "checked_at": "2026-09-20T08:42:56.204147Z",
+      "error": null,
+      "metadata": {}
+    }
+  ]
+}

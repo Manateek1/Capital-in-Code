@@ -38,8 +38,9 @@ function metrics(values, elapsedDays) {
   };
 }
 
-function fromSupabase(decisionRows, performanceRows) {
+function fromSupabase(decisionRows, performanceRows, brokerRows) {
   const decisions = decisionRows.map((row) => row.payload);
+  const paperAccount = brokerRows[0]?.payload ?? null;
   const performance = performanceRows.map((row) => ({
     date: row.as_of,
     cyclequant: Number(row.cyclequant_value),
@@ -57,16 +58,26 @@ function fromSupabase(decisionRows, performanceRows) {
     : 1;
   const series = (key) => performance.map((row) => row[key]).filter((value) => value != null);
   const trades = decisions.filter((decision) => decision.action !== "HOLD");
-  const portfolioValue = performance.at(-1)?.cyclequant ?? 1000;
+  const portfolioValue = Number(
+    paperAccount?.strategy_portfolio_value ?? performance.at(-1)?.cyclequant ?? 1000,
+  );
+  const currentExposure = Number(
+    paperAccount?.btc_exposure
+      ?? (latest?.order_status === "FILLED" ? latest.target_exposure : latest?.current_exposure)
+      ?? 0,
+  );
   return {
-    schema_version: 1,
+    schema_version: 2,
     generated_at: new Date().toISOString(),
     mode: "paper-research",
     disclaimer: "Educational research only. Not investment advice or a recommendation to buy or sell Bitcoin.",
     summary: {
       portfolio_value: portfolioValue,
+      managed_cash: Number(
+        paperAccount?.strategy_cash ?? portfolioValue * (1 - currentExposure / 100),
+      ),
       total_return: portfolioValue / 1000 - 1,
-      current_exposure: latest?.order_status === "FILLED" ? latest.target_exposure : latest?.current_exposure ?? 0,
+      current_exposure: currentExposure,
       btc_price: latest ? Number(latest.btc_price) : null,
       signal_score: latest?.signals?.total_score ?? null,
       confidence: latest?.signals?.confidence ?? null,
@@ -83,6 +94,7 @@ function fromSupabase(decisionRows, performanceRows) {
       filled_trade_count: trades.filter((item) => item.order_status === "FILLED").length,
     },
     latest_decision: latest,
+    paper_account: paperAccount,
     trade_history: trades,
     decision_journal: decisions,
     source_health: [],
@@ -104,15 +116,20 @@ export async function loadCycleQuantData(signal) {
   const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
   if (url && key) {
     try {
-      const [decisions, performance] = await Promise.all([
+      const [decisions, performance, brokers] = await Promise.all([
         fetchJson(
           `${url}/rest/v1/cq_public_decisions?select=*&order=decision_date.desc&limit=1000`,
           key,
           signal,
         ),
         fetchJson(`${url}/rest/v1/cq_public_performance?select=*&order=as_of.asc&limit=1000`, key, signal),
+        fetchJson(
+          `${url}/rest/v1/cq_public_broker_snapshots?select=*&order=captured_at.desc&limit=1`,
+          key,
+          signal,
+        ),
       ]);
-      if (decisions.length) return fromSupabase(decisions, performance);
+      if (decisions.length) return fromSupabase(decisions, performance, brokers);
     } catch (error) {
       console.warn("CycleQuant cloud data unavailable; showing the deterministic demo.", error);
     }

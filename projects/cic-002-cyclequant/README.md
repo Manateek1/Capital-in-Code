@@ -13,10 +13,13 @@ exposure states: **0%, 25%, 50%, 75%, or 100%**. It can submit only BTC/USD
 paper orders, and only after a separate risk engine approves them. It is a
 swing/cycle allocator—not a day trader or a next-day price predictor.
 
-The committed dashboard initially displays clearly labeled deterministic demo
-data. That is a UI and reproducibility fixture, **not a claimed investment
-result**. Real paper-experiment results begin only after the hosted data store
-and daily workflow are configured.
+The production dashboard reads the experiment's published Supabase records and
+mirrors its sanitized paper-account state. It shows only CycleQuant's isolated
+`$1,000` sleeve, managed BTC position, recent paper orders, data freshness,
+reconciliation state, and deterministic research notes. It never publishes an
+Alpaca account identifier, credential, or headline account balance. The
+committed deterministic fixture remains a local/offline fallback and is
+explicitly labeled when used; it is **not a claimed investment result**.
 
 ## Hypothesis
 
@@ -71,6 +74,8 @@ deterministic news fallback.
   by integrity hashes.
 - Order sizing uses CycleQuant's isolated `$1,000` research ledger rather than
   the paper account's total buying power; use a dedicated paper account.
+- The public broker mirror is sanitized: it publishes the managed sleeve and
+  reconciliation result, never credentials, account IDs, or unrelated funds.
 - The API and public dashboard expose no order-entry endpoint.
 
 See [docs/safety.md](docs/safety.md) for the threat boundaries and failure
@@ -164,6 +169,7 @@ Useful commands:
 ```powershell
 python -m pytest
 ruff check backend tests scripts
+cyclequant sync-broker
 cyclequant export-dashboard --output ..\..\site\public\data\cyclequant-dashboard.json
 python scripts\seed_demo.py --database data\cyclequant.db
 ```
@@ -183,7 +189,14 @@ The intended small personal-research deployment uses existing/free services:
 
 Your Windows computer does not need to stay on. The local Windows task scripts
 remain an optional fallback. No paid service is required by the implementation,
-and paper trading remains disabled until explicitly enabled.
+and paper trading remains disabled until explicitly enabled. To activate the
+real Alpaca mirror, create paper credentials while signed into Alpaca, store
+them only as GitHub Actions secrets named
+`CYCLEQUANT_ALPACA_API_KEY_ID` and
+`CYCLEQUANT_ALPACA_API_SECRET_KEY`, then change the repository variables to
+`CYCLEQUANT_BROKER_MODE=alpaca-paper` and
+`CYCLEQUANT_TRADING_ENABLED=true` after the disabled-trading verification run.
+Do not paste credentials into chat, source files, logs, or Vercel variables.
 
 Follow [docs/deployment.md](docs/deployment.md) to connect the free hosted
 services without granting the scheduled writer a Supabase service-role key.

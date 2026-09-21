@@ -9,7 +9,12 @@ from uuid import uuid4
 
 import httpx
 
-from cyclequant.models import DecisionRecord, MarketDataBundle, OrderEvent
+from cyclequant.models import (
+    DecisionRecord,
+    MarketDataBundle,
+    OrderEvent,
+    PaperAccountSnapshot,
+)
 
 
 def _canonical_json(value: Any) -> str:
@@ -203,6 +208,38 @@ class SupabaseDatabase:
             self._verify(row["public_payload"], row["integrity_hash"])
             events.append(OrderEvent.model_validate(row["public_payload"]))
         return events
+
+    def save_paper_account_snapshot(self, snapshot: PaperAccountSnapshot) -> None:
+        payload = snapshot.model_dump(mode="json")
+        self._request(
+            "POST",
+            "cq_broker_snapshots",
+            payload={
+                "id": snapshot.id,
+                "captured_at": snapshot.captured_at.isoformat(),
+                "broker_mode": snapshot.broker_mode,
+                "connected": snapshot.connected,
+                "public_payload": payload,
+                "private_payload": payload,
+                "integrity_hash": _integrity_hash(payload),
+                "is_published": True,
+            },
+            prefer="return=minimal",
+        )
+
+    def latest_paper_account_snapshot(self) -> PaperAccountSnapshot | None:
+        rows = self._select(
+            "cq_broker_snapshots",
+            {
+                "select": "public_payload,integrity_hash",
+                "order": "captured_at.desc",
+                "limit": "1",
+            },
+        )
+        if not rows:
+            return None
+        self._verify(rows[0]["public_payload"], rows[0]["integrity_hash"])
+        return PaperAccountSnapshot.model_validate(rows[0]["public_payload"])
 
     def claim_idempotency_key(self, key: str, decision_date: date) -> bool:
         response = self._raw_request(

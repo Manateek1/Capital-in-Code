@@ -24,6 +24,13 @@ const SIGNAL_LABELS = {
   macro: "Macro / flows",
   news: "News",
 };
+const HYSTERESIS_LEVELS = {
+  0: { up: 35 },
+  25: { down: 25, up: 50 },
+  50: { down: 40, up: 65 },
+  75: { down: 55, up: 80 },
+  100: { down: 70 },
+};
 
 const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
 const compactMoney = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
@@ -53,15 +60,16 @@ function LoadingState() {
   return <div className="cq-loading" role="status"><span /><p>Loading the audit journal…</p></div>;
 }
 
-function DashboardHeader({ lastEvaluated, source }) {
+function DashboardHeader({ lastEvaluated, source, paperAccount }) {
   const [open, setOpen] = useState(false);
+  const paperLabel = paperAccount?.connected ? "ALPACA PAPER" : "PAPER ONLY";
   return <header className="cq-header">
     <div className="cq-header-inner">
       <Link className="cq-brand" to="/" aria-label="Capital in Code home">
         <img src="/brand-mark.png" alt="" />
         <span><b>CycleQuant</b><small>Capital in Code · CIC-002</small></span>
       </Link>
-      <span className="cq-mobile-paper"><StatusDot />PAPER{source === "demo" ? " · DEMO" : ""}</span>
+      <span className="cq-mobile-paper"><StatusDot state={paperAccount?.connected ? "fresh" : "warning"} />{paperLabel}{source === "demo" ? " · DEMO" : ""}</span>
       <button className="cq-menu-button" type="button" aria-expanded={open} aria-label="Toggle navigation" onClick={() => setOpen(!open)}><Icon name="menu" /></button>
       <nav className={open ? "cq-nav cq-nav-open" : "cq-nav"} aria-label="CycleQuant navigation">
         <a href="#overview" onClick={() => setOpen(false)}>Overview</a>
@@ -69,7 +77,7 @@ function DashboardHeader({ lastEvaluated, source }) {
         <a href="#methodology" onClick={() => setOpen(false)}>Methodology</a>
       </nav>
       <div className="cq-run-state">
-        <span className="cq-paper-pill"><StatusDot />PAPER ONLY</span>
+        <span className="cq-paper-pill"><StatusDot state={paperAccount?.connected ? "fresh" : "warning"} />{paperLabel}</span>
         {source === "demo" && <span className="cq-demo-pill">DEMO DATA</span>}
         <span className="cq-evaluated">Last evaluated {lastEvaluated ? `${formatDate(lastEvaluated, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} UTC` : "—"}</span>
       </div>
@@ -77,13 +85,41 @@ function DashboardHeader({ lastEvaluated, source }) {
   </header>;
 }
 
+function AccountStatusStrip({ account, decision }) {
+  const connected = Boolean(account?.connected && account?.broker_mode === "alpaca-paper");
+  const reconciled = Boolean(account?.position_reconciled);
+  const coverage = Math.round((decision?.signals?.coverage ?? 0) * 100);
+  const updatedAt = account?.captured_at ?? decision?.timestamp;
+  const systemStatus = connected
+    ? account.trading_enabled && reconciled
+      ? "Paper execution enabled"
+      : reconciled
+        ? "Execution locked"
+        : "Position review required"
+    : "Credentials required";
+  const items = [
+    {
+      label: connected ? "ALPACA PAPER · CONNECTED" : "ALPACA PAPER · CONNECTION PENDING",
+      detail: connected ? "Private API · public mirror" : "Engine ready · paper key missing",
+      state: connected ? "fresh" : "warning",
+    },
+    { label: "PAPER ONLY", detail: "Real-money endpoints blocked", state: "fresh" },
+    { label: "Data last updated", detail: updatedAt ? `${formatDate(updatedAt, { hour: "2-digit", minute: "2-digit", hour12: false })} UTC` : "Awaiting first sync", state: "fresh" },
+    { label: "Signal coverage", detail: `${coverage}% of configured inputs`, state: coverage >= 80 ? "fresh" : "warning" },
+    { label: "System status", detail: systemStatus, state: connected && account.trading_enabled && reconciled ? "fresh" : "warning" },
+  ];
+  return <section className="cq-account-strip" aria-label="Paper account status">
+    {items.map((item) => <div key={item.label}><StatusDot state={item.state} /><span><b>{item.label}</b><small>{item.detail}</small></span></div>)}
+  </section>;
+}
+
 function SummaryRail({ summary }) {
   const items = [
-    ["Portfolio", money.format(summary.portfolio_value), "paper value"],
+    ["Managed equity", money.format(summary.portfolio_value), "isolated paper sleeve"],
     ["Return", percent(summary.total_return), "since inception"],
+    ["Managed cash", money.format(summary.managed_cash ?? 0), `${Math.round(((summary.managed_cash ?? 0) / summary.portfolio_value) * 100)}% of sleeve`],
     ["BTC exposure", `${summary.current_exposure}%`, "of portfolio"],
     ["BTC / USD", compactMoney.format(summary.btc_price), "latest close"],
-    ["Signal score", Math.round(summary.signal_score), `${summary.confidence} confidence`],
     ["Latest action", summary.latest_action, "allocation decision"],
   ];
   return <section className="cq-summary-rail" aria-label="Portfolio summary">
@@ -147,7 +183,8 @@ function PerformancePanel({ data, metrics }) {
 function SignalPanel({ decision }) {
   const components = decision?.signals?.components ?? {};
   return <section className="cq-panel cq-signals" aria-labelledby="signals-title">
-    <div className="cq-panel-header"><div><p className="cq-eyebrow">DETERMINISTIC MODEL</p><h2 id="signals-title">Signal decomposition</h2></div><strong className="cq-score">{Math.round(decision?.signals?.total_score ?? 0)}<small>/100</small></strong></div>
+    <div className="cq-thesis-head"><div><p className="cq-eyebrow">TODAY'S THESIS</p><h2>{decision?.action ?? "HOLD"} — maintain {decision?.target_exposure ?? 0}% BTC exposure</h2></div><p>{decision?.reasoning}</p></div>
+    <div className="cq-signal-heading"><h3 id="signals-title">Signal score decomposition</h3><strong className="cq-score">{Math.round(decision?.signals?.total_score ?? 0)}<small>/100</small></strong></div>
     <div className="cq-signal-list">{Object.entries(SIGNAL_LABELS).map(([key, label]) => {
       const score = components[key]?.score ?? 0;
       return <div className="cq-signal" key={key}><div><span>{label}</span><b>{Math.round(score)}</b></div><div className="cq-signal-track"><i style={{ width: `${score}%` }} /></div></div>;
@@ -156,23 +193,70 @@ function SignalPanel({ decision }) {
   </section>;
 }
 
-function Thesis({ decision }) {
-  if (!decision) return null;
-  return <section className="cq-thesis" aria-labelledby="thesis-title">
-    <div><p className="cq-eyebrow">CURRENT THESIS</p><h2 id="thesis-title">Why the system holds {decision.target_exposure}% BTC exposure</h2><div className="cq-thesis-tags"><ProvenanceTag>DATA</ProvenanceTag><ProvenanceTag tone="signal">SIGNAL</ProvenanceTag><ProvenanceTag tone="ai">AI INTERPRETATION</ProvenanceTag></div></div>
-    <div><p>{decision.reasoning}</p><aside><span>News context</span>{decision.ai_news_summary}</aside></div>
-  </section>;
-}
-
 function ActionBadge({ action, status }) {
   return <span className={`cq-action-badge cq-action-${action.toLowerCase()}`}>{action}{status && <small>{status}</small>}</span>;
 }
 
-function TradeHistory({ trades, onOpen }) {
-  return <section className="cq-panel cq-table-panel" aria-labelledby="trades-title">
-    <div className="cq-panel-header"><div><p className="cq-eyebrow">PAPER EXECUTION</p><h2 id="trades-title">Allocation changes</h2></div><span className="cq-row-count">{trades.length} records</span></div>
-    <div className="cq-table-wrap"><table><thead><tr><th>Date</th><th>Action</th><th>BTC price</th><th>Exposure</th><th>Value</th><th>Status</th><th aria-label="Open record" /></tr></thead><tbody>{trades.map((trade) => <tr key={trade.id}><td>{formatDate(trade.decision_date)}</td><td><ActionBadge action={trade.action} /></td><td>{compactMoney.format(Number(trade.btc_price))}</td><td>{trade.current_exposure}% <span>→</span> {trade.target_exposure}%</td><td>{money.format(Number(trade.trade_value))}</td><td><span className="cq-status-text"><StatusDot state={trade.order_status === "FILLED" ? "fresh" : "warning"} />{trade.order_status}</span></td><td><button type="button" className="cq-row-open" aria-label={`Open decision from ${trade.decision_date}`} onClick={() => onOpen(trade)}><Icon /></button></td></tr>)}</tbody></table></div>
+function CurrentPosition({ account, summary }) {
+  const exposure = Number(account?.btc_exposure ?? summary.current_exposure ?? 0);
+  const positionValue = Number(account?.managed_btc_value ?? summary.portfolio_value * exposure / 100);
+  const positionQuantity = Number(account?.managed_btc_quantity ?? positionValue / summary.btc_price);
+  const managedCash = Number(account?.strategy_cash ?? summary.managed_cash ?? 0);
+  const reconciled = Boolean(account?.position_reconciled);
+  return <section className="cq-panel cq-mirror-panel" aria-labelledby="position-title">
+    <div className="cq-compact-header"><h2 id="position-title">Current position</h2><span>{account?.captured_at ? `As of ${formatDate(account.captured_at, { hour: "2-digit", minute: "2-digit", hour12: false })} UTC` : "Awaiting broker sync"}</span></div>
+    <div className="cq-position-primary"><div><span>BTC position</span><strong>{positionQuantity.toFixed(8)} BTC</strong><small>{money.format(positionValue)} managed value</small></div><div><span>Cash</span><strong>{compactMoney.format(managedCash)}</strong><small>{Math.round((managedCash / summary.portfolio_value) * 100)}% of sleeve</small></div></div>
+    <dl className="cq-position-facts"><div><dt>Portfolio share</dt><dd>{exposure.toFixed(0)}%</dd></div><div><dt>Broker check</dt><dd className={reconciled ? "cq-positive" : "cq-caution"}>{reconciled ? "Reconciled" : "Pending"}</dd></div><div><dt>Environment</dt><dd>Paper only</dd></div></dl>
   </section>;
+}
+
+function RecentPaperOrders({ trades, onOpen }) {
+  const recent = trades.slice(0, 5);
+  return <section className="cq-panel cq-mirror-panel cq-orders" aria-labelledby="trades-title">
+    <div className="cq-compact-header"><h2 id="trades-title">Recent paper orders</h2><span>{trades.length} allocation changes</span></div>
+    {recent.length ? <div className="cq-orders-wrap"><table><thead><tr><th>Date</th><th>Side</th><th>Quantity</th><th>Fill</th><th>Status</th><th aria-label="Open record" /></tr></thead><tbody>{recent.map((trade) => <tr key={trade.id}><td>{formatDate(trade.decision_date, { year: undefined })}</td><td><ActionBadge action={trade.action} /></td><td>{Number(trade.trade_quantity || 0).toFixed(6)}</td><td>{trade.fill_price ? compactMoney.format(Number(trade.fill_price)) : "—"}</td><td><span className="cq-status-text"><StatusDot state={trade.order_status === "FILLED" ? "fresh" : "warning"} />{trade.order_status}</span></td><td><button type="button" className="cq-row-open" aria-label={`Open decision from ${trade.decision_date}`} onClick={() => onOpen(trade)}><Icon /></button></td></tr>)}</tbody></table></div> : <div className="cq-orders-empty"><b>No paper orders yet.</b><span>Daily evaluations are running; an order appears only after every allocation rule clears.</span></div>}
+  </section>;
+}
+
+function researchNotes(decisions) {
+  const latest = decisions[0];
+  const previous = decisions[1];
+  if (!latest) return [];
+  const components = Object.entries(latest.signals.components).sort(([, left], [, right]) => right.score - left.score);
+  const [strongestName, strongest] = components[0];
+  const [weakestName, weakest] = components.at(-1);
+  const scoreDelta = previous ? latest.signals.total_score - previous.signals.total_score : 0;
+  const exposureChanged = previous && latest.target_exposure !== previous.target_exposure;
+  const changed = previous
+    ? `Composite ${scoreDelta >= 0 ? "rose" : "fell"} ${Math.abs(scoreDelta).toFixed(1)} points; target exposure ${exposureChanged ? `moved from ${previous.target_exposure}% to ${latest.target_exposure}%` : `held at ${latest.target_exposure}%`}.`
+    : `The first published evaluation set a ${latest.target_exposure}% BTC target at ${latest.signals.total_score.toFixed(1)}/100.`;
+  const matters = `${SIGNAL_LABELS[strongestName] ?? strongestName} leads at ${Math.round(strongest.score)}/100 while ${SIGNAL_LABELS[weakestName] ?? weakestName} is the main counterweight at ${Math.round(weakest.score)}/100.`;
+  const levels = HYSTERESIS_LEVELS[latest.target_exposure] ?? {};
+  const thresholds = [levels.down != null ? `≤${levels.down}` : null, levels.up != null ? `≥${levels.up}` : null].filter(Boolean).join(" or ");
+  const wouldChange = `A confirmed composite move ${thresholds || "outside the current band"}, fresh required data, and independent signal agreement would permit the next 25-point allocation step.`;
+  return [
+    ["What changed", changed],
+    ["Why it matters", matters],
+    ["What would change the decision", wouldChange],
+  ];
+}
+
+function ResearchNotes({ decisions }) {
+  return <section className="cq-panel cq-mirror-panel cq-notes" aria-labelledby="notes-title">
+    <div className="cq-compact-header"><h2 id="notes-title">Research notes</h2><span>{decisions[0] ? formatDate(decisions[0].decision_date) : "—"}</span></div>
+    <div className="cq-note-list">{researchNotes(decisions).map(([title, body], index) => <article key={title}><span>0{index + 1}</span><div><b>{title}</b><p>{body}</p></div></article>)}</div>
+  </section>;
+}
+
+function RiskGuardrails() {
+  const rules = [
+    ["PAPER ONLY", "Live-money host rejected"],
+    ["Long-only", "No short positions"],
+    ["No leverage", "Cash-backed orders"],
+    ["$1,000 sleeve", "Broker balance cannot scale size"],
+    ["One daily step", "Maximum 25 percentage points"],
+  ];
+  return <section className="cq-guardrails" aria-label="Risk guardrails"><h2>Risk guardrails</h2>{rules.map(([title, detail]) => <div key={title}><StatusDot /><span><b>{title}</b><small>{detail}</small></span></div>)}</section>;
 }
 
 function DecisionJournal({ decisions, onOpen }) {
@@ -229,10 +313,10 @@ export default function CycleQuantDashboard() {
   if (error) return <div className="cq-app"><DashboardHeader /><div className="cq-fatal"><b>Dashboard data is unavailable.</b><span>{error}</span><Link to="/">Return to Capital in Code</Link></div></div>;
   if (!data) return <div className="cq-app"><DashboardHeader /><LoadingState /></div>;
   return <div className="cq-app">
-    <DashboardHeader lastEvaluated={data.summary.last_evaluated_at} source={data._source} />
+    <DashboardHeader lastEvaluated={data.summary.last_evaluated_at} source={data._source} paperAccount={data.paper_account} />
     <main className="cq-main" id="overview">
-      <div className="cq-intro"><div><p className="cq-eyebrow">CIC-002 · QUANTITATIVE RESEARCH SYSTEM</p><h1>Transparent Bitcoin allocation, one decision at a time.</h1></div><div><p>CycleQuant evaluates market structure, valuation, macro conditions, flows, and news once per day. Quantitative rules determine exposure; AI can summarize context but cannot trade.</p><span>{data.disclaimer}</span></div></div>
-      {data.latest_decision ? <><SummaryRail summary={data.summary} /><div className="cq-grid"><PerformancePanel data={data.performance} metrics={data.metrics} /><SignalPanel decision={data.latest_decision} /></div><Thesis decision={data.latest_decision} /><TradeHistory trades={data.trade_history} onOpen={setSelected} /><DecisionJournal decisions={data.decision_journal} onOpen={setSelected} /><Methodology /></> : <EmptyState />}
+      <div className="cq-intro"><div><p className="cq-eyebrow">CIC-002 · QUANTITATIVE RESEARCH SYSTEM</p><h1>Transparent Bitcoin allocation, one decision at a time.</h1><span className="cq-intro-kicker">Rule-based. Evidence-driven. Disciplined execution.</span></div><div><p>CycleQuant evaluates market structure, valuation, macro conditions, flows, and news once per day. Quantitative rules determine exposure; AI can summarize context but cannot authorize a trade.</p><span>{data.disclaimer}</span></div></div>
+      {data.latest_decision ? <><AccountStatusStrip account={data.paper_account} decision={data.latest_decision} /><SummaryRail summary={data.summary} /><div className="cq-grid"><PerformancePanel data={data.performance} metrics={data.metrics} /><SignalPanel decision={data.latest_decision} /></div><div className="cq-mirror-grid"><CurrentPosition account={data.paper_account} summary={data.summary} /><RecentPaperOrders trades={data.trade_history} onOpen={setSelected} /><ResearchNotes decisions={data.decision_journal} /></div><RiskGuardrails /><DecisionJournal decisions={data.decision_journal} onOpen={setSelected} /><Methodology /></> : <EmptyState />}
     </main>
     <footer className="cq-footer"><div><Link className="cq-brand" to="/"><img src="/brand-mark.png" alt="" /><span><b>Capital in Code</b><small>Independent quantitative research</small></span></Link></div><p>Paper trading only. No leverage, shorting, derivatives, or live-money endpoints.</p><a href={PROJECT_SOURCE} target="_blank" rel="noreferrer">Source & methodology ↗</a></footer>
     {selected && <DecisionDrawer decision={selected} onClose={() => setSelected(null)} />}

@@ -1,7 +1,7 @@
 # Dashboard fidelity ledger
 
-Visual acceptance was performed against the generated desktop overview, mobile
-overview, and decision-drawer concepts in `docs/design/concepts/`.
+Visual acceptance was performed against the original dashboard concepts and
+the Alpaca-mirror concept in `docs/design/concepts/`.
 
 ## Matched
 
@@ -18,13 +18,16 @@ overview, and decision-drawer concepts in `docs/design/concepts/`.
 - Mobile summary rail, stacked analysis panels, 44px primary controls, menu,
   horizontal tables, reduced chart ticks, and no page-level overflow.
 - Reduced-motion and visible keyboard-focus behavior.
+- A factual Alpaca paper-account status strip, managed-sleeve cash and position,
+  recent paper orders, deterministic research notes, and explicit guardrails.
 
 ## Deliberate differences
 
 - A research-question introduction was added above the terminal surface so the
   dashboard works as a self-explanatory Capital in Code portfolio page.
-- `DEMO DATA` is visibly shown until real RLS-protected cloud rows exist; the
-  concept did not include this research-integrity state.
+- The connection state deliberately says `CONNECTION PENDING` until verified
+  Alpaca paper credentials are installed. Simulation must never be presented as
+  a live broker connection.
 - The deterministic fixture uses trend `72` rather than the concept's `63` so
   the displayed weighted component scores reconcile to the composite near 74.
 - The implementation adds annualized statistics and a compact exposure-history
@@ -34,8 +37,12 @@ overview, and decision-drawer concepts in `docs/design/concepts/`.
 
 ## Verification
 
-- Desktop rendering: accepted against `dashboard-desktop.png`.
-- Narrow/mobile rendering: accepted against `dashboard-mobile.png`.
+- Generated target: `concepts/dashboard-alpaca-mirror-desktop.png`.
+- Desktop rendering: accepted at 1440px in
+  `qa/dashboard-alpaca-mirror-desktop.png`.
+- Narrow/mobile rendering: accepted at 390px in
+  `qa/dashboard-alpaca-mirror-mobile.png`.
 - Audit drawer: opened and visually checked at desktop and mobile sizes.
-- Browser console: no errors in a fresh tab.
-- Final browser capture: `docs/design/qa/dashboard-final.png`.
+- Mobile drawer: `qa/dashboard-alpaca-mirror-mobile-drawer.png`.
+- Browser console: no errors; automated accessibility scan reported zero
+  violations; desktop and mobile had no page-level horizontal overflow.

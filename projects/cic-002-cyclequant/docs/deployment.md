@@ -1,8 +1,9 @@
 # Cloud deployment
 
 CycleQuant is cloud-first so no personal computer needs to remain online. The
-baseline is designed for free tiers and does not provision anything
-automatically.
+baseline is designed for free tiers. Database migrations and deployments can
+be automated, but Alpaca credentials must be created by the account owner
+inside an authenticated Alpaca session.
 
 ## 1. Select and migrate a Supabase project
 
@@ -58,7 +59,9 @@ can override them later without changing source:
 
 Never add the CycleQuant writer token or a service-role key to Vercel or any
 `VITE_*` variable. The dashboard displays the labeled committed demo fixture
-until the database contains its first published decision.
+until the database contains its first published decision. Its paper-account
+strip remains `CONNECTION PENDING` until a verified Alpaca paper snapshot is
+published; a simulated snapshot is never labeled connected.
 
 The site's existing SPA rewrite already supports direct visits to
 `/projects/cic-002-cyclequant` on `capitalincode.com`.
@@ -67,15 +70,20 @@ The site's existing SPA rewrite already supports direct visits to
 
 1. Run the workflow manually with trading disabled.
 2. Confirm one decision, snapshot, and performance row in Supabase.
-3. Confirm anonymous requests can read the three `cq_public_*` views and cannot
+3. Run `cyclequant sync-broker` and confirm a sanitized broker-snapshot row.
+4. Confirm anonymous requests can read the public views and cannot
    read `private_payload`, market snapshots, or idempotency keys.
-4. Confirm the writer token has authority only in CycleQuant RLS policies and
+5. Confirm the writer token has authority only in CycleQuant RLS policies and
    does not bypass any unrelated table policy.
-5. Confirm the Vercel dashboard reports real data and no longer says `DEMO`.
-6. Review source freshness and the complete risk-check list.
-7. Switch broker mode to `alpaca-paper` while trading remains disabled.
-8. Verify the exact paper account state and endpoint.
-9. Only then, if desired, set `CYCLEQUANT_TRADING_ENABLED=true`.
+6. Confirm the Vercel dashboard reports real data and shows the correct broker
+   connection state.
+7. Review source freshness and the complete risk-check list.
+8. Sign in to Alpaca, create paper-only credentials, and store them directly in
+   GitHub Actions secrets. Never put them in chat, source control, or Vercel.
+9. Switch broker mode to `alpaca-paper` while trading remains disabled.
+10. Verify the exact paper endpoint, account health, managed position, and
+    reconciliation result.
+11. Only then, if desired, set `CYCLEQUANT_TRADING_ENABLED=true`.
 
 ## Optional Windows fallback
 

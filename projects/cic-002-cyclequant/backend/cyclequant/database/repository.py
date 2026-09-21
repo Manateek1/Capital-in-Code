@@ -11,7 +11,12 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from cyclequant.models import DecisionRecord, MarketDataBundle, OrderEvent
+from cyclequant.models import (
+    DecisionRecord,
+    MarketDataBundle,
+    OrderEvent,
+    PaperAccountSnapshot,
+)
 
 
 def _canonical_json(value: Any) -> str:
@@ -225,6 +230,41 @@ class Database:
                 raise RuntimeError("order event failed integrity validation")
             events.append(OrderEvent.model_validate_json(row["payload_json"]))
         return events
+
+    def save_paper_account_snapshot(self, snapshot: PaperAccountSnapshot) -> None:
+        payload_json = _canonical_json(snapshot.model_dump(mode="json"))
+        digest = _integrity_hash(payload_json)
+        with self.connect() as connection:
+            connection.execute(
+                """
+                INSERT INTO paper_account_snapshots(
+                    id, captured_at, broker_mode, connected, payload_json, integrity_hash
+                ) VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    snapshot.id,
+                    snapshot.captured_at.isoformat(),
+                    snapshot.broker_mode,
+                    int(snapshot.connected),
+                    payload_json,
+                    digest,
+                ),
+            )
+
+    def latest_paper_account_snapshot(self) -> PaperAccountSnapshot | None:
+        with self.connect() as connection:
+            row = connection.execute(
+                """
+                SELECT payload_json, integrity_hash
+                FROM paper_account_snapshots
+                ORDER BY captured_at DESC LIMIT 1
+                """
+            ).fetchone()
+        if not row:
+            return None
+        if _integrity_hash(row["payload_json"]) != row["integrity_hash"]:
+            raise RuntimeError("paper account snapshot failed integrity validation")
+        return PaperAccountSnapshot.model_validate_json(row["payload_json"])
 
     def claim_idempotency_key(self, key: str, decision_date: date) -> bool:
         try:

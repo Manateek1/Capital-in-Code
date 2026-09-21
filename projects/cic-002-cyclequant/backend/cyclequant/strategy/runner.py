@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from cyclequant.broker.base import PaperBroker
 from cyclequant.broker.coordinator import OrderCoordinator
+from cyclequant.broker.mirror import capture_paper_account
 from cyclequant.config import Settings
 from cyclequant.constants import ALLOWED_EXPOSURES, STARTING_CAPITAL, STRATEGY_VERSION
 from cyclequant.data.aggregator import MarketDataPipeline
@@ -70,6 +71,13 @@ class DailyStrategyRunner:
         existing = self.database.get_decision_for_date(decision_date)
         if existing:
             logger.info("daily evaluation already exists", extra={"decision_id": existing.id})
+            self._mark_simulated_price(existing.btc_price)
+            await capture_paper_account(
+                settings=self.settings,
+                database=self.database,
+                broker=self.broker,
+                decision=existing,
+            )
             return DailyEvaluationResult(created=False, decision=existing)
 
         market = await self.pipeline.run(evaluated_at, self.settings.history_days)
@@ -92,13 +100,13 @@ class DailyStrategyRunner:
         requested_notional = Decimal("0")
 
         if action != Action.HOLD:
-            desired_position_value = (
+            # Size only the isolated CycleQuant sleeve. Broker headline equity or
+            # unrelated paper positions can never increase an order's notional.
+            position_delta = (
                 strategy_portfolio_value
-                * Decimal(recommendation.target_exposure)
+                * Decimal(recommendation.target_exposure - allocation_state.current_exposure)
                 / Decimal("100")
             )
-            current_position_value = position_quantity * market.spot_price
-            position_delta = desired_position_value - current_position_value
             direction_matches_position = (action == Action.BUY and position_delta > 0) or (
                 action == Action.SELL and position_delta < 0
             )
@@ -180,6 +188,12 @@ class DailyStrategyRunner:
                 )
             )
         await self._record_performance(decision, market.bars)
+        await capture_paper_account(
+            settings=self.settings,
+            database=self.database,
+            broker=self.broker,
+            decision=decision,
+        )
         return DailyEvaluationResult(created=True, decision=decision, news_analysis=news)
 
     def _allocation_state(

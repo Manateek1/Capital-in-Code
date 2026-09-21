@@ -67,6 +67,18 @@ CREATE INDEX IF NOT EXISTS idx_order_events_decision
 CREATE INDEX IF NOT EXISTS idx_order_events_order
     ON order_events(order_id, occurred_at);
 
+CREATE TABLE IF NOT EXISTS paper_account_snapshots (
+    id TEXT PRIMARY KEY,
+    captured_at TEXT NOT NULL,
+    broker_mode TEXT NOT NULL CHECK(broker_mode IN ('simulated', 'alpaca-paper')),
+    connected INTEGER NOT NULL CHECK(connected IN (0, 1)),
+    payload_json TEXT NOT NULL,
+    integrity_hash TEXT NOT NULL UNIQUE
+);
+
+CREATE INDEX IF NOT EXISTS idx_paper_account_snapshots_captured_at
+    ON paper_account_snapshots(captured_at DESC);
+
 CREATE TABLE IF NOT EXISTS idempotency_keys (
     key TEXT PRIMARY KEY,
     decision_date TEXT NOT NULL,
@@ -115,3 +127,11 @@ BEGIN SELECT RAISE(ABORT, 'order events are immutable'); END;
 CREATE TRIGGER IF NOT EXISTS order_events_no_delete
 BEFORE DELETE ON order_events
 BEGIN SELECT RAISE(ABORT, 'order events are immutable'); END;
+
+CREATE TRIGGER IF NOT EXISTS paper_account_snapshots_no_update
+BEFORE UPDATE ON paper_account_snapshots
+BEGIN SELECT RAISE(ABORT, 'paper account snapshots are immutable'); END;
+
+CREATE TRIGGER IF NOT EXISTS paper_account_snapshots_no_delete
+BEFORE DELETE ON paper_account_snapshots
+BEGIN SELECT RAISE(ABORT, 'paper account snapshots are immutable'); END;

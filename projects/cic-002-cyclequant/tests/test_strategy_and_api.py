@@ -98,6 +98,12 @@ async def test_daily_runner_is_idempotent_and_exports_audit_record(
     assert pipeline.calls == 1
     assert database.get_market_snapshot(first.decision.market_snapshot_id) is not None
     assert len(database.list_performance()) == 1
+    account_snapshot = database.latest_paper_account_snapshot()
+    assert account_snapshot is not None
+    assert account_snapshot.paper_only
+    assert account_snapshot.broker_mode == "simulated"
+    assert not account_snapshot.connected
+    assert account_snapshot.strategy_portfolio_value == Decimal("1000.00")
 
     app = create_app(settings, database)
     with TestClient(app) as client:
@@ -109,6 +115,8 @@ async def test_daily_runner_is_idempotent_and_exports_audit_record(
     assert health.status_code == 200
     assert dashboard.status_code == 200
     assert dashboard.json()["latest_decision"]["id"] == first.decision.id
+    assert dashboard.json()["paper_account"]["id"] == account_snapshot.id
+    assert "broker_btc_quantity" not in dashboard.json()["paper_account"]
     assert detail.status_code == 200
     assert detail.json()["market_snapshot"]["symbol"] == "BTC/USD"
     assert rejected_post.status_code == 405
@@ -159,3 +167,8 @@ async def test_runner_rebalances_against_actual_paper_position(tmp_path, daily_b
     assert result.decision.portfolio_value == Decimal("1000.00")
     assert result.decision.trade_value == Decimal("250.00")
     assert result.decision.order_status.value == "FILLED"
+    account_snapshot = database.latest_paper_account_snapshot()
+    assert account_snapshot is not None
+    assert account_snapshot.btc_exposure == 50
+    assert account_snapshot.managed_btc_value == Decimal("500.00")
+    assert account_snapshot.position_reconciled

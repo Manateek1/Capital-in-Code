@@ -173,6 +173,17 @@ caveats in a public-facing format.
 - Paper-order sizing is always based on the isolated managed sleeve rather than
   the broker account's total balance. Connecting an account must not broaden
   CycleQuant's capital scope.
+- GitHub pull request #4 is merged into `main` at commit `34e7c6e`, and Vercel
+  deployed that commit successfully to the canonical CycleQuant page. A
+  production browser check confirmed the account strip, responsive layout,
+  decision journal, and `CONNECTION PENDING` truth state with no browser or
+  Vercel runtime errors.
+- The first production broker-mirror snapshot was published successfully from
+  GitHub Actions. It records a simulated, paper-only, reconciled `$1,000`
+  managed sleeve with `$1,000` cash and 0% BTC exposure; the public payload
+  does not contain the raw broker position. The 2026-09-21 daily evaluation
+  remains HOLD at 0% exposure while the 25% candidate has one of two required
+  confirmations.
 
 ### Historical repository snapshot — 2026-07-29
 

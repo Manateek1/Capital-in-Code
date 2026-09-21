@@ -151,6 +151,29 @@ caveats in a public-facing format.
 - Trading remains disabled, broker mode remains simulated, and the operating
   baseline remains $0/month within the selected free-tier limits.
 
+### CIC-002 Alpaca paper mirror — 2026-09-20
+
+- Dillon clarified that CycleQuant's core product is an Alpaca paper-trading
+  account mirrored publicly under `CIC-002`, with transparent position data,
+  paper-order activity, and decision insights that make the research process
+  legible and credible.
+- Strategy version `2026.2` adds a sanitized broker snapshot to SQLite and
+  Supabase. The public dashboard shows only CycleQuant's isolated `$1,000`
+  managed sleeve, BTC position, paper-order state, freshness, reconciliation,
+  research notes, and hard guardrails. It must never expose credentials,
+  account IDs, unrelated funds, or Alpaca headline account equity.
+- The broker-snapshot migration is applied to the production Supabase project.
+  The redesigned desktop and mobile dashboard has been checked for responsive
+  overflow, browser errors, drawer behavior, and automated accessibility.
+- No Alpaca credential is currently installed. Production must truthfully show
+  `CONNECTION PENDING`; broker mode remains `simulated` and trading remains
+  disabled until Dillon signs in to Alpaca, creates paper credentials, stores
+  them securely in GitHub Actions, and a disabled-trading connection test
+  succeeds. Do not claim that Alpaca is connected before that verification.
+- Paper-order sizing is always based on the isolated managed sleeve rather than
+  the broker account's total balance. Connecting an account must not broaden
+  CycleQuant's capital scope.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

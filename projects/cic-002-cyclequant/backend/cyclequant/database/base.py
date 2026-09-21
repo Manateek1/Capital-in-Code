@@ -4,7 +4,12 @@ from datetime import date
 from decimal import Decimal
 from typing import Any, Protocol
 
-from cyclequant.models import DecisionRecord, MarketDataBundle, OrderEvent
+from cyclequant.models import (
+    DecisionRecord,
+    MarketDataBundle,
+    OrderEvent,
+    PaperAccountSnapshot,
+)
 
 
 class Repository(Protocol):
@@ -30,6 +35,10 @@ class Repository(Protocol):
     def append_order_event(self, event: OrderEvent) -> None: ...
 
     def list_order_events(self, decision_id: str) -> list[OrderEvent]: ...
+
+    def save_paper_account_snapshot(self, snapshot: PaperAccountSnapshot) -> None: ...
+
+    def latest_paper_account_snapshot(self) -> PaperAccountSnapshot | None: ...
 
     def claim_idempotency_key(self, key: str, decision_date: date) -> bool: ...
 

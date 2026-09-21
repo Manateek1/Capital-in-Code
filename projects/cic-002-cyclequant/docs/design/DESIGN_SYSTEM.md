@@ -17,12 +17,14 @@ Desktop navigation: `Overview`, `Journal`, `Methodology`, `PAPER ONLY`, and
 
 Primary sections, in order:
 
-1. Portfolio summary rail
-2. Performance since inception
-3. Signal decomposition
-4. Current thesis
-5. Allocation changes
-6. Decision journal
+1. Alpaca paper-account status strip
+2. Managed-sleeve summary rail
+3. Performance since inception and signal decomposition
+4. Today's thesis
+5. Current managed position and recent paper orders
+6. Research notes: what changed, why it matters, and what changes the decision
+7. Risk guardrails
+8. Allocation changes and decision journal
 
 The selected decision opens an audit drawer headed `Decision — <date>` with
 Snapshot, Signal snapshot, Important news considered, AI news summary,
@@ -66,11 +68,16 @@ decorative gradients.
 - `AppShell`: quiet top bar, 16px desktop outer gutter, 18–20px mobile gutter.
 - `SummaryRail`: one continuous bordered rail divided by hairlines; mobile
   version scrolls horizontally without causing page overflow.
+- `AccountStatusStrip`: a factual connection indicator that distinguishes an
+  authenticated Alpaca paper account from simulation or pending setup.
 - `Panel`: purposeful analytical frame, never nested indiscriminately.
 - `PerformanceChart`: CycleQuant teal, BTC blue, Cash muted gray, with subtle
   grid, native legend, range controls, tooltip, and optional drawdown strip.
 - `SignalBars`: horizontal tracks with a numeric endpoint; no radial gauges.
 - `ThesisBand`: open two-column desktop band, single-column mobile flow.
+- `ResearchNotes`: deterministic interpretation cards derived from the saved
+  decision record; they never invent a market fact or imply discretionary AI
+  trading.
 - `DataTable`: compact rows with selected, hover, and keyboard focus states.
 - `DecisionDrawer`: fixed desktop right rail and full-screen mobile sheet with
   explicit close/copy actions and grouped audit facts.

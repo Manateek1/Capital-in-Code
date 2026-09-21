@@ -259,6 +259,45 @@ class BrokerAccountSnapshot(BaseModel):
     endpoint: str
 
 
+class PaperAccountSnapshot(BaseModel):
+    """Public, credential-free mirror of the isolated CycleQuant paper sleeve."""
+
+    id: str = Field(default_factory=lambda: uuid4().hex)
+    captured_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    broker_mode: str
+    paper_only: bool = True
+    connected: bool
+    account_status: str
+    currency: str = "USD"
+    trading_enabled: bool
+    trading_blocked: bool = False
+    account_blocked: bool = False
+    crypto_trading_enabled: bool = True
+    strategy_portfolio_value: Decimal = Field(gt=0)
+    strategy_cash: Decimal = Field(ge=0)
+    btc_price: Decimal = Field(gt=0)
+    btc_exposure: int
+    managed_btc_quantity: Decimal = Field(ge=0)
+    managed_btc_value: Decimal = Field(ge=0)
+    position_reconciled: bool
+    latest_action: Action
+    latest_order_status: OrderStatus
+
+    @field_validator("captured_at")
+    @classmethod
+    def normalize_captured_at(cls, value: datetime) -> datetime:
+        if value.tzinfo is None:
+            return value.replace(tzinfo=UTC)
+        return value.astimezone(UTC)
+
+    @field_validator("btc_exposure")
+    @classmethod
+    def paper_exposure_is_valid(cls, value: int) -> int:
+        if value not in ALLOWED_EXPOSURES:
+            raise ValueError(f"exposure must be one of {ALLOWED_EXPOSURES}")
+        return value
+
+
 class OrderResult(BaseModel):
     order_id: str | None = None
     client_order_id: str

@@ -10,7 +10,7 @@ import httpx
 import uvicorn
 
 from cyclequant.api import create_app
-from cyclequant.broker import AlpacaPaperBroker, SimulatedPaperBroker
+from cyclequant.broker import AlpacaPaperBroker, SimulatedPaperBroker, capture_paper_account
 from cyclequant.config import Settings, load_settings
 from cyclequant.data.aggregator import build_default_pipeline, build_http_client
 from cyclequant.database import Database, Repository, SupabaseDatabase
@@ -30,6 +30,10 @@ def _parser() -> argparse.ArgumentParser:
         "--dry-run",
         action="store_true",
         help="Force trading off while still creating a decision record",
+    )
+    subcommands.add_parser(
+        "sync-broker",
+        help="Publish a sanitized snapshot of the current paper broker state",
     )
     serve = subcommands.add_parser("serve", help="Run the read-only API")
     serve.add_argument("--host")
@@ -110,6 +114,35 @@ async def _daily(settings: Settings, database: Repository, as_of: datetime) -> i
     return 0
 
 
+async def _sync_broker(settings: Settings, database: Repository) -> int:
+    latest = database.list_decisions(limit=1)
+    if not latest:
+        raise RuntimeError("A decision must exist before the paper account can be mirrored")
+    decision = latest[0]
+    async with build_http_client(settings) as client:
+        broker = _broker(settings, client)
+        if hasattr(broker, "btc_price"):
+            broker.btc_price = decision.btc_price
+        snapshot = await capture_paper_account(
+            settings=settings,
+            database=database,
+            broker=broker,
+            decision=decision,
+        )
+    print(
+        json.dumps(
+            {
+                "captured_at": snapshot.captured_at.isoformat(),
+                "broker_mode": snapshot.broker_mode,
+                "connected": snapshot.connected,
+                "position_reconciled": snapshot.position_reconciled,
+            },
+            separators=(",", ":"),
+        )
+    )
+    return 0
+
+
 def _broker(settings: Settings, client: httpx.AsyncClient):
     if settings.broker_mode == "simulated":
         return SimulatedPaperBroker()
@@ -136,6 +169,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.dry_run:
             settings.trading_enabled = False
         return asyncio.run(_daily(settings, database, _parse_as_of(args.as_of)))
+    if args.command == "sync-broker":
+        return asyncio.run(_sync_broker(settings, database))
     if args.command == "serve":
         uvicorn.run(
             create_app(settings, database),

@@ -1,10 +1,11 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "generated_at": "2026-09-20T08:43:00.343042+00:00",
   "mode": "paper-research",
   "disclaimer": "Educational research only. Not investment advice and not a recommendation to buy or sell Bitcoin.",
   "summary": {
     "portfolio_value": 1082.4,
+    "managed_cash": 270.6,
     "total_return": 0.08240000000000003,
     "current_exposure": 75,
     "btc_price": 61240.0,
@@ -12,6 +13,28 @@
     "confidence": "High",
     "latest_action": "BUY",
     "last_evaluated_at": "2026-09-20T23:59:59.999999+00:00"
+  },
+  "paper_account": {
+    "id": "cyclequant-demo-paper-snapshot",
+    "captured_at": "2026-09-20T23:59:59.999999+00:00",
+    "broker_mode": "simulated",
+    "paper_only": true,
+    "connected": false,
+    "account_status": "ACTIVE",
+    "currency": "USD",
+    "trading_enabled": false,
+    "trading_blocked": false,
+    "account_blocked": false,
+    "crypto_trading_enabled": true,
+    "strategy_portfolio_value": 1082.4,
+    "strategy_cash": 270.6,
+    "btc_price": 61240.0,
+    "btc_exposure": 75,
+    "managed_btc_quantity": 0.01325212,
+    "managed_btc_value": 811.8,
+    "position_reconciled": true,
+    "latest_action": "BUY",
+    "latest_order_status": "FILLED"
   },
   "performance": [
     {

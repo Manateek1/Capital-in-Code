@@ -81,6 +81,7 @@ def build_dashboard_payload(database: Repository) -> dict[str, Any]:
     cash_values = [float(_decimal(row["cash_value"])) for row in performance]
     ma_values = [float(_decimal(row["ma200_value"])) for row in performance if row["ma200_value"]]
     trades = [decision for decision in decisions if decision.action.value != "HOLD"]
+    paper_account = database.latest_paper_account_snapshot()
 
     source_health: list[dict[str, Any]] = []
     if latest:
@@ -89,8 +90,13 @@ def build_dashboard_payload(database: Repository) -> dict[str, Any]:
             source_health = [item.model_dump(mode="json") for item in snapshot.sources]
 
     portfolio_value = cycle_values[-1] if cycle_values else float(STARTING_CAPITAL)
+    managed_cash = (
+        float(paper_account.strategy_cash)
+        if paper_account
+        else portfolio_value * (1 - (_resulting_exposure(latest) if latest else 0) / 100)
+    )
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": datetime.now(UTC).isoformat(),
         "mode": "paper-research",
         "disclaimer": (
@@ -99,6 +105,7 @@ def build_dashboard_payload(database: Repository) -> dict[str, Any]:
         ),
         "summary": {
             "portfolio_value": portfolio_value,
+            "managed_cash": managed_cash,
             "total_return": portfolio_value / float(STARTING_CAPITAL) - 1,
             "current_exposure": _resulting_exposure(latest) if latest else 0,
             "btc_price": float(latest.btc_price) if latest else None,
@@ -128,6 +135,7 @@ def build_dashboard_payload(database: Repository) -> dict[str, Any]:
             "filled_trade_count": sum(item.order_status == OrderStatus.FILLED for item in trades),
         },
         "latest_decision": latest.model_dump(mode="json") if latest else None,
+        "paper_account": paper_account.model_dump(mode="json") if paper_account else None,
         "trade_history": [item.model_dump(mode="json") for item in trades],
         "decision_journal": [item.model_dump(mode="json") for item in decisions],
         "source_health": source_health,

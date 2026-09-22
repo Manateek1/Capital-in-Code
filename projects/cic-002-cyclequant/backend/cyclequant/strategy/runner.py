@@ -6,7 +6,7 @@ from decimal import ROUND_HALF_UP, Decimal
 
 from pydantic import BaseModel
 
-from cyclequant.broker.base import PaperBroker
+from cyclequant.broker.base import CryptoFees, PaperBroker
 from cyclequant.broker.coordinator import OrderCoordinator, reconcile_decision_order
 from cyclequant.broker.mirror import capture_paper_account, managed_ledger
 from cyclequant.config import Settings
@@ -95,10 +95,10 @@ class DailyStrategyRunner:
         self._mark_simulated_price(market.spot_price)
         account = await self.broker.get_account()
         position_quantity = await self.broker.get_btc_position_quantity()
-        _, managed_position_quantity, _, _ = managed_ledger(
-            self.database, market.spot_price
+        fees = await self.broker.get_crypto_fees()
+        _, managed_position_quantity, _, strategy_portfolio_value = managed_ledger(
+            self.database, market.spot_price, fees
         )
-        strategy_portfolio_value = self._managed_portfolio_value(market.spot_price)
         action = self._action(
             recommendation.changed, allocation_state, recommendation.target_exposure
         )
@@ -196,7 +196,7 @@ class DailyStrategyRunner:
                 )
             )
             decision = await reconcile_decision_order(self.database, self.broker, decision)
-        await self._record_performance(decision, market.bars)
+        await self._record_performance(decision, market.bars, fees)
         await capture_paper_account(
             settings=self.settings,
             database=self.database,
@@ -254,14 +254,12 @@ class DailyStrategyRunner:
         if hasattr(self.broker, "btc_price"):
             self.broker.btc_price = price
 
-    def _managed_portfolio_value(self, current_price: Decimal) -> Decimal:
-        """Mark the isolated $1,000 research portfolio without using broker account size."""
-        return managed_ledger(self.database, current_price)[3]
-
-    async def _record_performance(self, decision: DecisionRecord, bars) -> None:
+    async def _record_performance(
+        self, decision: DecisionRecord, bars, fees: CryptoFees
+    ) -> None:
         rows = self.database.list_performance()
         if not rows:
-            cyclequant = managed_ledger(self.database, decision.btc_price)[3]
+            cyclequant = managed_ledger(self.database, decision.btc_price, fees)[3]
             buy_hold = STARTING_CAPITAL
             ma200 = STARTING_CAPITAL
         else:
@@ -269,7 +267,7 @@ class DailyStrategyRunner:
             previous_price = Decimal(str(previous["btc_price"]))
             current_price = decision.btc_price
             buy_hold = STARTING_CAPITAL * current_price / Decimal(str(rows[0]["btc_price"]))
-            cyclequant = managed_ledger(self.database, current_price)[3]
+            cyclequant = managed_ledger(self.database, current_price, fees)[3]
             previous_ma = Decimal(str(previous["ma200_value"] or previous["cash_value"]))
             prior_closes = [
                 bar.close for bar in bars if bar.timestamp.date() < decision.decision_date

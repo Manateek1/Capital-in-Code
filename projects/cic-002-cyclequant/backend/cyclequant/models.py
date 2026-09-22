@@ -280,6 +280,8 @@ class PaperAccountSnapshot(BaseModel):
     actual_btc_exposure: Decimal | None = Field(default=None, ge=0, le=100)
     managed_btc_quantity: Decimal = Field(ge=0)
     managed_btc_value: Decimal = Field(ge=0)
+    btc_fee_quantity: Decimal = Field(default=Decimal("0"), ge=0)
+    usd_fees_paid: Decimal = Field(default=Decimal("0"), ge=0)
     position_reconciled: bool
     latest_action: Action
     latest_order_status: OrderStatus

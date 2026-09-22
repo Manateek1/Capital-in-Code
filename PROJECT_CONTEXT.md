@@ -250,6 +250,12 @@ caveats in a public-facing format.
   the existing idempotent workflow once when safe and alerts Dillon only on
   actionable failure or mismatch. GitHub Actions remains the primary runner;
   this secondary check does not guarantee uptime.
+- Tight one-cent reconciliation revealed that Alpaca's BTC/USD paper fill
+  quantity is gross while its crypto buy fee is deducted from the BTC received.
+  The managed ledger must subtract posted `CFEE` BTC activity (and any BTC/USD
+  USD-denominated `FEE` activity) before comparing with the net Alpaca paper
+  position. If fee activities have not posted, keep the mismatch visible and
+  trading blocked rather than assuming a fixed fee percentage.
 
 ### Historical repository snapshot — 2026-07-29
 

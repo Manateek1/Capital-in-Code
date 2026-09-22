@@ -2,7 +2,9 @@ name: CycleQuant daily evaluation
 
 on:
   schedule:
-    - cron: "30 6 * * *"
+    - cron: "23 * * * *" # Refresh the public paper mirror hourly.
+    - cron: "37 6 * * *" # Primary daily decision.
+    - cron: "47 8 * * *" # Recovery run; the decision is idempotent.
   workflow_dispatch:
     inputs:
       mode:
@@ -31,7 +33,7 @@ jobs:
       CQ_BROKER_MODE: ${{ vars.CYCLEQUANT_BROKER_MODE || 'simulated' }}
       CQ_TRADING_ENABLED: ${{ vars.CYCLEQUANT_TRADING_ENABLED || 'false' }}
       CQ_NEWS_ANALYZER: ${{ vars.CYCLEQUANT_NEWS_ANALYZER || 'heuristic' }}
-      CQ_RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'daily' }}
+      CQ_RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || github.event.schedule == '23 * * * *' && 'sync-broker' || 'daily' }}
       CQ_LOG_JSON: "true"
       SUPABASE_URL: ${{ secrets.CYCLEQUANT_SUPABASE_URL }}
       SUPABASE_PUBLISHABLE_KEY: ${{ secrets.CYCLEQUANT_SUPABASE_PUBLISHABLE_KEY }}
@@ -42,22 +44,25 @@ jobs:
 
     steps:
       - name: Check cloud configuration
-        id: configuration
         shell: bash
         run: |
-          if [[ -n "$SUPABASE_URL" && -n "$SUPABASE_PUBLISHABLE_KEY" && -n "$CYCLEQUANT_WRITE_TOKEN" ]]; then
-            echo "configured=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "CycleQuant is not configured yet; skipping the scheduled run."
+          if [[ -z "$SUPABASE_URL" || -z "$SUPABASE_PUBLISHABLE_KEY" || -z "$CYCLEQUANT_WRITE_TOKEN" ]]; then
+            echo "Required CycleQuant database configuration is missing." >&2
+            exit 1
+          fi
+          if [[ "$CQ_BROKER_MODE" != "alpaca-paper" || "$CQ_TRADING_ENABLED" != "true" ]]; then
+            echo "CycleQuant paper execution is not enabled." >&2
+            exit 1
+          fi
+          if [[ -z "$ALPACA_API_KEY_ID" || -z "$ALPACA_API_SECRET_KEY" ]]; then
+            echo "Alpaca paper credentials are missing." >&2
+            exit 1
           fi
 
       - name: Check out repository
-        if: steps.configuration.outputs.configured == 'true'
         uses: actions/checkout@v5
 
       - name: Set up Python
-        if: steps.configuration.outputs.configured == 'true'
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
@@ -65,21 +70,30 @@ jobs:
           cache-dependency-path: projects/cic-002-cyclequant/requirements.txt
 
       - name: Install CycleQuant
-        if: steps.configuration.outputs.configured == 'true'
         working-directory: projects/cic-002-cyclequant
         run: python -m pip install --disable-pip-version-check .
 
       - name: Run CycleQuant
-        if: steps.configuration.outputs.configured == 'true'
         working-directory: projects/cic-002-cyclequant
         shell: bash
         run: |
+          retry() {
+            local attempt
+            for attempt in 1 2 3; do
+              if "$@"; then return 0; fi
+              if [[ "$attempt" == 3 ]]; then return 1; fi
+              sleep $((attempt * 15))
+            done
+          }
           case "$CQ_RUN_MODE" in
             daily)
-              cyclequant daily
+              retry cyclequant daily
+              retry cyclequant sync-broker
+              cyclequant health --require-today
               ;;
             sync-broker)
-              cyclequant sync-broker
+              retry cyclequant sync-broker
+              cyclequant health
               ;;
             *)
               echo "Unsupported CycleQuant run mode: $CQ_RUN_MODE" >&2

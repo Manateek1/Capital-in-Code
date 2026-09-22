@@ -1,4 +1,4 @@
-# Cloud deployment
+# Cloud deployment and operations
 
 CycleQuant is cloud-first so no personal computer needs to remain online. The
 baseline is designed for free tiers. Database migrations and deployments can
@@ -42,11 +42,13 @@ Add repository variables:
 - `CYCLEQUANT_TRADING_ENABLED=false` initially
 - `CYCLEQUANT_NEWS_ANALYZER=heuristic` initially; optional `gemini`
 
-The scheduled workflow runs at 06:30 UTC and can also be dispatched manually.
-It exits successfully without running when the three required Supabase values
-are absent, so merging the code does not create a failing unconfigured schedule.
-Keep trading disabled through migration, first data collection, and audit
-review. Enabling it affects only the configured Alpaca **paper** account.
+Production currently uses `alpaca-paper`, with paper execution enabled. The
+workflow refreshes the broker mirror hourly, makes the primary decision at
+06:37 UTC, and runs an idempotent recovery at 08:47 UTC. It can also be
+dispatched manually. Missing required configuration or a failed health check
+fails the run visibly. For a new installation, keep trading disabled through
+migration, initial data collection, and audit review. Enabling it affects only
+the configured Alpaca **paper** account.
 
 ## 3. Configure public Vercel reads
 
@@ -58,10 +60,10 @@ can override them later without changing source:
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 
 Never add the CycleQuant writer token or a service-role key to Vercel or any
-`VITE_*` variable. The dashboard displays the labeled committed demo fixture
-until the database contains its first published decision. Its paper-account
-strip remains `CONNECTION PENDING` until a verified Alpaca paper snapshot is
-published; a simulated snapshot is never labeled connected.
+`VITE_*` variable. The production dashboard never silently uses the committed
+demo fixture. If public data is unavailable, it shows an error or the last
+verified snapshot with a freshness warning. The demo fixture is available
+only in explicit local demo mode with `VITE_CYCLEQUANT_DEMO=true`.
 
 The site's existing SPA rewrite already supports direct visits to
 `/projects/cic-002-cyclequant` on `capitalincode.com`.
@@ -84,6 +86,20 @@ The site's existing SPA rewrite already supports direct visits to
 10. Verify the exact paper endpoint, account health, managed position, and
     reconciliation result.
 11. Only then, if desired, set `CYCLEQUANT_TRADING_ENABLED=true`.
+
+## Ongoing health
+
+Open GitHub Actions → **CycleQuant daily evaluation**. A normal hourly or daily
+run finishes with `cyclequant health` and `"ok":true`. The `daily` mode also
+requires a decision for the current UTC date. If a run fails, inspect its
+error; do not submit a compensating order by hand. The site should show
+`ALPACA PAPER · CONNECTED`, a recent snapshot, and a reconciled position.
+An overdue sync is labeled `STALE` on the public page.
+
+The monthly **CycleQuant schedule keepalive** workflow makes an empty commit
+to keep GitHub's public-repository schedule from being disabled after 60 days
+without repository activity. GitHub can still delay scheduled jobs, and this
+workflow must itself be able to push to the repository's default branch.
 
 ## Optional Windows fallback
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Link, NavLink, Route, Routes } from "react-router-dom";
+import { loadCycleQuantPreview } from "./cyclequant/data";
 import "./styles.css";
 
 const CycleQuantDashboard = React.lazy(() => import("./cyclequant/CycleQuantDashboard"));
@@ -53,6 +54,43 @@ function LinkArrow({ children, ...props }) {
   return <Link className="text-link" {...props}>{children} <span aria-hidden="true">→</span></Link>;
 }
 
+function CycleQuantPreview() {
+  const [preview, setPreview] = React.useState(null);
+  const [unavailable, setUnavailable] = React.useState(false);
+  React.useEffect(() => {
+    let controller;
+    const refresh = () => {
+      controller?.abort();
+      controller = new AbortController();
+      loadCycleQuantPreview(controller.signal)
+        .then((next) => { setPreview(next); setUnavailable(false); })
+        .catch((error) => { if (error.name !== "AbortError") setUnavailable(true); });
+    };
+    refresh();
+    const timer = window.setInterval(refresh, 5 * 60 * 1000);
+    const onFocus = () => refresh();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      controller?.abort();
+      window.clearInterval(timer);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, []);
+  const stale = preview && Date.now() - new Date(preview.capturedAt).getTime() > 2 * 60 * 60 * 1000;
+  const status = !preview
+    ? unavailable ? "Paper account temporarily unavailable" : "Loading paper account"
+    : unavailable || stale ? "Last verified snapshot" : preview.connected ? "Alpaca paper account connected" : "Position check required";
+  return <div className="cyclequant-preview" aria-label="CycleQuant paper account preview">
+    <p className="cyclequant-preview-status">{status}</p>
+    <div className="cyclequant-preview-metrics">
+      <div><span>Managed paper portfolio</span><strong>{preview ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(preview.equity) : "—"}</strong></div>
+      <div><span>BTC exposure</span><strong>{preview ? `${preview.exposure.toFixed(1)}%` : "—"}</strong></div>
+      <div><span>Latest signal</span><strong>{preview ? Math.round(preview.score) : "—"}<small>{preview ? " / 100" : ""}</small></strong></div>
+    </div>
+    <p className="cyclequant-preview-caption">{preview ? `Paper data checked ${new Intl.DateTimeFormat("en-US", { timeZone: "UTC", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(preview.capturedAt))} UTC` : "Actual paper results appear here after a verified update."}</p>
+  </div>;
+}
+
 function Home() {
   return <Layout>
     <section className="hero">
@@ -74,7 +112,7 @@ function Home() {
       <div className="section-label">New research system</div>
       <div className="feature-grid">
         <div><h2>CIC-002 — CycleQuant</h2><p>A transparent multi-factor Bitcoin allocation experiment with paper-only execution, hard risk controls, daily decisions, and a permanent audit journal.</p><LinkArrow to="/projects/cic-002-cyclequant">Open the dashboard</LinkArrow></div>
-        <div className="cyclequant-preview" aria-label="CycleQuant dashboard preview"><div><span>Paper portfolio</span><b>$1,082.40</b><small>+8.24% since inception</small></div><div><span>Signal</span><b>74</b><small>75% BTC exposure</small></div><i /><i /><i /></div>
+        <CycleQuantPreview />
       </div>
     </section>
     <section className="principles">

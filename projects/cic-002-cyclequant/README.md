@@ -18,8 +18,10 @@ mirrors its sanitized paper-account state. It shows only CycleQuant's isolated
 `$1,000` sleeve, managed BTC position, recent paper orders, data freshness,
 reconciliation state, and deterministic research notes. It never publishes an
 Alpaca account identifier, credential, or headline account balance. The
-committed deterministic fixture remains a local/offline fallback and is
-explicitly labeled when used; it is **not a claimed investment result**.
+committed deterministic fixture is for explicit local demo mode only; it is
+**not a claimed investment result**. Production does not silently substitute it
+if public data is unavailable. See the [project report](PROJECT_REPORT.md) for
+the current paper-account status and operating checks.
 
 ## Hypothesis
 
@@ -74,6 +76,8 @@ deterministic news fallback.
   by integrity hashes.
 - Order sizing uses CycleQuant's isolated `$1,000` research ledger rather than
   the paper account's total buying power; use a dedicated paper account.
+- The ledger uses recorded fill quantities and prices, and a broker-position
+  mismatch blocks the next order until resolved.
 - The public broker mirror is sanitized: it publishes the managed sleeve and
   reconciliation result, never credentials, account IDs, or unrelated funds.
 - The API and public dashboard expose no order-entry endpoint.
@@ -170,6 +174,7 @@ Useful commands:
 python -m pytest
 ruff check backend tests scripts
 cyclequant sync-broker
+cyclequant health --require-today
 cyclequant export-dashboard --output ..\..\site\public\data\cyclequant-dashboard.json
 python scripts\seed_demo.py --database data\cyclequant.db
 ```
@@ -188,15 +193,12 @@ The intended small personal-research deployment uses existing/free services:
 - Broker: Alpaca paper account only
 
 Your Windows computer does not need to stay on. The local Windows task scripts
-remain an optional fallback. No paid service is required by the implementation,
-and paper trading remains disabled until explicitly enabled. To activate the
-real Alpaca mirror, create paper credentials while signed into Alpaca, store
-them only as GitHub Actions secrets named
-`CYCLEQUANT_ALPACA_API_KEY_ID` and
-`CYCLEQUANT_ALPACA_API_SECRET_KEY`, then change the repository variables to
-`CYCLEQUANT_BROKER_MODE=alpaca-paper` and
-`CYCLEQUANT_TRADING_ENABLED=true` after the disabled-trading verification run.
-Do not paste credentials into chat, source files, logs, or Vercel variables.
+remain an optional fallback. Alpaca **paper** mode is active in production;
+its credentials are encrypted GitHub Actions secrets and must never be pasted
+into chat, source files, logs, or Vercel variables. GitHub Actions makes one
+daily decision, retries it once later, and refreshes the public broker mirror
+hourly. Each run includes a health check that fails visibly if the account or
+mirror is unhealthy. The site labels snapshots older than two hours as stale.
 
 Follow [docs/deployment.md](docs/deployment.md) to connect the free hosted
 services without granting the scheduled writer a Supabase service-role key.

@@ -28,7 +28,7 @@ Each project is designed to include:
 | Code | Project | Status |
 | --- | --- | --- |
 | CIC-001 | [The Overnight Effect](projects/cic-001-overnight-effect/) | Complete |
-| CIC-002 | [CycleQuant](projects/cic-002-cyclequant/) | Live; Alpaca paper connection pending |
+| CIC-002 | [CycleQuant](projects/cic-002-cyclequant/) | Live Alpaca paper account and public mirror; [project report](projects/cic-002-cyclequant/PROJECT_REPORT.md) |
 
 ## Links
 

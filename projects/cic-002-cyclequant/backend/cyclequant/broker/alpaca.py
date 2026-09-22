@@ -63,6 +63,7 @@ class AlpacaPaperBroker:
         self.client = client
         self.endpoint = normalized
         self.retries = retries
+        self.btc_price: Decimal | None = None
         self.headers = {
             "APCA-API-KEY-ID": api_key_id,
             "APCA-API-SECRET-KEY": api_secret_key,
@@ -105,6 +106,8 @@ class AlpacaPaperBroker:
         for position in payload:
             symbol = str(position.get("symbol", "")).upper().replace("/", "")
             if symbol == "BTCUSD":
+                if position.get("current_price"):
+                    self.btc_price = Decimal(str(position["current_price"]))
                 return Decimal(str(position.get("qty") or "0"))
         return Decimal("0")
 

@@ -46,6 +46,7 @@ class RiskContext:
     market: MarketDataBundle
     kill_switch_path: Path
     position_quantity: Decimal = Decimal("0")
+    managed_position_quantity: Decimal = Decimal("0")
     strategy_portfolio_value: Decimal = STARTING_CAPITAL
 
 
@@ -149,6 +150,18 @@ class RiskEngine:
                     f"Sell quantity is {intent.quantity}; BTC position is "
                     f"{context.position_quantity}."
                 ),
+            ),
+            RiskCheck(
+                name="position_reconciled",
+                passed=(
+                    abs(context.position_quantity - context.managed_position_quantity)
+                    * context.market.spot_price
+                    <= max(
+                        Decimal("1.00"),
+                        context.strategy_portfolio_value * Decimal("0.005"),
+                    )
+                ),
+                reason="Broker BTC position must match the isolated fill ledger.",
             ),
             RiskCheck(
                 name="market_freshness",

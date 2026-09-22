@@ -161,12 +161,11 @@ async def test_runner_rebalances_against_actual_paper_position(tmp_path, daily_b
         kill_switch_path=tmp_path / "KILL_SWITCH",
         trading_enabled=True,
         confirmation_days=1,
-        initial_exposure=25,
+        initial_exposure=0,
     )
     # A broker account may have a much larger headline balance. CycleQuant must
     # still size only its isolated $1,000 research ledger.
-    broker = DelayedFillBroker(starting_cash=Decimal("99750"), btc_price=price)
-    broker.btc_quantity = Decimal("250") / price
+    broker = DelayedFillBroker(starting_cash=Decimal("100000"), btc_price=price)
     result = await DailyStrategyRunner(
         settings=settings,
         database=database,
@@ -176,8 +175,8 @@ async def test_runner_rebalances_against_actual_paper_position(tmp_path, daily_b
         signal_engine=FixedSignalEngine(),
     ).run(as_of)
 
-    assert result.decision.current_exposure == 25
-    assert result.decision.target_exposure == 50
+    assert result.decision.current_exposure == 0
+    assert result.decision.target_exposure == 25
     assert result.decision.portfolio_value == Decimal("1000.00")
     assert result.decision.trade_value == Decimal("250.00")
     assert result.decision.order_status.value == "FILLED"
@@ -185,8 +184,8 @@ async def test_runner_rebalances_against_actual_paper_position(tmp_path, daily_b
     assert [event.status for event in events] == [OrderStatus.PENDING, OrderStatus.FILLED]
     account_snapshot = database.latest_paper_account_snapshot()
     assert account_snapshot is not None
-    assert account_snapshot.btc_exposure == 50
-    assert account_snapshot.managed_btc_value == Decimal("500.00")
+    assert account_snapshot.btc_exposure == 25
+    assert account_snapshot.managed_btc_value == Decimal("250.00")
     assert account_snapshot.position_reconciled
     assert account_snapshot.latest_order_status == OrderStatus.FILLED
     dashboard = build_dashboard_payload(database)

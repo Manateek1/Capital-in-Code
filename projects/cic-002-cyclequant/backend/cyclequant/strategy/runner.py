@@ -7,7 +7,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from pydantic import BaseModel
 
 from cyclequant.broker.base import PaperBroker
-from cyclequant.broker.coordinator import OrderCoordinator
+from cyclequant.broker.coordinator import OrderCoordinator, reconcile_decision_order
 from cyclequant.broker.mirror import capture_paper_account
 from cyclequant.config import Settings
 from cyclequant.constants import ALLOWED_EXPOSURES, STARTING_CAPITAL, STRATEGY_VERSION
@@ -72,6 +72,7 @@ class DailyStrategyRunner:
         if existing:
             logger.info("daily evaluation already exists", extra={"decision_id": existing.id})
             self._mark_simulated_price(existing.btc_price)
+            existing = await reconcile_decision_order(self.database, self.broker, existing)
             await capture_paper_account(
                 settings=self.settings,
                 database=self.database,
@@ -85,7 +86,10 @@ class DailyStrategyRunner:
         news = await self.news_analyzer.analyze(market.news, evaluated_at)
         signals = self.signal_engine.score(market, news_score=news.score)
         prior = self.database.list_decisions(limit=1)
-        allocation_state = self._allocation_state(prior[0] if prior else None, decision_date)
+        previous = prior[0] if prior else None
+        if previous is not None:
+            previous = await reconcile_decision_order(self.database, self.broker, previous)
+        allocation_state = self._allocation_state(previous, decision_date)
         recommendation = self.allocation_engine.recommend(signals, allocation_state)
 
         self._mark_simulated_price(market.spot_price)
@@ -187,6 +191,7 @@ class DailyStrategyRunner:
                     },
                 )
             )
+            decision = await reconcile_decision_order(self.database, self.broker, decision)
         await self._record_performance(decision, market.bars)
         await capture_paper_account(
             settings=self.settings,
@@ -196,9 +201,7 @@ class DailyStrategyRunner:
         )
         return DailyEvaluationResult(created=True, decision=decision, news_analysis=news)
 
-    def _allocation_state(
-        self, previous: DecisionRecord | None, decision_date
-    ) -> AllocationState:
+    def _allocation_state(self, previous: DecisionRecord | None, decision_date) -> AllocationState:
         if previous is None:
             return AllocationState(current_exposure=self.settings.initial_exposure)
         order_executed = previous.order_status == OrderStatus.FILLED
@@ -272,17 +275,14 @@ class DailyStrategyRunner:
             previous = rows[-1]
             previous_price = Decimal(str(previous["btc_price"]))
             current_price = decision.btc_price
-            buy_hold = (
-                STARTING_CAPITAL * current_price / Decimal(str(rows[0]["btc_price"]))
-            )
+            buy_hold = STARTING_CAPITAL * current_price / Decimal(str(rows[0]["btc_price"]))
             cyclequant = Decimal(str(decision.portfolio_value))
             previous_ma = Decimal(str(previous["ma200_value"] or previous["cash_value"]))
             prior_closes = [
                 bar.close for bar in bars if bar.timestamp.date() < decision.decision_date
             ]
             invested = (
-                len(prior_closes) >= 200
-                and prior_closes[-1] > sum(prior_closes[-200:]) / 200
+                len(prior_closes) >= 200 and prior_closes[-1] > sum(prior_closes[-200:]) / 200
             )
             ma200 = previous_ma * current_price / previous_price if invested else previous_ma
         resulting_exposure = (

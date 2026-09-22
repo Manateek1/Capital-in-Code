@@ -1,13 +1,105 @@
 from __future__ import annotations
 
 import logging
+from decimal import Decimal
 
 from cyclequant.broker.base import PaperBroker
 from cyclequant.database import Repository
-from cyclequant.models import OrderResult, OrderStatus, TradeIntent
+from cyclequant.models import (
+    Action,
+    DecisionRecord,
+    OrderEvent,
+    OrderResult,
+    OrderStatus,
+    TradeIntent,
+)
 from cyclequant.risk import RiskEvaluation
 
 logger = logging.getLogger(__name__)
+
+TERMINAL_ORDER_STATUSES = {
+    OrderStatus.FILLED,
+    OrderStatus.CANCELED,
+    OrderStatus.REJECTED,
+    OrderStatus.FAILED,
+}
+
+
+def resolve_decision_order_state(
+    decision: DecisionRecord, events: list[OrderEvent]
+) -> DecisionRecord:
+    """Overlay the latest append-only broker event on an immutable decision."""
+
+    if not events:
+        return decision
+    latest = events[-1]
+    filled_quantity = latest.filled_quantity or decision.trade_quantity
+    fill_price = latest.filled_average_price or decision.fill_price
+    trade_value = decision.trade_value
+    if filled_quantity and fill_price is not None:
+        trade_value = (filled_quantity * fill_price).quantize(Decimal("0.01"))
+    return decision.model_copy(
+        update={
+            "order_status": latest.status,
+            "trade_quantity": filled_quantity,
+            "fill_price": fill_price,
+            "trade_value": trade_value,
+        }
+    )
+
+
+async def reconcile_decision_order(
+    database: Repository,
+    broker: PaperBroker,
+    decision: DecisionRecord,
+) -> DecisionRecord:
+    """Append a broker lifecycle event and return the effective decision state."""
+
+    events = database.list_order_events(decision.id)
+    effective = resolve_decision_order_state(decision, events)
+    if effective.action == Action.HOLD or effective.order_status in TERMINAL_ORDER_STATUSES:
+        return effective
+
+    client_order_id = next(
+        (
+            str(event.payload["client_order_id"])
+            for event in reversed(events)
+            if event.payload.get("client_order_id")
+        ),
+        None,
+    )
+    if client_order_id is None:
+        return effective
+
+    result = await broker.get_order_by_client_id(client_order_id)
+    if result is None:
+        return effective
+
+    latest = events[-1] if events else None
+    unchanged = bool(
+        latest
+        and latest.status == result.status
+        and latest.filled_quantity == result.filled_quantity
+        and latest.filled_average_price == result.filled_average_price
+    )
+    if unchanged:
+        return effective
+
+    reconciled = OrderEvent(
+        decision_id=decision.id,
+        order_id=result.order_id,
+        event_type="broker_reconciliation",
+        status=result.status,
+        filled_quantity=result.filled_quantity,
+        filled_average_price=result.filled_average_price,
+        payload={
+            "client_order_id": result.client_order_id,
+            "requested_notional": str(result.requested_notional),
+            "error": result.error,
+        },
+    )
+    database.append_order_event(reconciled)
+    return resolve_decision_order_state(decision, [*events, reconciled])
 
 
 class OrderCoordinator:

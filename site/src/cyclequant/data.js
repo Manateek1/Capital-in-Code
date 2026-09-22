@@ -38,8 +38,30 @@ function metrics(values, elapsedDays) {
   };
 }
 
-function fromSupabase(decisionRows, performanceRows, brokerRows) {
-  const decisions = decisionRows.map((row) => row.payload);
+function resolveOrderEvents(decisionRows, orderEventRows) {
+  const latestByDecision = new Map();
+  orderEventRows.forEach((row) => latestByDecision.set(row.decision_id, row.payload));
+  return decisionRows.map((row) => {
+    const decision = row.payload;
+    const event = latestByDecision.get(row.id);
+    if (!event) return decision;
+    const filledQuantity = Number(event.filled_quantity || decision.trade_quantity || 0);
+    const fillPrice = event.filled_average_price ?? decision.fill_price;
+    return {
+      ...decision,
+      order_status: event.status,
+      trade_quantity: filledQuantity,
+      fill_price: fillPrice,
+      trade_value:
+        filledQuantity && fillPrice != null
+          ? filledQuantity * Number(fillPrice)
+          : decision.trade_value,
+    };
+  });
+}
+
+function fromSupabase(decisionRows, performanceRows, brokerRows, orderEventRows) {
+  const decisions = resolveOrderEvents(decisionRows, orderEventRows);
   const paperAccount = brokerRows[0]?.payload ?? null;
   const performance = performanceRows.map((row) => ({
     date: row.as_of,
@@ -116,7 +138,7 @@ export async function loadCycleQuantData(signal) {
   const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
   if (url && key) {
     try {
-      const [decisions, performance, brokers] = await Promise.all([
+      const [decisions, performance, brokers, orderEvents] = await Promise.all([
         fetchJson(
           `${url}/rest/v1/cq_public_decisions?select=*&order=decision_date.desc&limit=1000`,
           key,
@@ -128,8 +150,13 @@ export async function loadCycleQuantData(signal) {
           key,
           signal,
         ),
+        fetchJson(
+          `${url}/rest/v1/cq_public_order_events?select=*&order=occurred_at.asc&limit=5000`,
+          key,
+          signal,
+        ),
       ]);
-      if (decisions.length) return fromSupabase(decisions, performance, brokers);
+      if (decisions.length) return fromSupabase(decisions, performance, brokers, orderEvents);
     } catch (error) {
       console.warn("CycleQuant cloud data unavailable; showing the deterministic demo.", error);
     }

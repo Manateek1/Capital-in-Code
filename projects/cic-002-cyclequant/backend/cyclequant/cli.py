@@ -10,7 +10,12 @@ import httpx
 import uvicorn
 
 from cyclequant.api import create_app
-from cyclequant.broker import AlpacaPaperBroker, SimulatedPaperBroker, capture_paper_account
+from cyclequant.broker import (
+    AlpacaPaperBroker,
+    SimulatedPaperBroker,
+    capture_paper_account,
+    reconcile_decision_order,
+)
 from cyclequant.config import Settings, load_settings
 from cyclequant.data.aggregator import build_default_pipeline, build_http_client
 from cyclequant.database import Database, Repository, SupabaseDatabase
@@ -123,6 +128,7 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
         broker = _broker(settings, client)
         if hasattr(broker, "btc_price"):
             broker.btc_price = decision.btc_price
+        decision = await reconcile_decision_order(database, broker, decision)
         snapshot = await capture_paper_account(
             settings=settings,
             database=database,
@@ -136,6 +142,7 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
                 "broker_mode": snapshot.broker_mode,
                 "connected": snapshot.connected,
                 "position_reconciled": snapshot.position_reconciled,
+                "latest_order_status": snapshot.latest_order_status.value,
             },
             separators=(",", ":"),
         )

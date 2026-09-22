@@ -7,6 +7,7 @@ from decimal import Decimal
 from itertools import pairwise
 from typing import Any
 
+from cyclequant.broker import resolve_decision_order_state
 from cyclequant.constants import STARTING_CAPITAL
 from cyclequant.database import Repository
 from cyclequant.models import DecisionRecord, OrderStatus
@@ -69,7 +70,12 @@ def _resulting_exposure(decision: DecisionRecord) -> int:
 
 
 def build_dashboard_payload(database: Repository) -> dict[str, Any]:
-    decisions = database.list_decisions(limit=1000)
+    decisions = [
+        resolve_decision_order_state(decision, database.list_order_events(decision.id))
+        if decision.action.value != "HOLD"
+        else decision
+        for decision in database.list_decisions(limit=1000)
+    ]
     performance = database.list_performance()
     latest = decisions[0] if decisions else None
     oldest_date = datetime.fromisoformat(performance[0]["as_of"]).date() if performance else None

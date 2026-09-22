@@ -32,9 +32,9 @@ function metrics(values, elapsedDays) {
     annualized_return:
       elapsedDays >= 30 ? (values.at(-1) / values[0]) ** (365 / elapsedDays) - 1 : null,
     max_drawdown: maxDrawdown(values),
-    annualized_volatility: returns.length > 1 ? standardDeviation * Math.sqrt(365) : null,
+    annualized_volatility: returns.length >= 30 ? standardDeviation * Math.sqrt(365) : null,
     approximate_sharpe:
-      returns.length > 1 && standardDeviation ? (mean / standardDeviation) * Math.sqrt(365) : null,
+      returns.length >= 30 && standardDeviation ? (mean / standardDeviation) * Math.sqrt(365) : null,
   };
 }
 

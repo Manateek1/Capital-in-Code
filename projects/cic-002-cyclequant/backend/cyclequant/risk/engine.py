@@ -156,10 +156,7 @@ class RiskEngine:
                 passed=(
                     abs(context.position_quantity - context.managed_position_quantity)
                     * context.market.spot_price
-                    <= max(
-                        Decimal("1.00"),
-                        context.strategy_portfolio_value * Decimal("0.005"),
-                    )
+                    <= Decimal("0.01")
                 ),
                 reason="Broker BTC position must match the isolated fill ledger.",
             ),

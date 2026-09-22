@@ -80,7 +80,7 @@ async def capture_paper_account(
         else Decimal("0")
     ).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
     reconciliation_difference = abs(broker_quantity - managed_quantity) * mark_price
-    reconciliation_tolerance = max(Decimal("1.00"), managed_value * Decimal("0.005"))
+    reconciliation_tolerance = Decimal("0.01")
     is_alpaca = account.endpoint == ALPACA_PAPER_BASE_URL
     snapshot = PaperAccountSnapshot(
         broker_mode="alpaca-paper" if is_alpaca else "simulated",

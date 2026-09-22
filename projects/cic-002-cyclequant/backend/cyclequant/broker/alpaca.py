@@ -92,13 +92,21 @@ class AlpacaPaperBroker:
         )
 
     async def get_btc_position_quantity(self) -> Decimal:
-        response = await self.client.get(
-            f"{self.endpoint}/v2/positions/BTCUSD", headers=self.headers
+        payload = await request_json(
+            self.client,
+            "alpaca_paper_positions",
+            "GET",
+            f"{self.endpoint}/v2/positions",
+            headers=self.headers,
+            retries=self.retries,
         )
-        if response.status_code == 404:
-            return Decimal("0")
-        response.raise_for_status()
-        return Decimal(str(response.json().get("qty", "0")))
+        if not isinstance(payload, list):
+            raise ValueError("Alpaca positions response must be a list")
+        for position in payload:
+            symbol = str(position.get("symbol", "")).upper().replace("/", "")
+            if symbol == "BTCUSD":
+                return Decimal(str(position.get("qty") or "0"))
+        return Decimal("0")
 
     async def submit_market_order(self, intent: TradeIntent) -> OrderResult:
         if intent.symbol != BTC_USD:

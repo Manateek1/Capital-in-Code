@@ -142,6 +142,28 @@ async def test_alpaca_adapter_rejects_live_or_lookalike_hosts_async() -> None:
                 raise AssertionError(f"unsafe URL was accepted: {url}")
 
 
+async def test_alpaca_adapter_reads_btc_from_positions_list() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.path == "/v2/positions"
+        return httpx.Response(
+            200,
+            json=[
+                {"symbol": "ETH/USD", "qty": "0.25"},
+                {"symbol": "BTC/USD", "qty": "0.00285828"},
+            ],
+        )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        broker = AlpacaPaperBroker(
+            client,
+            api_key_id="test",
+            api_secret_key="test",
+        )
+        quantity = await broker.get_btc_position_quantity()
+
+    assert quantity == Decimal("0.00285828")
+
+
 async def test_order_coordinator_never_duplicates_submission(tmp_path, daily_bars) -> None:
     context = make_context(tmp_path, daily_bars)
     risk = RiskEngine().evaluate(context)

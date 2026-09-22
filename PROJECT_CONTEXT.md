@@ -232,7 +232,8 @@ caveats in a public-facing format.
   must derive from the immutable Alpaca fill ledger. The first `$250` target
   executed for about `$245.10`; the public site must not present that target
   as the actual fill. A broker-position mismatch is a stop condition for new
-  orders and a visible public warning. Never use unrelated Alpaca paper-account
+  orders and a visible public warning; reconciliation tolerance is one cent of
+  BTC market value. Never use unrelated Alpaca paper-account
   equity to scale CycleQuant's isolated `$1,000` sleeve.
 - The cloud operating design is daily evaluation at 06:37 UTC, idempotent
   recovery at 08:47 UTC, hourly broker-mirror refresh, health checks that fail
@@ -242,7 +243,13 @@ caveats in a public-facing format.
   schedules remain best-effort, not a guarantee of uninterrupted execution.
 - `projects/cic-002-cyclequant/PROJECT_REPORT.md` is the public plain-language
   record of status, first paper fill, architecture, safeguards, operating
-  checks, costs, and limitations. The site links to it.
+  checks, costs, and limitations. The site links to it. Very short samples
+  should not show annualized volatility or Sharpe estimates as meaningful.
+- A quiet daily Codex heartbeat named `CycleQuant health watch` checks the
+  GitHub workflow and public mirror after the recovery window. It may retry
+  the existing idempotent workflow once when safe and alerts Dillon only on
+  actionable failure or mismatch. GitHub Actions remains the primary runner;
+  this secondary check does not guarantee uptime.
 
 ### Historical repository snapshot — 2026-07-29
 

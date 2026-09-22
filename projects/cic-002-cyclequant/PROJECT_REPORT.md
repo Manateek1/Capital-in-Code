@@ -26,6 +26,8 @@ There is not enough operating history to claim outperformance. The benchmark and
 4. The Capital in Code website reads those public views, refreshes automatically, and marks an overdue snapshot **stale** rather than treating it as live. It does not silently substitute sample results in production.
 5. A monthly repository keepalive protects the GitHub Actions schedule from GitHub's inactivity shutdown for public repositories. Scheduled runs can still be delayed by GitHub, so the page's freshness warning remains important.
 
+A separate daily Codex health watch checks for missed decisions and stale or mismatched public data after the recovery window. It can retry the existing idempotent GitHub workflow once and alerts the owner only when recovery fails or action is needed. It is a secondary check, not a guarantee that external services will always be available.
+
 The production website is on the existing Capital in Code Vercel deployment and domain. The trading process is cloud-hosted by GitHub Actions; the user's Windows computer does not need to remain on. The project uses the existing Supabase free project and Alpaca paper account. No paid OpenAI API key is required: the news input currently uses a deterministic local heuristic.
 
 ## Safety boundaries

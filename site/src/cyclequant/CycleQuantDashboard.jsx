@@ -134,7 +134,7 @@ function PerformancePanel({ data, metrics }) {
   const cqMetrics = metrics.cyclequant ?? {};
   return <section className="cq-panel cq-performance" aria-labelledby="performance-title">
     <div className="cq-panel-header">
-      <div><p className="cq-eyebrow">BENCHMARKING</p><h2 id="performance-title">Performance since inception</h2><p className="cq-panel-subtitle">Daily history; latest point reflects the paper account mark.</p></div>
+      <div><p className="cq-eyebrow">BENCHMARKING</p><h2 id="performance-title">Performance since inception</h2><p className="cq-panel-subtitle">{data.length < 30 ? "Early sample; " : "Daily history; "}latest point reflects the paper account mark.</p></div>
       <div className="cq-range" aria-label="Chart date range">{["1M", "3M", "All"].map((item) => <button type="button" className={range === item ? "active" : ""} onClick={() => setRange(item)} key={item}>{item}</button>)}</div>
     </div>
     <div className="cq-chart" aria-label="Portfolio performance chart">
@@ -196,7 +196,7 @@ function CurrentPosition({ account, summary }) {
   const reconciled = Boolean(account?.position_reconciled);
   return <section className="cq-panel cq-mirror-panel" aria-labelledby="position-title">
     <div className="cq-compact-header"><h2 id="position-title">Current position</h2><span>{account?.captured_at ? `As of ${formatDate(account.captured_at, { hour: "2-digit", minute: "2-digit", hour12: false })} UTC` : "Awaiting broker sync"}</span></div>
-    <div className="cq-position-primary"><div><span>BTC position</span><strong>{positionQuantity.toFixed(8)} BTC</strong><small>{money.format(positionValue)} managed value</small></div><div><span>Cash</span><strong>{compactMoney.format(managedCash)}</strong><small>{Math.round((managedCash / summary.portfolio_value) * 100)}% of sleeve</small></div></div>
+    <div className="cq-position-primary"><div><span>BTC position</span><strong>{positionQuantity.toFixed(9)} BTC</strong><small>{money.format(positionValue)} managed value</small></div><div><span>Cash</span><strong>{money.format(managedCash)}</strong><small>{Math.round((managedCash / summary.portfolio_value) * 100)}% of sleeve</small></div></div>
     <dl className="cq-position-facts"><div><dt>Actual portfolio share</dt><dd>{exposure.toFixed(1)}%</dd></div><div><dt>Broker check</dt><dd className={reconciled ? "cq-positive" : "cq-caution"}>{reconciled ? "Reconciled" : "Review required"}</dd></div><div><dt>Environment</dt><dd>Paper only</dd></div></dl>
   </section>;
 }
@@ -205,7 +205,7 @@ function RecentPaperOrders({ trades, onOpen }) {
   const recent = trades.slice(0, 5);
   return <section className="cq-panel cq-mirror-panel cq-orders" aria-labelledby="trades-title">
     <div className="cq-compact-header"><h2 id="trades-title">Recent paper orders</h2><span>{trades.length} allocation changes</span></div>
-    {recent.length ? <><p className="cq-mobile-scroll-hint">Swipe across to view order details →</p><div className="cq-orders-wrap" tabIndex="0" aria-label="Recent paper orders; scroll horizontally for more columns"><table><thead><tr><th>Date</th><th>Side</th><th>Quantity</th><th>Fill</th><th>Status</th><th aria-label="Open record" /></tr></thead><tbody>{recent.map((trade) => <tr key={trade.id}><td>{formatDate(trade.decision_date, { year: undefined })}</td><td><ActionBadge action={trade.action} /></td><td>{Number(trade.trade_quantity || 0).toFixed(6)}</td><td>{trade.fill_price ? compactMoney.format(Number(trade.fill_price)) : "—"}</td><td><span className="cq-status-text"><StatusDot state={trade.order_status === "FILLED" ? "fresh" : "warning"} />{trade.order_status}</span></td><td><button type="button" className="cq-row-open" aria-label={`Open decision from ${trade.decision_date}`} onClick={() => onOpen(trade)}><Icon /></button></td></tr>)}</tbody></table></div></> : <div className="cq-orders-empty"><b>No paper orders yet.</b><span>Daily evaluations are running; an order appears only after every allocation rule clears.</span></div>}
+    {recent.length ? <><p className="cq-mobile-scroll-hint">Swipe across to view order details →</p><div className="cq-orders-wrap" tabIndex="0" aria-label="Recent paper orders; scroll horizontally for more columns"><table><thead><tr><th>Date</th><th>Side</th><th>Quantity</th><th>Fill</th><th>Status</th><th aria-label="Open record" /></tr></thead><tbody>{recent.map((trade) => <tr key={trade.id}><td>{formatDate(trade.decision_date, { year: undefined })}</td><td><ActionBadge action={trade.action} /></td><td>{Number(trade.trade_quantity || 0).toFixed(9)}</td><td>{trade.fill_price ? compactMoney.format(Number(trade.fill_price)) : "—"}</td><td><span className="cq-status-text"><StatusDot state={trade.order_status === "FILLED" ? "fresh" : "warning"} />{trade.order_status}</span></td><td><button type="button" className="cq-row-open" aria-label={`Open decision from ${trade.decision_date}`} onClick={() => onOpen(trade)}><Icon /></button></td></tr>)}</tbody></table></div></> : <div className="cq-orders-empty"><b>No paper orders yet.</b><span>Daily evaluations are running; an order appears only after every allocation rule clears.</span></div>}
   </section>;
 }
 

@@ -139,7 +139,7 @@ def test_order_cannot_scale_to_brokers_headline_balance(tmp_path, daily_bars) ->
 def test_untracked_broker_btc_blocks_new_order(tmp_path, daily_bars) -> None:
     context = replace(
         make_context(tmp_path, daily_bars),
-        position_quantity=Decimal("0.01"),
+        position_quantity=Decimal("0.00001"),
     )
     evaluation = RiskEngine().evaluate(context)
     assert "position_reconciled" in {check.name for check in evaluation.failures}
@@ -250,6 +250,15 @@ async def test_public_mirror_uses_actual_fill_and_current_mark(tmp_path, daily_b
     assert mirrored.btc_exposure == 25
     assert mirrored.actual_btc_exposure == Decimal("24.61")
     assert mirrored.position_reconciled
+
+    broker.btc_quantity += Decimal("0.00001")
+    unmatched = await capture_paper_account(
+        settings=Settings(_env_file=None),
+        database=database,
+        broker=broker,
+        decision=effective,
+    )
+    assert not unmatched.position_reconciled
 
     class PagedDecisions:
         def __init__(self):

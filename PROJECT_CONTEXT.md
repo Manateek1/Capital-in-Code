@@ -185,6 +185,42 @@ caveats in a public-facing format.
   remains HOLD at 0% exposure while the 25% candidate has one of two required
   confirmations.
 
+### CIC-002 Alpaca activation and first paper fill — 2026-09-21
+
+- Dillon explicitly approved regenerating the Alpaca paper API credentials,
+  installing them in GitHub Actions, testing with trading disabled, and then
+  enabling paper execution. The previous Alpaca key was invalidated. The new
+  values exist only as encrypted repository secrets named
+  `CYCLEQUANT_ALPACA_API_KEY_ID` and `CYCLEQUANT_ALPACA_API_SECRET_KEY`; never
+  record or expose either value in project files, logs, or the public site.
+- Production variables are now `CYCLEQUANT_BROKER_MODE=alpaca-paper`,
+  `CYCLEQUANT_TRADING_ENABLED=true`, and
+  `CYCLEQUANT_NEWS_ANALYZER=heuristic`. GitHub Actions run `35686312994`
+  completed the disabled-trading connection test successfully before trading
+  was enabled: the paper account was active, connected, unblocked, and
+  position-reconciled.
+- The first enabled production evaluation, run `35686412629`, created the UTC
+  2026-09-22 decision: BUY, 25% target exposure, 70.78 composite score, and a
+  `$250` target inside the isolated `$1,000` sleeve. Alpaca filled the paper
+  order for `0.002865445 BTC` at an average `$85,535.837013237`, or about
+  `$245.10` executed value. No real-money endpoint or broker headline equity
+  is permitted to affect CycleQuant sizing.
+- Pull requests #6, #7, and #8 are merged. They added a reusable broker-only
+  workflow mode, made BTC position reads robust to Alpaca crypto symbology,
+  and reconciled pending submissions through append-only order events so
+  future allocations and the public dashboard use the actual fill state. The
+  resulting production code is on `main` at commit `5434bb5` before this
+  context update.
+- Final production reconciliation run `35687504482` reported
+  `alpaca-paper`, connected, `FILLED`, and `position_reconciled=true`. The
+  sanitized public mirror shows only the `$1,000` managed sleeve: `$750`
+  strategy cash, 25% BTC exposure, and `$250` managed BTC value.
+- A production browser verification at
+  `https://capitalincode.com/projects/cic-002-cyclequant` confirmed
+  `ALPACA PAPER · CONNECTED`, paper execution enabled, the filled order and
+  exact fill details in the audit drawer, successful reads from all four
+  public Supabase views, and no browser console or rendering errors.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

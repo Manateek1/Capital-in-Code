@@ -4,6 +4,15 @@ on:
   schedule:
     - cron: "30 6 * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run the daily evaluator or only verify and mirror the paper broker"
+        required: true
+        default: daily
+        type: choice
+        options:
+          - daily
+          - sync-broker
 
 concurrency:
   group: cyclequant-daily
@@ -22,6 +31,7 @@ jobs:
       CQ_BROKER_MODE: ${{ vars.CYCLEQUANT_BROKER_MODE || 'simulated' }}
       CQ_TRADING_ENABLED: ${{ vars.CYCLEQUANT_TRADING_ENABLED || 'false' }}
       CQ_NEWS_ANALYZER: ${{ vars.CYCLEQUANT_NEWS_ANALYZER || 'heuristic' }}
+      CQ_RUN_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'daily' }}
       CQ_LOG_JSON: "true"
       SUPABASE_URL: ${{ secrets.CYCLEQUANT_SUPABASE_URL }}
       SUPABASE_PUBLISHABLE_KEY: ${{ secrets.CYCLEQUANT_SUPABASE_PUBLISHABLE_KEY }}
@@ -59,7 +69,20 @@ jobs:
         working-directory: projects/cic-002-cyclequant
         run: python -m pip install --disable-pip-version-check .
 
-      - name: Run daily evaluator
+      - name: Run CycleQuant
         if: steps.configuration.outputs.configured == 'true'
         working-directory: projects/cic-002-cyclequant
-        run: cyclequant daily
+        shell: bash
+        run: |
+          case "$CQ_RUN_MODE" in
+            daily)
+              cyclequant daily
+              ;;
+            sync-broker)
+              cyclequant sync-broker
+              ;;
+            *)
+              echo "Unsupported CycleQuant run mode: $CQ_RUN_MODE" >&2
+              exit 2
+              ;;
+          esac

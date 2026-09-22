@@ -277,6 +277,7 @@ class PaperAccountSnapshot(BaseModel):
     strategy_cash: Decimal = Field(ge=0)
     btc_price: Decimal = Field(gt=0)
     btc_exposure: int
+    actual_btc_exposure: Decimal | None = Field(default=None, ge=0, le=100)
     managed_btc_quantity: Decimal = Field(ge=0)
     managed_btc_value: Decimal = Field(ge=0)
     position_reconciled: bool

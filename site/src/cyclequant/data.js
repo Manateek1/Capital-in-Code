@@ -73,6 +73,19 @@ function fromSupabase(decisionRows, performanceRows, brokerRows, orderEventRows)
     exposure: Number(row.btc_exposure),
   }));
   const latest = decisions[0] ?? null;
+  const mostRecentPerformance = performance.at(-1);
+  if (paperAccount && mostRecentPerformance && latest
+    && mostRecentPerformance.date === latest.decision_date) {
+    const markedPrice = Number(paperAccount.btc_price);
+    if (markedPrice > 0 && mostRecentPerformance.btc_price > 0) {
+      mostRecentPerformance.btc_buy_hold *= markedPrice / mostRecentPerformance.btc_price;
+      mostRecentPerformance.btc_price = markedPrice;
+      mostRecentPerformance.cyclequant = Number(paperAccount.strategy_portfolio_value);
+      mostRecentPerformance.exposure = Number(
+        paperAccount.actual_btc_exposure ?? paperAccount.btc_exposure,
+      );
+    }
+  }
   const firstDate = performance[0]?.date;
   const lastDate = performance.at(-1)?.date;
   const elapsedDays = firstDate && lastDate
@@ -84,10 +97,13 @@ function fromSupabase(decisionRows, performanceRows, brokerRows, orderEventRows)
     paperAccount?.strategy_portfolio_value ?? performance.at(-1)?.cyclequant ?? 1000,
   );
   const currentExposure = Number(
-    paperAccount?.btc_exposure
+    paperAccount?.actual_btc_exposure
+      ?? paperAccount?.btc_exposure
       ?? (latest?.order_status === "FILLED" ? latest.target_exposure : latest?.current_exposure)
       ?? 0,
   );
+  const currentMetrics = metrics(series("cyclequant"), elapsedDays);
+  currentMetrics.total_return = portfolioValue / 1000 - 1;
   return {
     schema_version: 2,
     generated_at: new Date().toISOString(),
@@ -100,7 +116,9 @@ function fromSupabase(decisionRows, performanceRows, brokerRows, orderEventRows)
       ),
       total_return: portfolioValue / 1000 - 1,
       current_exposure: currentExposure,
-      btc_price: latest ? Number(latest.btc_price) : null,
+      btc_price: paperAccount?.btc_price
+        ? Number(paperAccount.btc_price)
+        : latest ? Number(latest.btc_price) : null,
       signal_score: latest?.signals?.total_score ?? null,
       confidence: latest?.signals?.confidence ?? null,
       latest_action: latest?.action ?? "HOLD",
@@ -108,7 +126,7 @@ function fromSupabase(decisionRows, performanceRows, brokerRows, orderEventRows)
     },
     performance,
     metrics: {
-      cyclequant: metrics(series("cyclequant"), elapsedDays),
+      cyclequant: currentMetrics,
       btc_buy_hold: metrics(series("btc_buy_hold"), elapsedDays),
       cash: metrics(series("cash"), elapsedDays),
       ma200: metrics(series("ma200"), elapsedDays),
@@ -136,32 +154,63 @@ async function fetchJson(url, key, signal) {
 export async function loadCycleQuantData(signal) {
   const url = (import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, "");
   const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
-  if (url && key) {
-    try {
-      const [decisions, performance, brokers, orderEvents] = await Promise.all([
-        fetchJson(
-          `${url}/rest/v1/cq_public_decisions?select=*&order=decision_date.desc&limit=1000`,
-          key,
-          signal,
-        ),
-        fetchJson(`${url}/rest/v1/cq_public_performance?select=*&order=as_of.asc&limit=1000`, key, signal),
-        fetchJson(
-          `${url}/rest/v1/cq_public_broker_snapshots?select=*&order=captured_at.desc&limit=1`,
-          key,
-          signal,
-        ),
-        fetchJson(
-          `${url}/rest/v1/cq_public_order_events?select=*&order=occurred_at.asc&limit=5000`,
-          key,
-          signal,
-        ),
-      ]);
-      if (decisions.length) return fromSupabase(decisions, performance, brokers, orderEvents);
-    } catch (error) {
-      console.warn("CycleQuant cloud data unavailable; showing the deterministic demo.", error);
-    }
+  if (import.meta.env.VITE_CYCLEQUANT_DEMO === "true") {
+    const response = await fetch(STATIC_DEMO_URL, { signal });
+    if (!response.ok) throw new Error("CycleQuant demo data could not be loaded.");
+    return { ...(await response.json()), _source: "demo" };
   }
-  const response = await fetch(STATIC_DEMO_URL, { signal });
-  if (!response.ok) throw new Error("CycleQuant demo data could not be loaded.");
-  return { ...(await response.json()), _source: "demo" };
+  const [decisions, performance, brokers, orderEvents] = await Promise.all([
+    fetchJson(
+      `${url}/rest/v1/cq_public_decisions?select=*&order=decision_date.desc&limit=1000`,
+      key,
+      signal,
+    ),
+    fetchJson(`${url}/rest/v1/cq_public_performance?select=*&order=as_of.asc&limit=1000`, key, signal),
+    fetchJson(
+      `${url}/rest/v1/cq_public_broker_snapshots?select=*&order=captured_at.desc&limit=1`,
+      key,
+      signal,
+    ),
+    fetchJson(
+      `${url}/rest/v1/cq_public_order_events?select=*&order=occurred_at.asc&limit=5000`,
+      key,
+      signal,
+    ),
+  ]);
+  return fromSupabase(decisions, performance, brokers, orderEvents);
+}
+
+export async function loadCycleQuantPreview(signal) {
+  const url = (import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, "");
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY;
+  const [brokers, decisions] = await Promise.all([
+    fetchJson(
+      `${url}/rest/v1/cq_public_broker_snapshots?select=*&order=captured_at.desc&limit=1`,
+      key,
+      signal,
+    ),
+    fetchJson(
+      `${url}/rest/v1/cq_public_decisions?select=*&order=decision_date.desc&limit=1`,
+      key,
+      signal,
+    ),
+  ]);
+  const account = brokers[0]?.payload;
+  const decision = decisions[0]?.payload;
+  if (!account || !decision) throw new Error("No paper snapshot has been published yet.");
+  return {
+    equity: Number(account.strategy_portfolio_value),
+    exposure: Number(account.actual_btc_exposure ?? account.btc_exposure),
+    score: Number(decision.signals.total_score),
+    capturedAt: account.captured_at,
+    connected: Boolean(
+      account.broker_mode === "alpaca-paper"
+      && account.connected
+      && account.account_status === "ACTIVE"
+      && account.trading_enabled
+      && !account.trading_blocked
+      && !account.account_blocked
+      && account.position_reconciled,
+    ),
+  };
 }

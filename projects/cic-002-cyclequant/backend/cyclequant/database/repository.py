@@ -175,15 +175,16 @@ class Database:
             ).fetchone()
         return self._decision_from_row(row) if row else None
 
-    def list_decisions(self, limit: int = 100) -> list[DecisionRecord]:
+    def list_decisions(self, limit: int = 100, offset: int = 0) -> list[DecisionRecord]:
         safe_limit = min(max(limit, 1), 1000)
+        safe_offset = max(offset, 0)
         with self.connect() as connection:
             rows = connection.execute(
                 """
-                SELECT payload_json, integrity_hash
-                FROM decisions ORDER BY decision_date DESC LIMIT ?
+                SELECT payload_json, integrity_hash FROM decisions
+                ORDER BY decision_date DESC LIMIT ? OFFSET ?
                 """,
-                (safe_limit,),
+                (safe_limit, safe_offset),
             ).fetchall()
         return [self._decision_from_row(row) for row in rows]
 

@@ -1,18 +1,32 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from datetime import UTC, date, datetime
 from decimal import Decimal
 
 import httpx
 
-from cyclequant.broker import AlpacaPaperBroker, OrderCoordinator, SimulatedPaperBroker
+from cyclequant.broker import (
+    AlpacaPaperBroker,
+    OrderCoordinator,
+    SimulatedPaperBroker,
+    capture_paper_account,
+    managed_ledger,
+    resolve_decision_order_state,
+)
 from cyclequant.config import Settings
 from cyclequant.database import Database
 from cyclequant.indicators import IndicatorEngine
 from cyclequant.models import (
     Action,
     BrokerAccountSnapshot,
+    Confidence,
+    DecisionRecord,
     MarketDataBundle,
+    OrderEvent,
+    OrderStatus,
+    SignalReading,
+    SignalSnapshot,
     SourceHealth,
     SourceState,
     TradeIntent,
@@ -122,6 +136,15 @@ def test_order_cannot_scale_to_brokers_headline_balance(tmp_path, daily_bars) ->
     assert "managed_notional" in {check.name for check in evaluation.failures}
 
 
+def test_untracked_broker_btc_blocks_new_order(tmp_path, daily_bars) -> None:
+    context = replace(
+        make_context(tmp_path, daily_bars),
+        position_quantity=Decimal("0.01"),
+    )
+    evaluation = RiskEngine().evaluate(context)
+    assert "position_reconciled" in {check.name for check in evaluation.failures}
+
+
 async def test_alpaca_adapter_rejects_live_or_lookalike_hosts_async() -> None:
     async with httpx.AsyncClient() as client:
         for url in (
@@ -149,7 +172,7 @@ async def test_alpaca_adapter_reads_btc_from_positions_list() -> None:
             200,
             json=[
                 {"symbol": "ETH/USD", "qty": "0.25"},
-                {"symbol": "BTC/USD", "qty": "0.00285828"},
+                {"symbol": "BTC/USD", "qty": "0.00285828", "current_price": "86000"},
             ],
         )
 
@@ -162,6 +185,96 @@ async def test_alpaca_adapter_reads_btc_from_positions_list() -> None:
         quantity = await broker.get_btc_position_quantity()
 
     assert quantity == Decimal("0.00285828")
+    assert broker.btc_price == Decimal("86000")
+
+
+async def test_public_mirror_uses_actual_fill_and_current_mark(tmp_path, daily_bars) -> None:
+    database = Database(tmp_path / "cyclequant.db")
+    database.initialize()
+    snapshot_id = database.save_market_snapshot(make_market(daily_bars))
+    filled_quantity = Decimal("0.002865445")
+    fill_price = Decimal("85535.837013237")
+    mark_price = Decimal("86000")
+    decision = DecisionRecord(
+        decision_date=daily_bars[-1].timestamp.date(),
+        market_snapshot_id=snapshot_id,
+        btc_price=Decimal("86595"),
+        portfolio_value=Decimal("1000"),
+        current_exposure=0,
+        target_exposure=25,
+        signals=SignalSnapshot(
+            components={
+                "valuation": SignalReading(
+                    name="valuation",
+                    score=70,
+                    configured_weight=1,
+                    effective_weight=1,
+                    rationale="fixture",
+                )
+            },
+            total_score=70,
+            confidence=Confidence.HIGH,
+            coverage=1,
+            dispersion=0,
+        ),
+        ai_news_summary="Fixture",
+        action=Action.BUY,
+        reasoning="Fixture",
+        order_status=OrderStatus.PENDING,
+    )
+    database.create_decision(decision)
+    event = OrderEvent(
+        decision_id=decision.id,
+        event_type="broker_reconciliation",
+        status=OrderStatus.FILLED,
+        filled_quantity=filled_quantity,
+        filled_average_price=fill_price,
+    )
+    database.append_order_event(event)
+    broker = SimulatedPaperBroker(btc_price=mark_price)
+    broker.btc_quantity = filled_quantity
+    broker.cash = Decimal("1000") - filled_quantity * fill_price
+    effective = resolve_decision_order_state(decision, [event])
+    mirrored = await capture_paper_account(
+        settings=Settings(_env_file=None),
+        database=database,
+        broker=broker,
+        decision=effective,
+    )
+
+    assert mirrored.managed_btc_quantity == filled_quantity
+    assert mirrored.strategy_cash == Decimal("754.90")
+    assert mirrored.managed_btc_value == Decimal("246.43")
+    assert mirrored.strategy_portfolio_value == Decimal("1001.33")
+    assert mirrored.btc_price == mark_price
+    assert mirrored.btc_exposure == 25
+    assert mirrored.actual_btc_exposure == Decimal("24.61")
+    assert mirrored.position_reconciled
+
+    class PagedDecisions:
+        def __init__(self):
+            self.event_lookups = 0
+
+        def list_decisions(self, limit=100, offset=0):
+            if offset == 0:
+                return [decision.model_copy(update={"action": Action.HOLD})] * 1000
+            if offset == 1000:
+                return [decision]
+            return []
+
+        def list_order_events(self, decision_id):
+            assert decision_id == decision.id
+            self.event_lookups += 1
+            return [event]
+
+    paged = PagedDecisions()
+    assert managed_ledger(paged, mark_price) == (
+        Decimal("754.90"),
+        filled_quantity,
+        Decimal("246.43"),
+        Decimal("1001.33"),
+    )
+    assert paged.event_lookups == 1
 
 
 async def test_order_coordinator_never_duplicates_submission(tmp_path, daily_bars) -> None:

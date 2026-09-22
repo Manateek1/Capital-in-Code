@@ -159,13 +159,14 @@ class SupabaseDatabase:
         self._verify(rows[0]["public_payload"], rows[0]["integrity_hash"])
         return DecisionRecord.model_validate(rows[0]["public_payload"])
 
-    def list_decisions(self, limit: int = 100) -> list[DecisionRecord]:
+    def list_decisions(self, limit: int = 100, offset: int = 0) -> list[DecisionRecord]:
         rows = self._select(
             "cq_decisions",
             {
                 "select": "public_payload,integrity_hash",
                 "order": "decision_date.desc",
                 "limit": str(min(max(limit, 1), 1000)),
+                "offset": str(max(offset, 0)),
             },
         )
         decisions = []

@@ -20,6 +20,7 @@ from cyclequant.config import Settings, load_settings
 from cyclequant.data.aggregator import build_default_pipeline, build_http_client
 from cyclequant.database import Database, Repository, SupabaseDatabase
 from cyclequant.logging import configure_logging
+from cyclequant.models import Action, OrderStatus
 from cyclequant.news_analysis import GeminiNewsAnalyzer, HeuristicNewsAnalyzer, SafeNewsAnalyzer
 from cyclequant.reporting import build_dashboard_payload
 from cyclequant.strategy import DailyStrategyRunner
@@ -40,6 +41,11 @@ def _parser() -> argparse.ArgumentParser:
         "sync-broker",
         help="Publish a sanitized snapshot of the current paper broker state",
     )
+    health = subcommands.add_parser(
+        "health", help="Check that the paper system and public mirror are current"
+    )
+    health.add_argument("--max-age-minutes", type=int, default=120)
+    health.add_argument("--require-today", action="store_true")
     serve = subcommands.add_parser("serve", help="Run the read-only API")
     serve.add_argument("--host")
     serve.add_argument("--port", type=int)
@@ -150,6 +156,64 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
     return 0
 
 
+def _health(
+    settings: Settings,
+    database: Repository,
+    *,
+    max_age_minutes: int,
+    require_today: bool,
+) -> int:
+    if max_age_minutes < 1:
+        raise ValueError("max age must be positive")
+    now = datetime.now(UTC)
+    recent = database.list_decisions(limit=1)
+    decision = recent[0] if recent else None
+    snapshot = database.latest_paper_account_snapshot()
+    checks = {
+        "alpaca_paper_mode": settings.broker_mode == "alpaca-paper",
+        "trading_switch_enabled": settings.trading_enabled,
+        "decision_present": decision is not None,
+        "daily_decision_current": not require_today
+        or (decision is not None and decision.decision_date == now.date()),
+        "broker_mirror_current": snapshot is not None
+        and abs((now - snapshot.captured_at).total_seconds()) <= max_age_minutes * 60,
+        "paper_account_connected": snapshot is not None
+        and snapshot.broker_mode == "alpaca-paper"
+        and snapshot.paper_only
+        and snapshot.connected,
+        "paper_account_healthy": snapshot is not None
+        and snapshot.account_status.upper() == "ACTIVE"
+        and not snapshot.trading_blocked
+        and not snapshot.account_blocked
+        and snapshot.crypto_trading_enabled
+        and snapshot.trading_enabled,
+        "position_reconciled": snapshot is not None and snapshot.position_reconciled,
+        "order_healthy": decision is not None
+        and snapshot is not None
+        and (
+            decision.action == Action.HOLD
+            or snapshot.latest_order_status == OrderStatus.FILLED
+            or (
+                snapshot.latest_order_status
+                in {OrderStatus.PENDING, OrderStatus.ACCEPTED, OrderStatus.PARTIALLY_FILLED}
+                and (now - decision.timestamp).total_seconds() < 60 * 60
+            )
+        ),
+    }
+    print(
+        json.dumps(
+            {
+                "ok": all(checks.values()),
+                "checks": checks,
+                "decision_date": decision.decision_date.isoformat() if decision else None,
+                "mirror_captured_at": snapshot.captured_at.isoformat() if snapshot else None,
+            },
+            separators=(",", ":"),
+        )
+    )
+    return 0 if all(checks.values()) else 1
+
+
 def _broker(settings: Settings, client: httpx.AsyncClient):
     if settings.broker_mode == "simulated":
         return SimulatedPaperBroker()
@@ -178,6 +242,13 @@ def main(argv: list[str] | None = None) -> int:
         return asyncio.run(_daily(settings, database, _parse_as_of(args.as_of)))
     if args.command == "sync-broker":
         return asyncio.run(_sync_broker(settings, database))
+    if args.command == "health":
+        return _health(
+            settings,
+            database,
+            max_age_minutes=args.max_age_minutes,
+            require_today=args.require_today,
+        )
     if args.command == "serve":
         uvicorn.run(
             create_app(settings, database),

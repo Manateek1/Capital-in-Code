@@ -221,6 +221,29 @@ caveats in a public-facing format.
   exact fill details in the audit drawer, successful reads from all four
   public Supabase views, and no browser console or rendering errors.
 
+### CIC-002 reliability, truth-in-reporting, and site design — 2026-09-22
+
+- Dillon's priority is a continuously operating Alpaca **paper** bot whose
+  public CIC-002 page stays consistent with the account, plus a durable
+  GitHub project report and a visual design matching Capital in Code/CIC-001:
+  spacious white, navy, restrained financial presentation rather than a dark
+  crypto-trading terminal. Explain the bot in plain language.
+- Managed cash, BTC quantity, marked equity, return, and actual BTC exposure
+  must derive from the immutable Alpaca fill ledger. The first `$250` target
+  executed for about `$245.10`; the public site must not present that target
+  as the actual fill. A broker-position mismatch is a stop condition for new
+  orders and a visible public warning. Never use unrelated Alpaca paper-account
+  equity to scale CycleQuant's isolated `$1,000` sleeve.
+- The cloud operating design is daily evaluation at 06:37 UTC, idempotent
+  recovery at 08:47 UTC, hourly broker-mirror refresh, health checks that fail
+  visibly, and a monthly GitHub Actions keepalive to prevent the public-repo
+  inactivity shutdown. The site auto-refreshes and labels overdue data stale;
+  it does not silently substitute a demo result in production. GitHub
+  schedules remain best-effort, not a guarantee of uninterrupted execution.
+- `projects/cic-002-cyclequant/PROJECT_REPORT.md` is the public plain-language
+  record of status, first paper fill, architecture, safeguards, operating
+  checks, costs, and limitations. The site links to it.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.
@@ -257,9 +280,9 @@ These are possibilities, not committed roadmap items.
 
 ## Current Near-Term Priority
 
-Build and integrate `CIC-002`, CycleQuant, as a cloud-operated, transparent
-Bitcoin paper-allocation experiment while preserving `CIC-001` and the public
-portfolio's research-integrity standards.
+Operate and verify `CIC-002`, CycleQuant, as a cloud-run, transparent Alpaca
+paper-allocation experiment; keep its public mirror current and reconciled
+while preserving `CIC-001` and the portfolio's research-integrity standards.
 
 ## Context Maintenance
 

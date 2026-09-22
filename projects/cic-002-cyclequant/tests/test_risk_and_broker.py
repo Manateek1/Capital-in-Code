@@ -8,6 +8,7 @@ import httpx
 
 from cyclequant.broker import (
     AlpacaPaperBroker,
+    CryptoFees,
     OrderCoordinator,
     SimulatedPaperBroker,
     capture_paper_account,
@@ -188,6 +189,27 @@ async def test_alpaca_adapter_reads_btc_from_positions_list() -> None:
     assert broker.btc_price == Decimal("86000")
 
 
+async def test_alpaca_adapter_reads_btc_and_usd_crypto_fees() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path.endswith("/CFEE"):
+            return httpx.Response(200, json=[
+                {"activity_type": "CFEE", "symbol": "BTCUSD", "qty": "-0.000007165"},
+                {"activity_type": "CFEE", "symbol": "ETHUSD", "qty": "-0.01"},
+            ])
+        assert request.url.path.endswith("/FEE")
+        return httpx.Response(200, json=[
+            {"activity_type": "FEE", "symbol": "BTCUSD", "net_amount": "-0.62"},
+        ])
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        broker = AlpacaPaperBroker(client, api_key_id="test", api_secret_key="test")
+        fees = await broker.get_crypto_fees()
+
+    assert fees == CryptoFees(
+        btc_quantity=Decimal("0.000007165"), usd_amount=Decimal("0.62")
+    )
+
+
 async def test_public_mirror_uses_actual_fill_and_current_mark(tmp_path, daily_bars) -> None:
     database = Database(tmp_path / "cyclequant.db")
     database.initialize()
@@ -259,6 +281,25 @@ async def test_public_mirror_uses_actual_fill_and_current_mark(tmp_path, daily_b
         decision=effective,
     )
     assert not unmatched.position_reconciled
+
+    class FeeBroker(SimulatedPaperBroker):
+        async def get_crypto_fees(self) -> CryptoFees:
+            return CryptoFees(btc_quantity=Decimal("0.000007165"))
+
+    fee_broker = FeeBroker(btc_price=mark_price)
+    fee_broker.btc_quantity = filled_quantity - Decimal("0.000007165")
+    fee_broker.cash = broker.cash
+    net_mirror = await capture_paper_account(
+        settings=Settings(_env_file=None),
+        database=database,
+        broker=fee_broker,
+        decision=effective,
+    )
+    assert net_mirror.position_reconciled
+    assert net_mirror.managed_btc_quantity == fee_broker.btc_quantity
+    assert net_mirror.btc_fee_quantity == Decimal("0.000007165")
+    assert net_mirror.managed_btc_value == Decimal("245.81")
+    assert net_mirror.strategy_portfolio_value == Decimal("1000.71")
 
     class PagedDecisions:
         def __init__(self):

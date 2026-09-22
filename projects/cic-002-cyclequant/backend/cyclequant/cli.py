@@ -148,6 +148,8 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
                 "broker_mode": snapshot.broker_mode,
                 "connected": snapshot.connected,
                 "position_reconciled": snapshot.position_reconciled,
+                "btc_fee_quantity": str(snapshot.btc_fee_quantity),
+                "usd_fees_paid": str(snapshot.usd_fees_paid),
                 "latest_order_status": snapshot.latest_order_status.value,
             },
             separators=(",", ":"),

@@ -1,4 +1,5 @@
 from cyclequant.broker.alpaca import AlpacaPaperBroker
+from cyclequant.broker.base import CryptoFees
 from cyclequant.broker.coordinator import (
     OrderCoordinator,
     reconcile_decision_order,
@@ -9,6 +10,7 @@ from cyclequant.broker.simulated import SimulatedPaperBroker
 
 __all__ = [
     "AlpacaPaperBroker",
+    "CryptoFees",
     "OrderCoordinator",
     "SimulatedPaperBroker",
     "capture_paper_account",

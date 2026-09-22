@@ -76,8 +76,8 @@ deterministic news fallback.
   by integrity hashes.
 - Order sizing uses CycleQuant's isolated `$1,000` research ledger rather than
   the paper account's total buying power; use a dedicated paper account.
-- The ledger uses recorded fill quantities and prices, and a broker-position
-  mismatch blocks the next order until resolved.
+- The ledger uses recorded fill quantities, prices, and posted Alpaca crypto
+  fees. A broker-position mismatch blocks the next order until resolved.
 - The public broker mirror is sanitized: it publishes the managed sleeve and
   reconciliation result, never credentials, account IDs, or unrelated funds.
 - The API and public dashboard expose no order-entry endpoint.
@@ -139,9 +139,9 @@ All series start at `$1,000` and are updated without future observations:
 
 The dashboard reports total and annualized return, maximum drawdown,
 annualized volatility, an explicitly approximate Sharpe ratio, trade count,
-and exposure history. Benchmark calculations are descriptive and omit fees,
-taxes, slippage beyond paper fills, and risk-free-rate adjustments unless
-stated otherwise.
+and exposure history. The managed CycleQuant series includes posted Alpaca
+paper crypto fees; benchmark series omit fees. All series omit taxes, real
+execution slippage, and risk-free-rate adjustments unless stated otherwise.
 
 ## Local setup
 

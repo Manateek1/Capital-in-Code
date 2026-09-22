@@ -111,6 +111,7 @@
 .cq-position-facts div:last-child { border-right: 0; }
 .cq-position-facts dt { color: var(--cq-muted); font-size: 11px; }
 .cq-position-facts dd { margin: 6px 0 0; color: var(--cq-text); font-size: 13px; font-weight: 600; }
+.cq-fee-note { margin: 10px 0 0; color: var(--cq-muted); font-size: 11px; }
 .cq-positive { color: var(--cq-success) !important; }
 .cq-caution { color: var(--cq-warning) !important; }
 .cq-orders-wrap, .cq-table-wrap { width: 100%; overflow-x: auto; }

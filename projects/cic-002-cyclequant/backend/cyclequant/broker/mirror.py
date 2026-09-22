@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from decimal import ROUND_HALF_UP, Decimal
 
-from cyclequant.broker.base import PaperBroker
+from cyclequant.broker.base import CryptoFees, PaperBroker
 from cyclequant.broker.coordinator import resolve_decision_order_state
 from cyclequant.config import Settings
 from cyclequant.constants import ALPACA_PAPER_BASE_URL, STARTING_CAPITAL
@@ -11,7 +11,7 @@ from cyclequant.models import Action, DecisionRecord, OrderStatus, PaperAccountS
 
 
 def managed_ledger(
-    database: Repository, mark_price: Decimal
+    database: Repository, mark_price: Decimal, fees: CryptoFees | None = None
 ) -> tuple[Decimal, Decimal, Decimal, Decimal]:
     """Rebuild the isolated sleeve from immutable broker fills."""
 
@@ -42,6 +42,9 @@ def managed_ledger(
             break
         offset += len(page)
 
+    if fees is not None:
+        cash -= fees.usd_amount
+        quantity -= fees.btc_quantity
     if cash < 0 or quantity < 0:
         raise RuntimeError("Managed fill ledger is negative; manual reconciliation required")
     cash = cash.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
@@ -65,6 +68,7 @@ async def capture_paper_account(
 
     account = await broker.get_account()
     broker_quantity = await broker.get_btc_position_quantity()
+    fees = await broker.get_crypto_fees()
     mark_price = Decimal(str(getattr(broker, "btc_price", None) or decision.btc_price))
     exposure = (
         decision.target_exposure
@@ -72,7 +76,7 @@ async def capture_paper_account(
         else decision.current_exposure
     )
     managed_cash, managed_quantity, managed_btc_value, managed_value = managed_ledger(
-        database, mark_price
+        database, mark_price, fees
     )
     actual_exposure = (
         managed_btc_value / managed_value * Decimal("100")
@@ -98,6 +102,8 @@ async def capture_paper_account(
         actual_btc_exposure=actual_exposure,
         managed_btc_quantity=managed_quantity,
         managed_btc_value=managed_btc_value,
+        btc_fee_quantity=fees.btc_quantity,
+        usd_fees_paid=fees.usd_amount,
         position_reconciled=reconciliation_difference <= reconciliation_tolerance,
         latest_action=decision.action,
         latest_order_status=decision.order_status,

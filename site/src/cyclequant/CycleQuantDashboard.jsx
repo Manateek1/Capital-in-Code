@@ -193,11 +193,13 @@ function CurrentPosition({ account, summary }) {
   const positionValue = Number(account?.managed_btc_value ?? summary.portfolio_value * exposure / 100);
   const positionQuantity = Number(account?.managed_btc_quantity ?? positionValue / summary.btc_price);
   const managedCash = Number(account?.strategy_cash ?? summary.managed_cash ?? 0);
+  const feeValue = Number(account?.btc_fee_quantity ?? 0) * Number(account?.btc_price ?? 0) + Number(account?.usd_fees_paid ?? 0);
   const reconciled = Boolean(account?.position_reconciled);
   return <section className="cq-panel cq-mirror-panel" aria-labelledby="position-title">
     <div className="cq-compact-header"><h2 id="position-title">Current position</h2><span>{account?.captured_at ? `As of ${formatDate(account.captured_at, { hour: "2-digit", minute: "2-digit", hour12: false })} UTC` : "Awaiting broker sync"}</span></div>
     <div className="cq-position-primary"><div><span>BTC position</span><strong>{positionQuantity.toFixed(9)} BTC</strong><small>{money.format(positionValue)} managed value</small></div><div><span>Cash</span><strong>{money.format(managedCash)}</strong><small>{Math.round((managedCash / summary.portfolio_value) * 100)}% of sleeve</small></div></div>
     <dl className="cq-position-facts"><div><dt>Actual portfolio share</dt><dd>{exposure.toFixed(1)}%</dd></div><div><dt>Broker check</dt><dd className={reconciled ? "cq-positive" : "cq-caution"}>{reconciled ? "Reconciled" : "Review required"}</dd></div><div><dt>Environment</dt><dd>Paper only</dd></div></dl>
+    {feeValue > 0 && <p className="cq-fee-note">Managed value includes {money.format(feeValue)} in Alpaca paper crypto fees.</p>}
   </section>;
 }
 

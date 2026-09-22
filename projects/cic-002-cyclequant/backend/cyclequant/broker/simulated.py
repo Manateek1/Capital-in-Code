@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from uuid import uuid4
 
+from cyclequant.broker.base import CryptoFees
 from cyclequant.constants import BTC_USD, STARTING_CAPITAL
 from cyclequant.models import (
     Action,
@@ -43,6 +44,9 @@ class SimulatedPaperBroker:
 
     async def get_btc_position_quantity(self) -> Decimal:
         return self.btc_quantity
+
+    async def get_crypto_fees(self) -> CryptoFees:
+        return CryptoFees()
 
     async def submit_market_order(self, intent: TradeIntent) -> OrderResult:
         existing = self.orders.get(intent.client_order_id)

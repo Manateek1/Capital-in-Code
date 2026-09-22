@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 import httpx
 
+from cyclequant.broker.base import CryptoFees
 from cyclequant.constants import ALPACA_PAPER_BASE_URL, BTC_USD
 from cyclequant.data.http import request_json
 from cyclequant.models import (
@@ -110,6 +111,48 @@ class AlpacaPaperBroker:
                     self.btc_price = Decimal(str(position["current_price"]))
                 return Decimal(str(position.get("qty") or "0"))
         return Decimal("0")
+
+    async def _fee_activities(self, activity_type: str) -> list[dict]:
+        activities: list[dict] = []
+        page_token: str | None = None
+        while True:
+            params = {"direction": "asc", "page_size": "100"}
+            if page_token:
+                params["page_token"] = page_token
+            page = await request_json(
+                self.client,
+                f"alpaca_paper_{activity_type.lower()}_activities",
+                "GET",
+                f"{self.endpoint}/v2/account/activities/{activity_type}",
+                params=params,
+                headers=self.headers,
+                retries=self.retries,
+            )
+            if not isinstance(page, list):
+                raise ValueError("Alpaca fee activities response must be a list")
+            activities.extend(page)
+            if len(page) < 100:
+                break
+            next_token = str(page[-1].get("id") or "")
+            if not next_token or next_token == page_token:
+                raise ValueError("Alpaca fee activities pagination did not advance")
+            page_token = next_token
+        return activities
+
+    async def get_crypto_fees(self) -> CryptoFees:
+        btc_quantity = Decimal("0")
+        usd_amount = Decimal("0")
+        for activity in await self._fee_activities("CFEE"):
+            symbol = str(activity.get("symbol", "")).upper().replace("/", "")
+            if symbol == "BTCUSD":
+                btc_quantity -= Decimal(str(activity.get("qty") or "0"))
+        for activity in await self._fee_activities("FEE"):
+            symbol = str(activity.get("symbol", "")).upper().replace("/", "")
+            if symbol == "BTCUSD":
+                usd_amount -= Decimal(str(activity.get("net_amount") or "0"))
+        if btc_quantity < 0 or usd_amount < 0:
+            raise ValueError("Alpaca crypto fee totals cannot be negative")
+        return CryptoFees(btc_quantity=btc_quantity, usd_amount=usd_amount)
 
     async def submit_market_order(self, intent: TradeIntent) -> OrderResult:
         if intent.symbol != BTC_USD:

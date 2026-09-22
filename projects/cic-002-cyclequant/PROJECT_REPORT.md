@@ -16,6 +16,8 @@ CycleQuant is a small, automated **practice-money** Bitcoin portfolio. Once per 
 
 The difference between a $250 target and a ~$245.10 paper fill is real execution variance. Alpaca also [charges crypto trading fees in the asset received on a buy](https://docs.alpaca.markets/us/docs/crypto-fees), so the BTC held can be lower than the gross order fill. The public portfolio calculates cash, **net BTC after posted broker fees**, marked value, and actual BTC percentage from recorded fills and Alpaca fee activities—not from the planned target. The bot compares that managed quantity with Alpaca's paper position before another order is permitted. A mismatch is shown publicly and stops a new order until resolved; it does not guess an unposted fee.
 
+For the first paper trade, Alpaca recorded a **0.000007165 BTC** fee. The resulting net position is **0.002858280 BTC**, which matched the broker on the verified 2026-09-22 sync. The public dollar value changes with Bitcoin's paper-account price.
+
 There is not enough operating history to claim outperformance. The benchmark and statistics on the site are descriptive. CycleQuant includes posted Alpaca paper fees, but paper fills still differ from real execution and omit other real-world costs.
 
 ## How the live system works

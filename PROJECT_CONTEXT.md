@@ -256,6 +256,16 @@ caveats in a public-facing format.
   USD-denominated `FEE` activity) before comparing with the net Alpaca paper
   position. If fee activities have not posted, keep the mismatch visible and
   trading blocked rather than assuming a fixed fee percentage.
+- Pull requests #10, #11, and #12 were merged on 2026-09-22. Alpaca's posted
+  first-trade `CFEE` was `0.000007165 BTC`, leaving a net managed position of
+  `0.002858280 BTC`. Production sync run `35797809374` and idempotent daily
+  run `35797907256` both finished with all health checks green; the latter
+  created no duplicate decision or order. The live CIC-002 page and homepage
+  showed the same fee-adjusted managed value, connected paper status, and
+  reconciled net position with no browser errors. The monthly keepalive ran
+  successfully as `35796996150`. A post-merge unattended scheduled run had
+  not yet been observed at this checkpoint; the daily health watch will check
+  for missed runs, and GitHub scheduling remains best-effort.
 
 ### Historical repository snapshot — 2026-07-29
 

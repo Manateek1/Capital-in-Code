@@ -267,6 +267,20 @@ caveats in a public-facing format.
   not yet been observed at this checkpoint; the daily health watch will check
   for missed runs, and GitHub scheduling remains best-effort.
 
+### CIC-002 unattended run and transient broker timeout — 2026-09-23
+
+- Post-merge scheduled runs are now verified. Scheduled daily run `35870096116`
+  passed every health check and published the 2026-09-23 HOLD decision; a later
+  broker-only run `35894536317` also passed. The public dashboard showed
+  `ALPACA PAPER · CONNECTED`, a reconciled net BTC position, and a 17:17 UTC
+  mirror update, with one paper trade total.
+- An earlier hourly broker-mirror run `35833829792` failed while fetching the
+  Alpaca paper account after three workflow attempts. Each account fetch
+  stalled through the HTTP retries, consistent with a temporary timeout; the
+  exact upstream network cause is unknown. Later scheduled runs recovered
+  without a code or credential change. Keep such failures visible and rely on
+  fresh broker reconciliation before any subsequent paper order.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

@@ -4,6 +4,17 @@ This document records the initial CycleQuant rules before a hosted paper
 experiment begins. Material parameter changes should update the strategy
 version and be justified prospectively rather than back-fit to results.
 
+### Version 2026.3 — candle freshness correction, 2026-10-11
+
+The Coinbase daily closing observation is timestamped at the end of its bucket
+for freshness checks. Version `2026.2` used the bucket opening time, causing
+valid completed data to become falsely stale after noon UTC and block
+allocation changes. The 36-hour limit, signal weights, exposure bands,
+confirmation requirements, and risk limits retain their existing values.
+This correction applies to new evaluations after deployment; existing daily
+decisions, fills, and returns are preserved. The [reliability review](2026-10-11-reliability-review.md)
+documents the evidence and checks. Profitability remains an unproven hypothesis.
+
 ## Evaluation schedule
 
 One run is evaluated per UTC date after daily market data is expected to be

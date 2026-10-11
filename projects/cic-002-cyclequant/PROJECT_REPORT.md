@@ -1,6 +1,6 @@
 # CIC-002 — CycleQuant project report
 
-**Status as of 2026-09-22:** Alpaca paper trading is enabled. The first BTC/USD paper order filled, and the project publishes a read-only account mirror at [capitalincode.com/projects/cic-002-cyclequant](https://capitalincode.com/projects/cic-002-cyclequant). This is an educational experiment, not an investment recommendation or evidence of a profitable strategy.
+**Status as of 2026-10-11:** Alpaca paper trading is enabled. The first BTC/USD paper order filled, and the project publishes a read-only account mirror at [capitalincode.com/projects/cic-002-cyclequant](https://capitalincode.com/projects/cic-002-cyclequant). The published record contains one buy and no sells across 22 daily decisions through October 11. A reproduced candle-freshness bug and its version `2026.3` correction are documented in the [reliability review](docs/2026-10-11-reliability-review.md); the correction requires review and merge before production uses it. This is an educational experiment, not an investment recommendation or evidence of a profitable strategy.
 
 ## In plain English
 
@@ -19,6 +19,17 @@ The difference between a $250 target and a ~$245.10 paper fill is real execution
 For the first paper trade, Alpaca recorded a **0.000007165 BTC** fee. The resulting net position is **0.002858280 BTC**, which matched the broker on the verified 2026-09-22 sync. The public dollar value changes with Bitcoin's paper-account price.
 
 There is not enough operating history to claim outperformance. The benchmark and statistics on the site are descriptive. CycleQuant includes posted Alpaca paper fees, but paper fills still differ from real execution and omit other real-world costs.
+
+The October review verified the reported loss against the fill ledger. At
+`2026-10-10 01:01 UTC`, the managed sleeve was **$990.71 (-0.93%)**, with
+**$754.90 cash** and **$235.81 in net BTC**. At the later
+`2026-10-11 15:49 UTC` snapshot it was **$993.15 (-0.685%)**. These are dated
+paper marks, not fixed current balances. The price loss and posted fee remain
+in the record. The review corrects a software error that blocked valid
+evaluations; it does not tune the weights to improve these historical returns.
+The final broker-only refresh at `2026-10-11 18:13 UTC` passed all health checks
+and published **$994.44 (-0.556%)**, connected and reconciled, with the same
+decision and order history.
 
 ## How the live system works
 

@@ -6,8 +6,10 @@ The public record contains **one buy and no sells**. A roughly 1% paper loss
 was real and reconciled with the recorded BTC holding and posted fee. The
 review also reproduced a software error: valid completed daily candles became
 falsely stale after noon UTC, suppressing allocation changes. This branch
-corrects that error as strategy version `2026.3`. Production uses the correction
-after review and merge; this review did not submit a new paper order.
+corrects that error as strategy version `2026.3`. Dillon authorized release
+through [PR #13](https://github.com/Manateek1/Capital-in-Code/pull/13) on October 11.
+The PR and GitHub Actions records track the release and production verification.
+The initial review's broker-only checks did not submit a new paper order.
 
 The reviewed `main` was `a70ba0fe3be2e9c507b4146eae6fdd8761adc0f1`. Verification
 started October 9 and was refreshed October 11. Published views were read with
@@ -92,7 +94,7 @@ are returned on retry; the correction applies to future evaluations.
 | Public accounting and history | Fill-event overlay, net fee-adjusted BTC, cash, and dated equity matched; historical decisions and order events preserved |
 
 Python checks ran locally on Python 3.14.6; the production workflow uses Python
-3.12. No production run has executed this unmerged patch. The observed
+3.12. The initial review preceded production execution of the patch. The observed
 Starlette warning concerns its test client's deprecated httpx integration;
 the tests passed. npm reported an existing high-severity `source-map-js`
 [advisory](https://github.com/advisories/GHSA-68fv-2mgg-jv7q) in the unchanged site

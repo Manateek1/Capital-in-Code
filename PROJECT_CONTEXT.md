@@ -298,13 +298,26 @@ caveats in a public-facing format.
   parameters, paper-only scope, immutable history, and daily idempotency.
 - The fix has regression coverage for delayed evaluations, missing candles,
   and a simulated confirmed buy/hold/sell cycle that preserves a loss and
-  prevents duplicate orders. Production continues to use `main` until the
-  correction is reviewed and merged. The dated review is canonical at
+  prevents duplicate orders. The initial review prepared the correction for
+  release through `main`. The dated review is canonical at
   `projects/cic-002-cyclequant/docs/2026-10-11-reliability-review.md`.
 - Broker-only verification run `38162863195` passed all production health
   checks on October 11. Its 18:13 UTC public snapshot showed $994.44, connected
   and reconciled; the refresh left all 22 decisions and both existing order
   events unchanged. GitHub's delayed schedule remains an operating limitation.
+
+### CIC-002 release authorization — 2026-10-11
+
+- Dillon explicitly authorized merging pull request #13 and resolving any
+  conflicts. Review against the latest `main` found no conflicts; the
+  correction's 50 tests, lint, build, and Vercel preview checks passed.
+- [Pull request #13](https://github.com/Manateek1/Capital-in-Code/pull/13) is the
+  canonical release record for strategy version `2026.3`. Production website
+  deployments and the existing daily evaluator both follow `main`.
+- Release verification uses the existing paper-only workflow and public
+  mirror. Already-recorded UTC decisions remain immutable; subsequent new
+  decisions carry version `2026.3`. The release does not change the managed
+  capital scope, strategy weights, or paper risk controls.
 
 ### Historical repository snapshot — 2026-07-29
 

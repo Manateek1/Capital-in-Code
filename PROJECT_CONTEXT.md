@@ -281,6 +281,44 @@ caveats in a public-facing format.
   without a code or credential change. Keep such failures visible and rely on
   fresh broker reconciliation before any subsequent paper order.
 
+### CIC-002 correctness review — 2026-10-11
+
+- Dillon requested an investigation of CycleQuant's roughly 1% loss, allowed
+  restrained fixes where justified, and asked for documented changes based on
+  the latest `main`. Correct execution and honest reporting take priority over
+  tuning strategy parameters to improve a short sample.
+- Public records through October 11 contain 22 daily decisions, one filled
+  BTC buy, and no sells. The isolated sleeve was $990.71 at the October 10
+  01:01 UTC mark and $993.15 at the October 11 15:49 UTC mark; these are dated
+  observations rather than current balances or evidence of profitability.
+- A reproduced Coinbase timestamp error falsely marked completed daily data
+  stale after noon UTC, causing low-confidence holds. The review branch's
+  strategy version `2026.3` measures freshness from candle close, records both
+  bucket boundaries, and preserves the existing 36-hour limit, strategy
+  parameters, paper-only scope, immutable history, and daily idempotency.
+- The fix has regression coverage for delayed evaluations, missing candles,
+  and a simulated confirmed buy/hold/sell cycle that preserves a loss and
+  prevents duplicate orders. The initial review prepared the correction for
+  release through `main`. The dated review is canonical at
+  `projects/cic-002-cyclequant/docs/2026-10-11-reliability-review.md`.
+- Broker-only verification run `38162863195` passed all production health
+  checks on October 11. Its 18:13 UTC public snapshot showed $994.44, connected
+  and reconciled; the refresh left all 22 decisions and both existing order
+  events unchanged. GitHub's delayed schedule remains an operating limitation.
+
+### CIC-002 release authorization — 2026-10-11
+
+- Dillon explicitly authorized merging pull request #13 and resolving any
+  conflicts. Review against the latest `main` found no conflicts; the
+  correction's 50 tests, lint, build, and Vercel preview checks passed.
+- [Pull request #13](https://github.com/Manateek1/Capital-in-Code/pull/13) is the
+  canonical release record for strategy version `2026.3`. Production website
+  deployments and the existing daily evaluator both follow `main`.
+- Release verification uses the existing paper-only workflow and public
+  mirror. Already-recorded UTC decisions remain immutable; subsequent new
+  decisions carry version `2026.3`. The release does not change the managed
+  capital scope, strategy weights, or paper risk controls.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 from fastapi.testclient import TestClient
@@ -11,6 +11,7 @@ from cyclequant.config import Settings
 from cyclequant.database import Database
 from cyclequant.indicators import IndicatorEngine
 from cyclequant.models import (
+    Action,
     Confidence,
     MarketDataBundle,
     OrderResult,
@@ -37,11 +38,15 @@ class FixedPipeline:
 
 
 class FixedSignalEngine:
+    def __init__(self, *, component_score: float = 80, total_score: float = 70) -> None:
+        self.component_score = component_score
+        self.total_score = total_score
+
     def score(self, market: MarketDataBundle, news_score: float | None = None) -> SignalSnapshot:
         components = {
             name: SignalReading(
                 name=name,
-                score=80,
+                score=self.component_score,
                 configured_weight=1 / 6,
                 effective_weight=1 / 6,
                 rationale="fixture",
@@ -50,7 +55,7 @@ class FixedSignalEngine:
         }
         return SignalSnapshot(
             components=components,
-            total_score=70,
+            total_score=self.total_score,
             confidence=Confidence.HIGH,
             coverage=1,
             dispersion=0,
@@ -191,3 +196,61 @@ async def test_runner_rebalances_against_actual_paper_position(tmp_path, daily_b
     dashboard = build_dashboard_payload(database)
     assert dashboard["latest_decision"]["order_status"] == "FILLED"
     assert dashboard["metrics"]["filled_trade_count"] == 1
+
+
+async def test_runner_confirms_buy_and_sell_and_preserves_a_loss(tmp_path, daily_bars) -> None:
+    as_of = daily_bars[-1].timestamp
+    price = daily_bars[-1].close
+    bundle = MarketDataBundle(
+        as_of=as_of,
+        spot_price=price,
+        bars=daily_bars,
+        sources=[SourceHealth(name="fixture", state=SourceState.FRESH, required=True)],
+        indicators=IndicatorEngine().compute(daily_bars, as_of=as_of),
+    )
+    database = Database(tmp_path / "cyclequant.db")
+    database.initialize()
+    pipeline = FixedPipeline(bundle)
+    # Unrelated account cash must not increase either side of the managed trade.
+    broker = SimulatedPaperBroker(starting_cash=Decimal("100000"), btc_price=price)
+    runner = DailyStrategyRunner(
+        settings=Settings(_env_file=None, trading_enabled=True),
+        database=database,
+        pipeline=pipeline,
+        news_analyzer=HeuristicNewsAnalyzer(),
+        broker=broker,
+        signal_engine=FixedSignalEngine(),
+    )
+
+    first = await runner.run(as_of)
+    bought = await runner.run(as_of + timedelta(days=1))
+    assert first.decision.action == Action.HOLD
+    assert bought.decision.action == Action.BUY
+    assert bought.decision.target_exposure == 25
+    assert bought.decision.trade_value == Decimal("250.00")
+    bought_quantity = broker.btc_quantity
+
+    # A market loss alone is not a sell signal. The existing rules still need
+    # two consecutive bearish confirmations before selling the held quantity.
+    pipeline.bundle = bundle.model_copy(update={"spot_price": price * Decimal("0.8")})
+    price_drop = await runner.run(as_of + timedelta(days=2))
+    assert price_drop.decision.action == Action.HOLD
+    runner.signal_engine = FixedSignalEngine(component_score=20, total_score=20)
+    first_bearish = await runner.run(as_of + timedelta(days=3))
+    sold = await runner.run(as_of + timedelta(days=4))
+    repeated = await runner.run(as_of + timedelta(days=4))
+
+    assert first_bearish.decision.action == Action.HOLD
+    assert sold.decision.action == Action.SELL
+    assert sold.decision.target_exposure == 0
+    assert sold.decision.order_status == OrderStatus.FILLED
+    assert sold.decision.trade_quantity == bought_quantity
+    assert sold.decision.trade_value == Decimal("200.00")
+    assert not repeated.created
+    assert broker.submission_count == 2
+    assert broker.btc_quantity == 0
+    mirror = database.latest_paper_account_snapshot()
+    assert mirror is not None and mirror.position_reconciled
+    assert mirror.strategy_cash == Decimal("950.00")
+    assert mirror.strategy_portfolio_value == Decimal("950.00")
+    assert Decimal(database.list_performance()[-1]["cyclequant_value"]) == Decimal("950.00")

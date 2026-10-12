@@ -66,19 +66,27 @@ class CoinbaseMarketDataProvider:
         if len(bars) < 200:
             raise DataSourceError(self.name, f"only {len(bars)} daily bars returned")
         latest = bars[-1]
+        # Coinbase timestamps identify the bucket's opening time. The daily
+        # close is observed one day later; freshness must measure that close.
+        observed_at = latest.timestamp + timedelta(days=1)
         return SourcePayload(
             source=self.name,
             category=self.category,
             required=self.required,
-            observed_at=latest.timestamp,
+            observed_at=observed_at,
             bars=bars,
             metrics={
                 "spot_price": MetricPoint(
                     value=float(latest.close),
-                    observed_at=latest.timestamp,
+                    observed_at=observed_at,
                     source=self.name,
                     unit="USD",
                 )
             },
-            metadata={"product": "BTC-USD", "granularity_seconds": 86400},
+            metadata={
+                "product": "BTC-USD",
+                "granularity_seconds": 86400,
+                "latest_candle_opened_at": latest.timestamp.isoformat(),
+                "latest_candle_closed_at": observed_at.isoformat(),
+            },
         )

@@ -3,11 +3,13 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta
 
 import httpx
+import pytest
 
 from cyclequant.data.aggregator import MarketDataPipeline
 from cyclequant.data.base import SourcePayload
 from cyclequant.data.market import CoinbaseMarketDataProvider
-from cyclequant.models import MetricPoint, OHLCVBar, SourceState
+from cyclequant.models import Confidence, MetricPoint, OHLCVBar, SourceState
+from cyclequant.signals import SignalEngine
 
 
 class FakeProvider:
@@ -110,3 +112,54 @@ async def test_coinbase_provider_excludes_incomplete_daily_candle() -> None:
 
     assert len(payload.bars) == 200
     assert payload.bars[-1].timestamp.date() == (as_of - timedelta(days=1)).date()
+
+
+@pytest.mark.parametrize("hour", [0, 6, 12, 13, 23])
+async def test_coinbase_latest_completed_close_stays_fresh_all_day(hour: int) -> None:
+    as_of = datetime(2026, 10, 9, hour, 41, tzinfo=UTC)
+    midnight = as_of.replace(hour=0, minute=0)
+    rows = [
+        [(midnight - timedelta(days=days_ago)).timestamp(), 99, 102, 100, 101, 1000]
+        for days_ago in range(501)
+    ]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        start = datetime.fromisoformat(request.url.params["start"]).timestamp()
+        end = datetime.fromisoformat(request.url.params["end"]).timestamp()
+        return httpx.Response(200, json=[row for row in rows if start <= row[0] <= end])
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        provider = CoinbaseMarketDataProvider(client, retries=0)
+        payload = await provider.fetch(as_of, 500)
+        bundle = await MarketDataPipeline([provider]).run(as_of, 500)
+
+    # Candle timestamps remain bucket starts, but the closing price becomes
+    # available at the bucket end. The current incomplete candle stays excluded.
+    assert payload.bars[-1].timestamp == midnight - timedelta(days=1)
+    assert payload.observed_at == midnight
+    assert payload.metrics["spot_price"].observed_at == midnight
+    assert bundle.sources[0].state == SourceState.FRESH
+    assert bundle.required_data_is_fresh()
+    assert SignalEngine().score(bundle, news_score=50).confidence != Confidence.LOW
+
+
+async def test_coinbase_missing_latest_close_still_blocks_allocation() -> None:
+    as_of = datetime(2026, 10, 9, 13, 41, tzinfo=UTC)
+    midnight = as_of.replace(hour=0, minute=0)
+    rows = [
+        [(midnight - timedelta(days=days_ago)).timestamp(), 99, 102, 100, 101, 1000]
+        for days_ago in range(2, 502)
+    ]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        start = datetime.fromisoformat(request.url.params["start"]).timestamp()
+        end = datetime.fromisoformat(request.url.params["end"]).timestamp()
+        return httpx.Response(200, json=[row for row in rows if start <= row[0] <= end])
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        provider = CoinbaseMarketDataProvider(client, retries=0)
+        bundle = await MarketDataPipeline([provider]).run(as_of, 500)
+
+    assert bundle.sources[0].state == SourceState.STALE
+    assert not bundle.required_data_is_fresh()
+    assert SignalEngine().score(bundle, news_score=50).confidence == Confidence.LOW

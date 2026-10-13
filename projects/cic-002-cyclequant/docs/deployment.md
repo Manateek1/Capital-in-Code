@@ -91,9 +91,11 @@ The site's existing SPA rewrite already supports direct visits to
 
 Open GitHub Actions → **CycleQuant daily evaluation**. A normal hourly or daily
 run finishes with `cyclequant health` and `"ok":true`. The `daily` mode also
-requires a decision for the current UTC date. If a run fails, inspect its
-error; do not submit a compensating order by hand. The site should show
-`ALPACA PAPER · CONNECTED`, a recent snapshot, and a reconciled position.
+requires a decision for the current UTC date. Immediately after a filled BUY,
+Alpaca may not have posted the asset-denominated fee yet; the run can report
+`"position_reconciliation_pending":true` while the public mirror remains
+unreconciled and new orders remain blocked. If the pending state persists past
+fee posting, inspect the failure; do not submit a compensating order by hand.
 An overdue sync is labeled `STALE` on the public page.
 
 The monthly **CycleQuant schedule keepalive** workflow makes an empty commit

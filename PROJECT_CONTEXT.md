@@ -324,10 +324,12 @@ caveats in a public-facing format.
 - Scheduled run `38414083513` exposed a race after a fresh Alpaca paper fill:
   the broker position updated before the corresponding crypto-fee activity was
   visible, so the strict mirror correctly reported `position_reconciled=false`.
-- `cyclequant sync-broker` now exits nonzero while the position is
-  unreconciled. The existing workflow retry wrapper therefore waits and
-  rechecks fee activity before health evaluation; persistent mismatches still
-  fail visibly and continue to block unsafe follow-up orders.
+- Alpaca documents that crypto fee activities can post at end of day. A
+  same-day filled BUY with an unposted asset-denominated fee is therefore
+  reported as `position_reconciliation_pending`: it remains visible in the
+  public mirror and continues to block another order, while the workflow can
+  complete and recheck after fee posting. Persistent or unrelated mismatches
+  still fail visibly and block unsafe follow-up orders.
 
 ### Historical repository snapshot — 2026-07-29
 

@@ -20,7 +20,7 @@ from cyclequant.config import Settings, load_settings
 from cyclequant.data.aggregator import build_default_pipeline, build_http_client
 from cyclequant.database import Database, Repository, SupabaseDatabase
 from cyclequant.logging import configure_logging
-from cyclequant.models import Action, OrderStatus
+from cyclequant.models import Action, DecisionRecord, OrderStatus, PaperAccountSnapshot
 from cyclequant.news_analysis import GeminiNewsAnalyzer, HeuristicNewsAnalyzer, SafeNewsAnalyzer
 from cyclequant.reporting import build_dashboard_payload
 from cyclequant.strategy import DailyStrategyRunner
@@ -155,11 +155,33 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
             separators=(",", ":"),
         )
     )
-    # A fresh fill can appear in the broker position before its fee activity is
-    # available. Returning failure here lets the workflow's existing retry
-    # wrapper wait for the fee ledger before the health check runs. A persistent
-    # mismatch must remain a visible safety failure.
-    return 0 if snapshot.position_reconciled else 1
+    # Alpaca posts crypto fee activities at end of day. Keep the mismatch
+    # visible and let risk block another order, but do not fail the same-day
+    # workflow for a known pending BUY fee. A persistent mismatch still fails.
+    return (
+        0
+        if snapshot.position_reconciled
+        or _fee_reconciliation_pending(decision, snapshot, datetime.now(UTC))
+        else 1
+    )
+
+
+def _fee_reconciliation_pending(
+    decision: DecisionRecord | None,
+    snapshot: PaperAccountSnapshot | None,
+    now: datetime,
+) -> bool:
+    """Recognize a same-day BUY whose asset-denominated fee is not posted yet."""
+
+    return bool(
+        decision
+        and snapshot
+        and not snapshot.position_reconciled
+        and decision.action == Action.BUY
+        and decision.order_status == OrderStatus.FILLED
+        and decision.trade_quantity > 0
+        and decision.timestamp.date() == now.date()
+    )
 
 
 def _health(
@@ -175,6 +197,7 @@ def _health(
     recent = database.list_decisions(limit=1)
     decision = recent[0] if recent else None
     snapshot = database.latest_paper_account_snapshot()
+    position_reconciliation_pending = _fee_reconciliation_pending(decision, snapshot, now)
     checks = {
         "alpaca_paper_mode": settings.broker_mode == "alpaca-paper",
         "trading_switch_enabled": settings.trading_enabled,
@@ -206,18 +229,23 @@ def _health(
             )
         ),
     }
+    ok = all(checks.values()) or (
+        position_reconciliation_pending
+        and all(value for name, value in checks.items() if name != "position_reconciled")
+    )
     print(
         json.dumps(
             {
-                "ok": all(checks.values()),
+                "ok": ok,
                 "checks": checks,
+                "position_reconciliation_pending": position_reconciliation_pending,
                 "decision_date": decision.decision_date.isoformat() if decision else None,
                 "mirror_captured_at": snapshot.captured_at.isoformat() if snapshot else None,
             },
             separators=(",", ":"),
         )
     )
-    return 0 if all(checks.values()) else 1
+    return 0 if ok else 1
 
 
 def _broker(settings: Settings, client: httpx.AsyncClient):

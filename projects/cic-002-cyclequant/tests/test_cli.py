@@ -71,6 +71,7 @@ async def test_sync_broker_exit_matches_reconciliation_state(
 def test_health_accepts_same_day_buy_while_fee_posting_is_pending(capsys) -> None:
     now = datetime.now(UTC)
     decision = SimpleNamespace(
+        id="decision",
         action=Action.BUY,
         decision_date=now.date(),
         order_status=OrderStatus.FILLED,
@@ -93,6 +94,7 @@ def test_health_accepts_same_day_buy_while_fee_posting_is_pending(capsys) -> Non
     settings = SimpleNamespace(broker_mode="alpaca-paper", trading_enabled=True)
     database = SimpleNamespace(
         list_decisions=lambda limit=1: [decision],
+        list_order_events=lambda decision_id: [],
         latest_paper_account_snapshot=lambda: snapshot,
     )
 

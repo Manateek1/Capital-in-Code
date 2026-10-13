@@ -15,6 +15,7 @@ from cyclequant.broker import (
     SimulatedPaperBroker,
     capture_paper_account,
     reconcile_decision_order,
+    resolve_decision_order_state,
 )
 from cyclequant.config import Settings, load_settings
 from cyclequant.data.aggregator import build_default_pipeline, build_http_client
@@ -196,6 +197,8 @@ def _health(
     now = datetime.now(UTC)
     recent = database.list_decisions(limit=1)
     decision = recent[0] if recent else None
+    if decision and decision.action != Action.HOLD:
+        decision = resolve_decision_order_state(decision, database.list_order_events(decision.id))
     snapshot = database.latest_paper_account_snapshot()
     position_reconciliation_pending = _fee_reconciliation_pending(decision, snapshot, now)
     checks = {

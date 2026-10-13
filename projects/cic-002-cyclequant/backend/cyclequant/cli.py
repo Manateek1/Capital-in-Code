@@ -155,7 +155,11 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
             separators=(",", ":"),
         )
     )
-    return 0
+    # A fresh fill can appear in the broker position before its fee activity is
+    # available. Returning failure here lets the workflow's existing retry
+    # wrapper wait for the fee ledger before the health check runs. A persistent
+    # mismatch must remain a visible safety failure.
+    return 0 if snapshot.position_reconciled else 1
 
 
 def _health(

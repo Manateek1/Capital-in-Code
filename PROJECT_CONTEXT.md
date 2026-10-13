@@ -319,6 +319,16 @@ caveats in a public-facing format.
   decisions carry version `2026.3`. The release does not change the managed
   capital scope, strategy weights, or paper risk controls.
 
+### CIC-002 broker-mirror retry fix — 2026-10-13
+
+- Scheduled run `38414083513` exposed a race after a fresh Alpaca paper fill:
+  the broker position updated before the corresponding crypto-fee activity was
+  visible, so the strict mirror correctly reported `position_reconciled=false`.
+- `cyclequant sync-broker` now exits nonzero while the position is
+  unreconciled. The existing workflow retry wrapper therefore waits and
+  rechecks fee activity before health evaluation; persistent mismatches still
+  fail visibly and continue to block unsafe follow-up orders.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

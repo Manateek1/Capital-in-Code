@@ -344,6 +344,15 @@ caveats in a public-facing format.
   The mismatch remains visible, blocks new orders, and becomes a workflow
   failure if it outlives the grace period.
 
+### CIC-002 paper position reconciled — 2026-10-14
+
+- Alpaca's paper crypto-fee activity posted and the previously pending BTC
+  position mismatch cleared. The October 14 daily decision was recorded once
+  as a HOLD, and subsequent broker mirrors reported `position_reconciled=true`.
+- Health-watch run `38653147446` refreshed the public broker mirror at 23:17
+  UTC after the prior snapshot aged past two hours. The run passed every health
+  check; the public snapshot showed `alpaca-paper`, connected, and reconciled.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

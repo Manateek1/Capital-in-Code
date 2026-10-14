@@ -34,7 +34,7 @@ decision and order history.
 ## How the live system works
 
 1. A scheduled GitHub Actions job runs the daily decision at **06:37 UTC**, with an idempotent recovery attempt at **08:47 UTC**. Re-running a day does not create another daily decision or duplicate the order.
-2. A separate hourly run refreshes the Alpaca paper account mirror. Every run checks connection, paper-only status, account health, snapshot age, order state, and position reconciliation. Alpaca may post an asset-denominated BUY fee at end of day, so a same-day fill can remain visibly pending while new orders stay blocked; persistent mismatches still fail the workflow.
+2. A separate hourly run refreshes the Alpaca paper account mirror. Every run checks connection, paper-only status, account health, snapshot age, order state, and position reconciliation. Alpaca may post an asset-denominated BUY fee at end of day, so a recent BUY can remain visibly pending for up to 36 hours from its decision, including across UTC midnight, while new orders stay blocked; persistent mismatches still fail the workflow.
 3. Decision and order history are stored in append-only records in Supabase. Public read-only views publish sanitized data; credentials, account identifiers, and Alpaca's unrelated headline balance do not appear on the site.
 4. The Capital in Code website reads those public views, refreshes automatically, and marks an overdue snapshot **stale** rather than treating it as live. It does not silently substitute sample results in production.
 5. A monthly repository keepalive protects the GitHub Actions schedule from GitHub's inactivity shutdown for public repositories. Scheduled runs can still be delayed by GitHub, so the page's freshness warning remains important.
@@ -55,7 +55,7 @@ The production website is on the existing Capital in Code Vercel deployment and 
 
 ## Operations and checks
 
-The two workflows are [daily evaluation and hourly mirror](../../.github/workflows/cyclequant-daily.yml) and [schedule keepalive](../../.github/workflows/cyclequant-keepalive.yml). In GitHub, open **Actions → CycleQuant daily evaluation** to inspect the latest run or manually run `daily` / `sync-broker`. A healthy run ends with JSON containing `"ok":true` from `cyclequant health`; a same-day BUY may also report `"position_reconciliation_pending":true` until Alpaca posts its fee activity. A persistent failure should be investigated rather than hidden or compensated with a manual trade.
+The two workflows are [daily evaluation and hourly mirror](../../.github/workflows/cyclequant-daily.yml) and [schedule keepalive](../../.github/workflows/cyclequant-keepalive.yml). In GitHub, open **Actions → CycleQuant daily evaluation** to inspect the latest run or manually run `daily` / `sync-broker`. A healthy run ends with JSON containing `"ok":true` from `cyclequant health`; a recent filled BUY may also report `"position_reconciliation_pending":true` for up to 36 hours while Alpaca posts its fee activity. The position remains visibly unreconciled and new orders remain blocked during that grace period. A persistent failure should be investigated rather than hidden or compensated with a manual trade.
 
 To check the public side, open the [CycleQuant page](https://capitalincode.com/projects/cic-002-cyclequant). Look for **ALPACA PAPER · CONNECTED**, a recent update time, and **Reconciled**. If it says **STALE** or **Review required**, do not assume the displayed value is current. The homepage preview uses the same public data.
 

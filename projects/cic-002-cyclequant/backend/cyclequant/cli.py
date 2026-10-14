@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import httpx
@@ -25,6 +25,9 @@ from cyclequant.models import Action, DecisionRecord, OrderStatus, PaperAccountS
 from cyclequant.news_analysis import GeminiNewsAnalyzer, HeuristicNewsAnalyzer, SafeNewsAnalyzer
 from cyclequant.reporting import build_dashboard_payload
 from cyclequant.strategy import DailyStrategyRunner
+
+
+ALPACA_CRYPTO_FEE_RECONCILIATION_GRACE = timedelta(hours=36)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -157,8 +160,9 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
         )
     )
     # Alpaca posts crypto fee activities at end of day. Keep the mismatch
-    # visible and let risk block another order, but do not fail the same-day
-    # workflow for a known pending BUY fee. A persistent mismatch still fails.
+    # visible and let risk block another order, but do not fail while a recent
+    # filled BUY can still be waiting for its fee activity, including across
+    # UTC midnight. A persistent mismatch still fails after the bounded grace.
     return (
         0
         if snapshot.position_reconciled
@@ -172,8 +176,9 @@ def _fee_reconciliation_pending(
     snapshot: PaperAccountSnapshot | None,
     now: datetime,
 ) -> bool:
-    """Recognize a same-day BUY whose asset-denominated fee is not posted yet."""
+    """Recognize a recent filled BUY whose asset-denominated fee is pending."""
 
+    age = now - decision.timestamp if decision else None
     return bool(
         decision
         and snapshot
@@ -181,7 +186,8 @@ def _fee_reconciliation_pending(
         and decision.action == Action.BUY
         and decision.order_status == OrderStatus.FILLED
         and decision.trade_quantity > 0
-        and decision.timestamp.date() == now.date()
+        and age is not None
+        and timedelta(0) <= age <= ALPACA_CRYPTO_FEE_RECONCILIATION_GRACE
     )
 
 

@@ -324,12 +324,25 @@ caveats in a public-facing format.
 - Scheduled run `38414083513` exposed a race after a fresh Alpaca paper fill:
   the broker position updated before the corresponding crypto-fee activity was
   visible, so the strict mirror correctly reported `position_reconciled=false`.
-- Alpaca documents that crypto fee activities can post at end of day. A
-  same-day filled BUY with an unposted asset-denominated fee is therefore
-  reported as `position_reconciliation_pending`: it remains visible in the
-  public mirror and continues to block another order, while the workflow can
-  complete and recheck after fee posting. Persistent or unrelated mismatches
-  still fail visibly and block unsafe follow-up orders.
+- Alpaca documents that crypto fee activities can post at end of day. The
+  initial same-UTC-day pending check was too short across midnight. It is now
+  bounded to 36 hours from a filled BUY so the public mirror can remain visibly
+  unreconciled and block another order while the workflow rechecks for the fee;
+  persistent mismatches still fail visibly and block unsafe follow-up orders.
+
+### CIC-002 UTC rollover fee reconciliation — 2026-10-13
+
+- The scheduled broker mirror run `38490089225` failed at 00:25 UTC after the
+  pending-fee health check expired at midnight. The same revision had passed at
+  23:29 UTC in run `38484561110`, with the same connected paper account,
+  unreconciled position, `FILLED` order status, and posted BTC fee total. This
+  isolates the failure to the same-UTC-date condition; it was not an Alpaca
+  credential or connection failure.
+- The pending window now uses elapsed time rather than calendar-date equality,
+  with a 36-hour maximum from the decision to span UTC rollover and an end-of-
+  day posting delay.
+  The mismatch remains visible, blocks new orders, and becomes a workflow
+  failure if it outlives the grace period.
 
 ### Historical repository snapshot — 2026-07-29
 

@@ -353,6 +353,15 @@ caveats in a public-facing format.
   UTC after the prior snapshot aged past two hours. The run passed every health
   check; the public snapshot showed `alpaca-paper`, connected, and reconciled.
 
+### CIC-002 paper allocation increase — 2026-10-15
+
+- Scheduled daily run `38731389017` recorded one BUY decision to move the
+  isolated paper sleeve to a 75% BTC target; Alpaca reported the order FILLED.
+  Recovery run `38744972733` reused the same decision without a duplicate order.
+- As of the 21:27 UTC broker refresh, the new position was connected but not
+  reconciled with the fee-adjusted ledger. The public mirror showed the mismatch
+  while the bounded pending-fee safety window kept further orders blocked.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

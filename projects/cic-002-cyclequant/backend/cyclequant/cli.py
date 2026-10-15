@@ -26,7 +26,6 @@ from cyclequant.news_analysis import GeminiNewsAnalyzer, HeuristicNewsAnalyzer, 
 from cyclequant.reporting import build_dashboard_payload
 from cyclequant.strategy import DailyStrategyRunner
 
-
 ALPACA_CRYPTO_FEE_RECONCILIATION_GRACE = timedelta(hours=36)
 
 
@@ -166,27 +165,35 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
     return (
         0
         if snapshot.position_reconciled
-        or _fee_reconciliation_pending(decision, snapshot, datetime.now(UTC))
+        or _fee_reconciliation_pending(database, decision, snapshot, datetime.now(UTC))
         else 1
     )
 
 
 def _fee_reconciliation_pending(
+    database: Repository,
     decision: DecisionRecord | None,
     snapshot: PaperAccountSnapshot | None,
     now: datetime,
 ) -> bool:
     """Recognize a recent filled BUY whose asset-denominated fee is pending."""
 
-    age = now - decision.timestamp if decision else None
+    if decision is None or snapshot is None or snapshot.position_reconciled:
+        return False
+    if decision.action == Action.HOLD:
+        # A new daily HOLD must not erase a pending fee or restart its clock.
+        # With one decision per UTC day, 36 hours spans at most three records.
+        for prior in database.list_decisions(limit=3):
+            if prior.action != Action.HOLD:
+                decision = resolve_decision_order_state(
+                    prior, database.list_order_events(prior.id)
+                )
+                break
+    age = now - decision.timestamp
     return bool(
-        decision
-        and snapshot
-        and not snapshot.position_reconciled
-        and decision.action == Action.BUY
+        decision.action == Action.BUY
         and decision.order_status == OrderStatus.FILLED
         and decision.trade_quantity > 0
-        and age is not None
         and timedelta(0) <= age <= ALPACA_CRYPTO_FEE_RECONCILIATION_GRACE
     )
 
@@ -206,7 +213,7 @@ def _health(
     if decision and decision.action != Action.HOLD:
         decision = resolve_decision_order_state(decision, database.list_order_events(decision.id))
     snapshot = database.latest_paper_account_snapshot()
-    position_reconciliation_pending = _fee_reconciliation_pending(decision, snapshot, now)
+    position_reconciliation_pending = _fee_reconciliation_pending(database, decision, snapshot, now)
     checks = {
         "alpaca_paper_mode": settings.broker_mode == "alpaca-paper",
         "trading_switch_enabled": settings.trading_enabled,

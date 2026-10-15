@@ -362,6 +362,19 @@ caveats in a public-facing format.
   reconciled with the fee-adjusted ledger. The public mirror showed the mismatch
   while the bounded pending-fee safety window kept further orders blocked.
 
+### CIC-002 pending fees across daily HOLD decisions — 2026-10-15
+
+- A follow-up reliability check reproduced a remaining false failure in both
+  broker sync and health: a new daily HOLD hid the preceding filled BUY while
+  its crypto-fee activity was still within the existing 36-hour grace period.
+- Pending-fee checks now inspect the most recent non-HOLD decision within the
+  last three daily records and resolve its append-only broker events. Later
+  HOLD decisions preserve the original BUY deadline rather than ending or
+  extending it. The public mismatch remains visible and trading stays blocked.
+- All 68 backend tests and lint passed, including next-day HOLD checks, a
+  two-HOLD rollover, broker-event fill resolution, exact expiry boundaries,
+  future timestamps, and rejected or SELL orders that cannot claim BUY grace.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

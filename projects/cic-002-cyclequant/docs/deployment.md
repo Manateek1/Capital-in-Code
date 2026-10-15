@@ -93,10 +93,12 @@ Open GitHub Actions → **CycleQuant daily evaluation**. A normal hourly or dail
 run finishes with `cyclequant health` and `"ok":true`. The `daily` mode also
 requires a decision for the current UTC date. After a filled BUY, Alpaca may
 not have posted the asset-denominated fee yet; for up to 36 hours from the
-decision, including across UTC midnight, the run can report
+  filled BUY decision, including across UTC midnight and subsequent daily HOLD
+  decisions, the run can report
 `"position_reconciliation_pending":true` while the public mirror remains
 unreconciled and new orders remain blocked. If the pending state persists past
-that grace period, inspect the failure; do not submit a compensating order by
+  that grace period, inspect the failure; a later HOLD does not restart the
+  clock. Do not submit a compensating order by
 hand.
 An overdue sync is labeled `STALE` on the public page.
 

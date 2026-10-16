@@ -375,6 +375,28 @@ caveats in a public-facing format.
   two-HOLD rollover, broker-event fill resolution, exact expiry boundaries,
   future timestamps, and rejected or SELL orders that cannot claim BUY grace.
 
+### CIC-002 autonomous execution during fee posting — 2026-10-15
+
+- Dillon clarified that routine fee-posting delays must not pause autonomous
+  paper buys or sells. This supersedes the earlier policy of blocking every
+  order while a recent BUY fee activity was pending.
+- Execution version `2026.4` recognizes only a BTC shortfall within Alpaca's
+  documented maximum 0.25% fee on filled BUYs from the last 36 hours, plus BTC
+  rounding. The observed shortfall adjusts the managed BTC quantity to the
+  broker-confirmed net position. The rate bounds the check; it is not used to
+  invent a fee or change immutable trade records.
+- Paper buys and sells remain eligible during that bounded pending state.
+  Sizing, valuation, and performance use confirmed net BTC; buys are also capped
+  by isolated managed cash. Later HOLD or SELL decisions do not extend the
+  original BUY deadline. Unexplained shortfalls or extra BTC still fail.
+- Public snapshots distinguish `position_trade_ready` and
+  `pending_btc_fee_quantity` from strict posted-activity reconciliation. The
+  dashboard shows execution enabled with fee posting pending when applicable.
+  Account, freshness, paper-only, allocation, and duplicate-order checks remain.
+- Validation passed 82 backend tests, lint, and the site production build.
+  Regression runs execute both a BUY and a full SELL before BTC fee activities
+  post, preserve net portfolio value when they post, and prevent duplicate orders.
+
 ### Historical repository snapshot — 2026-07-29
 
 - GitHub repository: `Manateek1/Capital-in-Code`.

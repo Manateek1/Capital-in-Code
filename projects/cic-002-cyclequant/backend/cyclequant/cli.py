@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 from pathlib import Path
 
 import httpx
@@ -21,12 +21,10 @@ from cyclequant.config import Settings, load_settings
 from cyclequant.data.aggregator import build_default_pipeline, build_http_client
 from cyclequant.database import Database, Repository, SupabaseDatabase
 from cyclequant.logging import configure_logging
-from cyclequant.models import Action, DecisionRecord, OrderStatus, PaperAccountSnapshot
+from cyclequant.models import Action, OrderStatus
 from cyclequant.news_analysis import GeminiNewsAnalyzer, HeuristicNewsAnalyzer, SafeNewsAnalyzer
 from cyclequant.reporting import build_dashboard_payload
 from cyclequant.strategy import DailyStrategyRunner
-
-ALPACA_CRYPTO_FEE_RECONCILIATION_GRACE = timedelta(hours=36)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -151,6 +149,8 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
                 "broker_mode": snapshot.broker_mode,
                 "connected": snapshot.connected,
                 "position_reconciled": snapshot.position_reconciled,
+                "position_trade_ready": snapshot.position_trade_ready,
+                "pending_btc_fee_quantity": str(snapshot.pending_btc_fee_quantity),
                 "btc_fee_quantity": str(snapshot.btc_fee_quantity),
                 "usd_fees_paid": str(snapshot.usd_fees_paid),
                 "latest_order_status": snapshot.latest_order_status.value,
@@ -158,44 +158,7 @@ async def _sync_broker(settings: Settings, database: Repository) -> int:
             separators=(",", ":"),
         )
     )
-    # Alpaca posts crypto fee activities at end of day. Keep the mismatch
-    # visible and let risk block another order, but do not fail while a recent
-    # filled BUY can still be waiting for its fee activity, including across
-    # UTC midnight. A persistent mismatch still fails after the bounded grace.
-    return (
-        0
-        if snapshot.position_reconciled
-        or _fee_reconciliation_pending(database, decision, snapshot, datetime.now(UTC))
-        else 1
-    )
-
-
-def _fee_reconciliation_pending(
-    database: Repository,
-    decision: DecisionRecord | None,
-    snapshot: PaperAccountSnapshot | None,
-    now: datetime,
-) -> bool:
-    """Recognize a recent filled BUY whose asset-denominated fee is pending."""
-
-    if decision is None or snapshot is None or snapshot.position_reconciled:
-        return False
-    if decision.action == Action.HOLD:
-        # A new daily HOLD must not erase a pending fee or restart its clock.
-        # With one decision per UTC day, 36 hours spans at most three records.
-        for prior in database.list_decisions(limit=3):
-            if prior.action != Action.HOLD:
-                decision = resolve_decision_order_state(
-                    prior, database.list_order_events(prior.id)
-                )
-                break
-    age = now - decision.timestamp
-    return bool(
-        decision.action == Action.BUY
-        and decision.order_status == OrderStatus.FILLED
-        and decision.trade_quantity > 0
-        and timedelta(0) <= age <= ALPACA_CRYPTO_FEE_RECONCILIATION_GRACE
-    )
+    return 0 if snapshot.position_reconciled or snapshot.position_trade_ready else 1
 
 
 def _health(
@@ -213,7 +176,7 @@ def _health(
     if decision and decision.action != Action.HOLD:
         decision = resolve_decision_order_state(decision, database.list_order_events(decision.id))
     snapshot = database.latest_paper_account_snapshot()
-    position_reconciliation_pending = _fee_reconciliation_pending(database, decision, snapshot, now)
+    position_reconciliation_pending = bool(snapshot and snapshot.pending_btc_fee_quantity > 0)
     checks = {
         "alpaca_paper_mode": settings.broker_mode == "alpaca-paper",
         "trading_switch_enabled": settings.trading_enabled,
@@ -233,6 +196,8 @@ def _health(
         and snapshot.crypto_trading_enabled
         and snapshot.trading_enabled,
         "position_reconciled": snapshot is not None and snapshot.position_reconciled,
+        "position_trade_ready": snapshot is not None
+        and (snapshot.position_reconciled or snapshot.position_trade_ready),
         "order_healthy": decision is not None
         and snapshot is not None
         and (
@@ -245,10 +210,7 @@ def _health(
             )
         ),
     }
-    ok = all(checks.values()) or (
-        position_reconciliation_pending
-        and all(value for name, value in checks.items() if name != "position_reconciled")
-    )
+    ok = all(value for name, value in checks.items() if name != "position_reconciled")
     print(
         json.dumps(
             {

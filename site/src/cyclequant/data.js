@@ -210,7 +210,7 @@ export async function loadCycleQuantPreview(signal) {
       && account.trading_enabled
       && !account.trading_blocked
       && !account.account_blocked
-      && account.position_reconciled,
+      && (account.position_reconciled || account.position_trade_ready),
     ),
   };
 }

@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
+from cyclequant.broker.positions import check_position
 from cyclequant.config import Settings
 from cyclequant.constants import (
     ALLOWED_EXPOSURES,
@@ -48,6 +49,7 @@ class RiskContext:
     position_quantity: Decimal = Decimal("0")
     managed_position_quantity: Decimal = Decimal("0")
     strategy_portfolio_value: Decimal = STARTING_CAPITAL
+    strategy_cash: Decimal = STARTING_CAPITAL
 
 
 class RiskEngine:
@@ -57,6 +59,13 @@ class RiskEngine:
         settings = context.settings
         current = intent.current_exposure
         target = intent.target_exposure
+        position = check_position(
+            context.database,
+            broker_quantity=context.position_quantity,
+            ledger_quantity=context.managed_position_quantity,
+            mark_price=context.market.spot_price,
+            as_of=context.market.as_of,
+        )
 
         checks = [
             RiskCheck(
@@ -117,9 +126,11 @@ class RiskEngine:
             ),
             RiskCheck(
                 name="no_margin",
-                passed=intent.action != Action.BUY or intent.notional <= account.cash,
+                passed=intent.action != Action.BUY
+                or intent.notional <= min(account.cash, context.strategy_cash),
                 reason=(
-                    f"Buy notional is {intent.notional}; available cash is {account.cash}."
+                    f"Buy notional is {intent.notional}; isolated cash is "
+                    f"{context.strategy_cash}; broker cash is {account.cash}."
                 ),
             ),
             RiskCheck(
@@ -152,13 +163,12 @@ class RiskEngine:
                 ),
             ),
             RiskCheck(
-                name="position_reconciled",
-                passed=(
-                    abs(context.position_quantity - context.managed_position_quantity)
-                    * context.market.spot_price
-                    <= Decimal("0.01")
+                name="position_verified",
+                passed=position.trade_ready,
+                reason=(
+                    "Broker BTC matches the ledger or a bounded recent BUY fee; "
+                    f"pending BTC fee is {position.pending_btc_fee_quantity}."
                 ),
-                reason="Broker BTC position must match the isolated fill ledger.",
             ),
             RiskCheck(
                 name="market_freshness",

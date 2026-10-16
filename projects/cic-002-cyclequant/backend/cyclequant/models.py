@@ -283,6 +283,8 @@ class PaperAccountSnapshot(BaseModel):
     btc_fee_quantity: Decimal = Field(default=Decimal("0"), ge=0)
     usd_fees_paid: Decimal = Field(default=Decimal("0"), ge=0)
     position_reconciled: bool
+    position_trade_ready: bool = False
+    pending_btc_fee_quantity: Decimal = Field(default=Decimal("0"), ge=0)
     latest_action: Action
     latest_order_status: OrderStatus
 

@@ -14,7 +14,7 @@ CycleQuant is a small, automated **practice-money** Bitcoin portfolio. Once per 
 | 2026-09-21 | HOLD at 0% BTC; first of two required confirmations for 25%. |
 | 2026-09-22 | BUY to a 25% BTC target. Alpaca paper filled **0.002865445 BTC** at **$85,535.837013237/BTC**, about **$245.10** executed against a $250 target. |
 
-The difference between a $250 target and a ~$245.10 paper fill is real execution variance. Alpaca also [charges crypto trading fees in the asset received on a buy](https://docs.alpaca.markets/us/docs/crypto-fees), so the BTC held can be lower than the gross order fill. The public portfolio calculates cash, **net BTC after posted broker fees**, marked value, and actual BTC percentage from recorded fills and Alpaca fee activities—not from the planned target. The bot compares that managed quantity with Alpaca's paper position before another order is permitted. A mismatch is shown publicly and stops a new order until resolved; it does not guess an unposted fee.
+The difference between a $250 target and a ~$245.10 paper fill is real execution variance. Alpaca also [charges crypto trading fees in the asset received on a buy](https://docs.alpaca.markets/us/docs/crypto-fees), so the BTC held can be lower than the gross order fill. The public portfolio uses recorded fills, posted fees, and the confirmed net BTC position. A small shortfall within the maximum fee on recent filled BUYs is shown as pending fee activity, while the bot continues sizing paper buys and sells from BTC actually held and the isolated sleeve's cash. The maximum fee is a bound; the adjustment uses the observed shortfall. Unexplained mismatches still stop new orders.
 
 For the first paper trade, Alpaca recorded a **0.000007165 BTC** fee. The resulting net position is **0.002858280 BTC**, which matched the broker on the verified 2026-09-22 sync. The public dollar value changes with Bitcoin's paper-account price.
 
@@ -34,7 +34,7 @@ decision and order history.
 ## How the live system works
 
 1. A scheduled GitHub Actions job runs the daily decision at **06:37 UTC**, with an idempotent recovery attempt at **08:47 UTC**. Re-running a day does not create another daily decision or duplicate the order.
-2. A separate hourly run refreshes the Alpaca paper account mirror. Every run checks connection, paper-only status, account health, snapshot age, order state, and position reconciliation. Alpaca may post an asset-denominated BUY fee at end of day, so a recent BUY can remain visibly pending for up to 36 hours from its decision, including across UTC midnight and subsequent daily HOLD decisions, while new orders stay blocked. A later HOLD does not restart that deadline; persistent mismatches still fail the workflow.
+2. A separate hourly run refreshes the Alpaca paper account mirror. Every run checks connection, paper-only status, account health, snapshot age, order state, and position verification. Alpaca may post BUY fee activities at end of day. A bounded fee-sized shortfall on a filled BUY can remain pending for up to 36 hours while paper orders continue using the confirmed net BTC position. Later HOLD or SELL decisions do not restart the deadline; unexplained or expired mismatches still fail.
 3. Decision and order history are stored in append-only records in Supabase. Public read-only views publish sanitized data; credentials, account identifiers, and Alpaca's unrelated headline balance do not appear on the site.
 4. The Capital in Code website reads those public views, refreshes automatically, and marks an overdue snapshot **stale** rather than treating it as live. It does not silently substitute sample results in production.
 5. A monthly repository keepalive protects the GitHub Actions schedule from GitHub's inactivity shutdown for public repositories. Scheduled runs can still be delayed by GitHub, so the page's freshness warning remains important.
@@ -48,14 +48,14 @@ The production website is on the existing Capital in Code Vercel deployment and 
 - The broker adapter accepts only Alpaca's exact `https://paper-api.alpaca.markets` origin; a live-money endpoint is rejected.
 - BTC/USD only, long-only, cash-backed, no leverage, and at most one 25-percentage-point allocation step per UTC day.
 - The managed sleeve begins at **$1,000**. Unrelated paper-account equity cannot increase order size.
-- Required inputs must be fresh and the paper account healthy. An unmanaged or mismatched BTC position stops new orders.
+- Required inputs must be fresh and the paper account healthy. Unmanaged BTC or an unexplained position shortfall stops new orders; routine pending BUY fees do not.
 - Deterministic client order IDs and reconciliation protect against duplicate submissions after retries or restarts.
 - A kill-switch file and the repository's trading-enabled setting can disable orders. The public website has no order-entry capability.
 - The optional AI news classifier cannot set the allocation, access the broker, or override safety checks; production currently uses the no-key heuristic.
 
 ## Operations and checks
 
-The two workflows are [daily evaluation and hourly mirror](../../.github/workflows/cyclequant-daily.yml) and [schedule keepalive](../../.github/workflows/cyclequant-keepalive.yml). In GitHub, open **Actions → CycleQuant daily evaluation** to inspect the latest run or manually run `daily` / `sync-broker`. A healthy run ends with JSON containing `"ok":true` from `cyclequant health`; a recent filled BUY may also report `"position_reconciliation_pending":true` for up to 36 hours while Alpaca posts its fee activity. The position remains visibly unreconciled and new orders remain blocked during that grace period. A persistent failure should be investigated rather than hidden or compensated with a manual trade.
+The two workflows are [daily evaluation and hourly mirror](../../.github/workflows/cyclequant-daily.yml) and [schedule keepalive](../../.github/workflows/cyclequant-keepalive.yml). In GitHub, open **Actions → CycleQuant daily evaluation** to inspect the latest run or manually run `daily` / `sync-broker`. A healthy run ends with `"ok":true`. Bounded pending BUY fees also show `"position_reconciliation_pending":true` and `"position_trade_ready":true`; paper orders remain eligible even before fee activities post. The dashboard distinguishes **Fee posting pending** from **Review required**. Investigate a persistent unexplained failure rather than compensating with a manual trade.
 
 To check the public side, open the [CycleQuant page](https://capitalincode.com/projects/cic-002-cyclequant). Look for **ALPACA PAPER · CONNECTED**, a recent update time, and **Reconciled**. If it says **STALE** or **Review required**, do not assume the displayed value is current. The homepage preview uses the same public data.
 

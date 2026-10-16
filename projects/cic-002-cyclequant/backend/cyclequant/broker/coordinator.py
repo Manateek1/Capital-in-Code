@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from cyclequant.broker.base import PaperBroker
 from cyclequant.database import Repository
@@ -13,7 +14,9 @@ from cyclequant.models import (
     OrderStatus,
     TradeIntent,
 )
-from cyclequant.risk import RiskEvaluation
+
+if TYPE_CHECKING:
+    from cyclequant.risk import RiskEvaluation
 
 logger = logging.getLogger(__name__)
 

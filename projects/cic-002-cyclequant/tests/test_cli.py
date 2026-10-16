@@ -8,6 +8,7 @@ from types import SimpleNamespace
 import pytest
 
 import cyclequant.cli as cli
+from cyclequant.broker.positions import check_position
 from cyclequant.models import (
     Action,
     Confidence,
@@ -50,6 +51,8 @@ async def test_sync_broker_exit_matches_reconciliation_state(
         broker_mode="alpaca-paper",
         connected=True,
         position_reconciled=position_reconciled,
+        position_trade_ready=position_reconciled or pending_fee,
+        pending_btc_fee_quantity=Decimal("0.000025") if pending_fee else Decimal("0"),
         btc_fee_quantity=Decimal("0"),
         usd_fees_paid=Decimal("0"),
         latest_order_status=OrderStatus.FILLED,
@@ -75,7 +78,10 @@ async def test_sync_broker_exit_matches_reconciliation_state(
     assert result == expected_exit
 
 
-def test_health_accepts_same_day_buy_while_fee_posting_is_pending(capsys) -> None:
+@pytest.mark.parametrize("account_blocked, expected_exit", [(False, 0), (True, 1)])
+def test_health_checks_account_even_while_fee_posting_is_pending(
+    capsys, account_blocked, expected_exit
+) -> None:
     now = datetime.now(UTC)
     decision = SimpleNamespace(
         id="decision",
@@ -93,9 +99,11 @@ def test_health_accepts_same_day_buy_while_fee_posting_is_pending(capsys) -> Non
         account_status="ACTIVE",
         trading_enabled=True,
         trading_blocked=False,
-        account_blocked=False,
+        account_blocked=account_blocked,
         crypto_trading_enabled=True,
         position_reconciled=False,
+        position_trade_ready=True,
+        pending_btc_fee_quantity=Decimal("0.000025"),
         latest_order_status=OrderStatus.FILLED,
     )
     settings = SimpleNamespace(broker_mode="alpaca-paper", trading_enabled=True)
@@ -108,8 +116,8 @@ def test_health_accepts_same_day_buy_while_fee_posting_is_pending(capsys) -> Non
     result = cli._health(settings, database, max_age_minutes=120, require_today=True)
 
     output = json.loads(capsys.readouterr().out)
-    assert result == 0
-    assert output["ok"] is True
+    assert result == expected_exit
+    assert output["ok"] is (expected_exit == 0)
     assert output["checks"]["position_reconciled"] is False
     assert output["position_reconciliation_pending"] is True
 
@@ -211,6 +219,15 @@ async def test_pending_buy_fee_after_a_new_hold(
         list_order_events=lambda decision_id: events if decision_id == buy.id else [],
         latest_paper_account_snapshot=lambda: snapshot,
     )
+    position = check_position(
+        database,
+        broker_quantity=Decimal("0.009975"),
+        ledger_quantity=Decimal("0.01"),
+        mark_price=Decimal("80000"),
+        as_of=now,
+    )
+    snapshot.position_trade_ready = position.trade_ready
+    snapshot.pending_btc_fee_quantity = position.pending_btc_fee_quantity
     monkeypatch.setattr(cli, "build_http_client", lambda _: _ClientContext())
     monkeypatch.setattr(cli, "_broker", lambda settings, client: object())
 

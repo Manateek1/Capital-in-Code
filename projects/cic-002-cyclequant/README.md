@@ -76,8 +76,10 @@ deterministic news fallback.
   by integrity hashes.
 - Order sizing uses CycleQuant's isolated `$1,000` research ledger rather than
   the paper account's total buying power; use a dedicated paper account.
-- The ledger uses recorded fill quantities, prices, and posted Alpaca crypto
-  fees. A broker-position mismatch blocks the next order until resolved.
+- The ledger uses recorded fills and posted Alpaca fees. A recent BUY's BTC
+  shortfall within Alpaca's maximum fee is marked pending for up to 36 hours;
+  orders and valuations use the confirmed net BTC position during that window.
+  Unexplained mismatches still stop new orders. Buys cannot exceed managed cash.
 - The public broker mirror is sanitized: it publishes the managed sleeve and
   reconciliation result, never credentials, account IDs, or unrelated funds.
 - The API and public dashboard expose no order-entry endpoint.

@@ -3,10 +3,11 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from decimal import Decimal
 
+import pytest
 from fastapi.testclient import TestClient
 
 from cyclequant.api import create_app
-from cyclequant.broker import SimulatedPaperBroker
+from cyclequant.broker import CryptoFees, SimulatedPaperBroker, capture_paper_account
 from cyclequant.config import Settings
 from cyclequant.database import Database
 from cyclequant.indicators import IndicatorEngine
@@ -72,6 +73,100 @@ class DelayedFillBroker(SimulatedPaperBroker):
                 "filled_average_price": None,
             }
         )
+
+
+class DeferredFeeBroker(SimulatedPaperBroker):
+    """Deduct BTC fees immediately, then publish their activities later."""
+
+    pending_btc_fees = Decimal("0")
+    posted_btc_fees = Decimal("0")
+    posted_usd_fees = Decimal("0")
+
+    async def get_crypto_fees(self) -> CryptoFees:
+        return CryptoFees(btc_quantity=self.posted_btc_fees, usd_amount=self.posted_usd_fees)
+
+    async def submit_market_order(self, intent: TradeIntent) -> OrderResult:
+        filled = await super().submit_market_order(intent)
+        if intent.action == Action.BUY:
+            fee = (filled.filled_quantity * Decimal("0.0025")).quantize(Decimal("0.000000001"))
+            self.btc_quantity -= fee
+            self.pending_btc_fees += fee
+        elif intent.action == Action.SELL:
+            fee = (filled.requested_notional * Decimal("0.0025")).quantize(Decimal("0.01"))
+            self.cash -= fee
+            self.posted_usd_fees += fee
+        return filled
+
+    def post_fees(self) -> None:
+        self.posted_btc_fees += self.pending_btc_fees
+        self.pending_btc_fees = Decimal("0")
+
+
+@pytest.mark.parametrize("next_action", [Action.BUY, Action.SELL])
+async def test_runner_trades_while_btc_fee_activities_are_pending(
+    tmp_path, daily_bars, next_action
+) -> None:
+    as_of = daily_bars[-1].timestamp
+    price = daily_bars[-1].close
+    bundle = MarketDataBundle(
+        as_of=as_of,
+        spot_price=price,
+        bars=daily_bars,
+        sources=[SourceHealth(name="fixture", state=SourceState.FRESH, required=True)],
+        indicators=IndicatorEngine().compute(daily_bars, as_of=as_of),
+    )
+    database = Database(tmp_path / "cyclequant.db")
+    database.initialize()
+    broker = DeferredFeeBroker(starting_cash=Decimal("100000"), btc_price=price)
+    runner = DailyStrategyRunner(
+        settings=Settings(
+            _env_file=None, trading_enabled=True, confirmation_days=1, initial_exposure=0
+        ),
+        database=database,
+        pipeline=FixedPipeline(bundle),
+        news_analyzer=HeuristicNewsAnalyzer(),
+        broker=broker,
+        signal_engine=FixedSignalEngine(),
+    )
+    bought = await runner.run(as_of)
+    assert bought.decision.order_status == OrderStatus.FILLED
+    first_mirror = database.latest_paper_account_snapshot()
+    assert first_mirror.managed_btc_quantity == broker.btc_quantity
+    assert first_mirror.position_trade_ready
+    assert first_mirror.pending_btc_fee_quantity == broker.pending_btc_fees
+    assert not first_mirror.position_reconciled
+
+    if next_action == Action.SELL:
+        runner.signal_engine = FixedSignalEngine(component_score=20, total_score=20)
+    second = await runner.run(as_of + timedelta(days=1))
+    repeated = await runner.run(as_of + timedelta(days=1))
+    assert second.decision.action == next_action
+    assert second.decision.order_status == OrderStatus.FILLED
+    assert not repeated.created
+    assert broker.submission_count == 2
+    assert second.decision.portfolio_value == first_mirror.strategy_portfolio_value
+    pending_mirror = database.latest_paper_account_snapshot()
+    assert pending_mirror.position_trade_ready
+    assert pending_mirror.managed_btc_quantity == broker.btc_quantity
+    if next_action == Action.SELL:
+        assert broker.btc_quantity == 0
+        assert second.decision.trade_quantity == first_mirror.managed_btc_quantity
+
+    broker.post_fees()
+    posted_mirror = await capture_paper_account(
+        settings=runner.settings,
+        database=database,
+        broker=broker,
+        decision=second.decision,
+        as_of=as_of + timedelta(days=1),
+    )
+    assert posted_mirror.position_reconciled
+    assert posted_mirror.pending_btc_fee_quantity == 0
+    assert posted_mirror.managed_btc_quantity == pending_mirror.managed_btc_quantity
+    assert posted_mirror.strategy_portfolio_value == pending_mirror.strategy_portfolio_value
+    assert Decimal(database.list_performance()[-1]["cyclequant_value"]) == (
+        posted_mirror.strategy_portfolio_value
+    )
 
 
 async def test_daily_runner_is_idempotent_and_exports_audit_record(tmp_path, daily_bars) -> None:

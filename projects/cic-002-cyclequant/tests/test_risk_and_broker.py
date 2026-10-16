@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import replace
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from decimal import Decimal
+from types import SimpleNamespace
 
 import httpx
+import pytest
 
 from cyclequant.broker import (
     AlpacaPaperBroker,
@@ -15,6 +17,7 @@ from cyclequant.broker import (
     managed_ledger,
     resolve_decision_order_state,
 )
+from cyclequant.broker.positions import check_position
 from cyclequant.config import Settings
 from cyclequant.database import Database
 from cyclequant.indicators import IndicatorEngine
@@ -143,7 +146,68 @@ def test_untracked_broker_btc_blocks_new_order(tmp_path, daily_bars) -> None:
         position_quantity=Decimal("0.00001"),
     )
     evaluation = RiskEngine().evaluate(context)
-    assert "position_reconciled" in {check.name for check in evaluation.failures}
+    assert "position_verified" in {check.name for check in evaluation.failures}
+
+
+@pytest.mark.parametrize("action", [Action.BUY, Action.SELL])
+def test_pending_btc_fee_does_not_block_paper_order(
+    tmp_path, daily_bars, monkeypatch, action
+) -> None:
+    context = replace(
+        make_context(tmp_path, daily_bars),
+        position_quantity=Decimal("0.009975"),
+        managed_position_quantity=Decimal("0.01"),
+    )
+    if action == Action.SELL:
+        context.intent.action = action
+        context.intent.target_exposure = 0
+        context.intent.quantity = context.intent.notional / context.market.spot_price
+    buy = SimpleNamespace(
+        id="buy", action=Action.BUY, order_status=OrderStatus.FILLED,
+        timestamp=context.market.as_of - timedelta(hours=24), trade_quantity=Decimal("0.01")
+    )
+    monkeypatch.setattr(context.database, "list_decisions", lambda limit=3: [buy])
+    monkeypatch.setattr(context.database, "list_order_events", lambda decision_id: [])
+    assert RiskEngine().evaluate(context).approved
+
+
+def test_broker_cash_cannot_cover_a_managed_cash_shortfall(tmp_path, daily_bars) -> None:
+    context = replace(make_context(tmp_path, daily_bars), strategy_cash=Decimal("200"))
+    context.account.cash = Decimal("100000")
+    evaluation = RiskEngine().evaluate(context)
+    assert "no_margin" in {check.name for check in evaluation.failures}
+
+
+@pytest.mark.parametrize(
+    "broker_quantity, age_hours, status, ready",
+    [
+        ("0.009975", 24, OrderStatus.FILLED, True),
+        ("0.009975", 36, OrderStatus.FILLED, True),
+        ("0.009975", 37, OrderStatus.FILLED, False),
+        ("0.009975", -1, OrderStatus.FILLED, False),
+        ("0.010001", 24, OrderStatus.FILLED, False),
+        ("0.0099", 24, OrderStatus.FILLED, False),
+        ("0.009975", 24, OrderStatus.REJECTED, False),
+        ("0.009975", 24, OrderStatus.PARTIALLY_FILLED, False),
+    ],
+)
+def test_only_bounded_recent_filled_buy_shortfalls_are_trade_ready(
+    broker_quantity, age_hours, status, ready
+) -> None:
+    now = datetime(2026, 10, 16, 8, tzinfo=UTC)
+    buy = SimpleNamespace(
+        id="buy", action=Action.BUY, order_status=status,
+        timestamp=now - timedelta(hours=age_hours), trade_quantity=Decimal("0.01")
+    )
+    database = SimpleNamespace(
+        list_decisions=lambda limit=3: [buy], list_order_events=lambda decision_id: []
+    )
+    position = check_position(
+        database, broker_quantity=Decimal(broker_quantity), ledger_quantity=Decimal("0.01"),
+        mark_price=Decimal("80000"), as_of=now,
+    )
+    assert position.trade_ready is ready
+    assert not position.reconciled
 
 
 async def test_alpaca_adapter_rejects_live_or_lookalike_hosts_async() -> None:

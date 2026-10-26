@@ -38,7 +38,9 @@ rows. The compounded overnight and intraday returns reconstructed
 close-to-close return with a maximum row-level discrepancy of
 `2.22 × 10^-16`.
 
-Annualized results use 252 trading days and a 0% annual risk-free rate.
+Annualized results use 252 trading days and a **0.00% annual risk-free rate**
+when no rate is supplied. Win rate is the percentage of aligned return
+observations above zero, not an order-level trade record.
 
 ## What the Data Shows
 
@@ -46,15 +48,35 @@ Annualized results use 252 trading days and a 0% annual risk-free rate.
 | --- | ---: | ---: | ---: |
 | Mean daily return | 0.03962% | 0.00785% | 0.04748% |
 | Median daily return | 0.06070% | 0.04775% | 0.07081% |
-| Cumulative return | 1,917.13% | 28.63% | 2,494.64% |
+| Cumulative return | 1,917.13% | 28.63% | 2,494.63% |
 | Annualized return | 9.86% | 0.79% | 10.73% |
 | Annualized volatility | 10.75% | 15.43% | 18.84% |
 | Sharpe ratio | 0.929 | 0.128 | 0.635 |
 | Maximum drawdown | -32.79% | -68.49% | -55.19% |
+| Positive return observations | 56.29% | 52.63% | 54.28% |
+
+The same-period return and risk-adjusted rankings are:
+
+| Return stream | Daily standard deviation | CAGR | Annualized volatility | Sharpe | Maximum drawdown | Win rate | Return rank | Sharpe rank | CAGR vs. buy and hold |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Overnight | 0.6769% | 9.86% | 10.75% | 0.929 | -32.79% | 56.29% | 2 | 1 | -0.87 pp |
+| Regular hours | 0.9721% | 0.79% | 15.43% | 0.128 | -68.49% | 52.63% | 3 | 3 | -9.94 pp |
+| Buy and hold (benchmark) | 1.1867% | 10.73% | 18.84% | 0.635 | -55.19% | 54.28% | 1 | 2 | 0.00 pp |
+
+Return rank sorts by CAGR; Sharpe rank sorts by annualized Sharpe. Overnight is
+the strongest return stream on a risk-adjusted basis, while buy and hold has
+the highest CAGR. Buy and hold is flagged because it ranks in the upper half by
+CAGR and higher half by annualized volatility. These are ex-post gross adjusted
+returns; the existing 1 bp-per-leg cost sensitivity is separate.
+
+![CAGR versus annualized volatility for the three aligned return streams](../../../site/public/images/cic-001/risk-return-comparison.png)
+
+*Sharpe uses the default 0.00% annual risk-free rate. The outlined point marks
+the high-return, higher-volatility flag.*
 
 The overnight-minus-intraday difference in mean daily return was 3.18 basis
 points. A paired t-test gave `p = 0.0160`, a Wilcoxon signed-rank test gave
-`p = 0.000163`, and a 10,000-sample paired bootstrap put the 95% interval for
+`p = 0.000162`, and a 10,000-sample paired bootstrap put the 95% interval for
 the mean difference at 0.55 to 5.74 basis points per day.
 
 Simple returns compound rather than add. The $1 ending values were $20.17 for
@@ -91,9 +113,11 @@ execution failures, and other operational constraints.
 ## What the Analysis Suggests
 
 In this fixed adjusted-price sample, SPY's historical return was strongly
-concentrated in the close-to-next-open interval. The overnight component also
-had lower volatility and shallower drawdown than the regular-hours component.
-The evidence supports the original hypothesis.
+concentrated in the close-to-next-open interval. The overnight component had
+the best Sharpe ratio among the three return streams and lower volatility and
+shallower drawdown than regular hours. Buy and hold still had the highest CAGR.
+The evidence supports the original return-decomposition hypothesis; it does
+not show that an executable overnight strategy beats buy and hold after costs.
 
 The start-date and tail checks suggest the result was broader than one chosen
 start year or a handful of extreme dates. They do not show that the effect was

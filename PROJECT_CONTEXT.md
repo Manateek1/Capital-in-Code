@@ -221,6 +221,27 @@ caveats in a public-facing format.
   exact fill details in the audit drawer, successful reads from all four
   public Supabase views, and no browser console or rendering errors.
 
+### CIC-001 risk-adjusted performance reporting — 2026-10-25
+
+- The CIC-001 pipeline now publishes a matched-date comparison for the
+  overnight, regular-hours, and close-to-close buy-and-hold return streams.
+  It reports sample daily standard deviation, annualized volatility using
+  `sqrt(252)`, annualized Sharpe ratio, CAGR, maximum drawdown, positive-day
+  rate, benchmark excess return, and separate CAGR and Sharpe rankings.
+- The default annual risk-free rate is 0.00% and is labeled in the output;
+  users can configure another rate. Risk metrics use gross adjusted return
+  observations, while the existing 1 bp-per-leg transaction-cost sensitivity
+  remains a separate report.
+- The October 25, 2026 fixed SPY sample (1994-01-04 through 2025-12-31; 8,053
+  matched return observations) ranked overnight first by Sharpe (0.929) and
+  buy and hold first by CAGR (10.73%). Buy and hold is descriptively flagged
+  for upper-half CAGR and higher-half annualized volatility; these are return
+  components, not simulated executable strategies.
+- The comparison CSV and CAGR-versus-volatility chart are integrated into the
+  pipeline, public site, research documents, and generated PDF. Tests cover
+  formulas, matched samples, missing and insufficient data, and zero
+  volatility.
+
 ### CIC-002 reliability, truth-in-reporting, and site design — 2026-09-22
 
 - Dillon's priority is a continuously operating Alpaca **paper** bot whose

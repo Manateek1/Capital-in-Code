@@ -17,6 +17,7 @@ from .robustness import build_robustness_checks
 from .stats import (
     build_component_comparison,
     build_inferential_tests,
+    build_strategy_comparison,
     build_summary_statistics,
     build_yearly_statistics,
 )
@@ -84,6 +85,10 @@ def run_analysis(config: AnalysisConfig) -> RunResult:
         annual_risk_free_rate=config.risk_free_rate,
         trading_days_per_year=config.trading_days_per_year,
     )
+    strategy_comparison = build_strategy_comparison(
+        summary,
+        annual_risk_free_rate=config.risk_free_rate,
+    )
     comparison = build_component_comparison(summary)
     inferential = build_inferential_tests(
         daily,
@@ -111,6 +116,7 @@ def run_analysis(config: AnalysisConfig) -> RunResult:
         output_dir=config.output_dir,
         daily=daily,
         summary=summary,
+        strategy_comparison=strategy_comparison,
         comparison=comparison,
         inferential=inferential,
         yearly=yearly,
@@ -121,10 +127,12 @@ def run_analysis(config: AnalysisConfig) -> RunResult:
     chart_files = generate_charts(
         daily,
         yearly,
+        strategy_comparison,
         chart_dir=config.chart_dir,
         ticker=config.ticker,
         rolling_window=config.rolling_window,
         trading_days_per_year=config.trading_days_per_year,
+        annual_risk_free_rate=config.risk_free_rate,
     )
 
     actual_start = daily.index.min().date().isoformat()

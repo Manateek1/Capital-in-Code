@@ -47,6 +47,8 @@ def test_parse_args_accepts_documented_options(tmp_path: Path) -> None:
         ["--ticker", "SPY;DROP"],
         ["--trading-days-per-year", "0"],
         ["--risk-free-rate", "-1"],
+        ["--risk-free-rate", "nan"],
+        ["--risk-free-rate", "inf"],
         ["--transaction-cost-bps", "-0.1"],
         ["--bootstrap-samples", "99"],
         ["--rolling-window", "1"],

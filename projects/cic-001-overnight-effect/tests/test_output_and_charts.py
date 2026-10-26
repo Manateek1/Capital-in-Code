@@ -15,6 +15,7 @@ from src.robustness import build_robustness_checks
 from src.stats import (
     build_component_comparison,
     build_inferential_tests,
+    build_strategy_comparison,
     build_summary_statistics,
     build_yearly_statistics,
 )
@@ -40,6 +41,10 @@ def test_all_machine_readable_outputs_are_created(tmp_path: Path) -> None:
     daily = _daily_sample()
     summary = build_summary_statistics(
         daily, annual_risk_free_rate=0.0, trading_days_per_year=252
+    )
+    strategy_comparison = build_strategy_comparison(
+        summary,
+        annual_risk_free_rate=0.0,
     )
     comparison = build_component_comparison(summary)
     inferential = build_inferential_tests(daily, bootstrap_samples=500, random_seed=42)
@@ -70,6 +75,7 @@ def test_all_machine_readable_outputs_are_created(tmp_path: Path) -> None:
         output_dir=tmp_path,
         daily=daily,
         summary=summary,
+        strategy_comparison=strategy_comparison,
         comparison=comparison,
         inferential=inferential,
         yearly=yearly,
@@ -78,12 +84,19 @@ def test_all_machine_readable_outputs_are_created(tmp_path: Path) -> None:
         metadata=metadata,
     )
 
-    assert len(artifacts.as_list()) == 8
+    assert len(artifacts.as_list()) == 9
     assert all(
         path.is_file() and path.stat().st_size > 0 for path in artifacts.as_list()
     )
     loaded_daily = pd.read_csv(artifacts.daily_returns)
     assert len(loaded_daily) == len(daily)
+    loaded_strategy_comparison = pd.read_csv(artifacts.strategy_comparison)
+    assert loaded_strategy_comparison["return_stream"].tolist() == [
+        "Overnight",
+        "Regular hours",
+        "Buy and hold",
+    ]
+    assert loaded_strategy_comparison["risk_adjusted_rank"].notna().all()
     with artifacts.validation_report.open(encoding="utf-8") as handle:
         validation_json = json.load(handle)
     assert validation_json["first_unaligned_observation_removed"] == 1
@@ -91,6 +104,15 @@ def test_all_machine_readable_outputs_are_created(tmp_path: Path) -> None:
 
 def test_all_documented_charts_are_created(tmp_path: Path) -> None:
     daily = _daily_sample()
+    summary = build_summary_statistics(
+        daily,
+        annual_risk_free_rate=0.0,
+        trading_days_per_year=252,
+    )
+    strategy_comparison = build_strategy_comparison(
+        summary,
+        annual_risk_free_rate=0.0,
+    )
     yearly = build_yearly_statistics(
         daily, annual_risk_free_rate=0.0, trading_days_per_year=252
     )
@@ -98,12 +120,15 @@ def test_all_documented_charts_are_created(tmp_path: Path) -> None:
     paths = generate_charts(
         daily,
         yearly,
+        strategy_comparison,
         chart_dir=tmp_path,
         ticker="TEST",
         rolling_window=63,
         trading_days_per_year=252,
+        annual_risk_free_rate=0.0,
     )
 
-    assert len(paths) == 6
+    assert len(paths) == 7
     assert all(path.suffix == ".png" for path in paths)
     assert all(path.is_file() and path.stat().st_size > 10_000 for path in paths)
+    assert any(path.name == "risk-return-comparison.png" for path in paths)

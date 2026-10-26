@@ -4,7 +4,7 @@
 
 This study decomposes the historical return of the SPDR S&P 500 ETF Trust (SPY) into two non-overlapping holding intervals: the previous trading close to the next trading open (overnight) and the current open to current close (regular hours). Using adjusted daily OHLC data obtained from Yahoo Finance through yfinance, the fixed sample contains 8,053 aligned trading-day returns from 1994-01-04 through 2025-12-31.
 
-Over the full sample, the overnight component compounded to 1,917.13% (9.86% annualized), while the regular-hours component compounded to 28.63% (0.79% annualized). Close-to-close buy and hold compounded to 2,494.64% (10.73% annualized). The average overnight-minus-regular-hours daily return difference was 3.18 basis points. A paired t-test returned p = 0.0160, the Wilcoxon signed-rank test returned p = 0.000163, and a 10,000-sample paired bootstrap placed the 95% interval for the mean daily difference between 0.55 and 5.74 basis points.
+Over the full sample, the overnight component compounded to 1,917.13% (9.86% annualized), while the regular-hours component compounded to 28.63% (0.79% annualized). Close-to-close buy and hold compounded to 2,494.63% (10.73% annualized). The average overnight-minus-regular-hours daily return difference was 3.18 basis points. A paired t-test returned p = 0.0160, the Wilcoxon signed-rank test returned p = 0.000162, and a 10,000-sample paired bootstrap placed the 95% interval for the mean daily difference between 0.55 and 5.74 basis points.
 
 The pattern is historically striking but neither uniform nor sufficient to establish practical tradability. It persisted in selected later-start samples and after paired tail trimming, yet the defined COVID shock was a sharp counterexample: overnight return was -28.12% versus -7.34% during regular hours. A simplified 1-basis-point-per-leg daily cost model left the overnight series positive, but reduced its annualized return to 4.46%, below the 10.73% historical buy-and-hold return. These results are a historical return decomposition, not a causal explanation, forecast, or investment recommendation.
 
@@ -63,7 +63,7 @@ For numerical stability, the pipeline also calculates log returns. Overnight and
 
 ## Statistical Methods
 
-For each component, the analysis reports daily location and dispersion statistics, tail percentiles, skewness, excess kurtosis, frequency of positive returns, cumulative and annualized return, annualized volatility, Sharpe ratio, and maximum drawdown. Annualization uses 252 trading days and the reported Sharpe ratios use a 0% annual risk-free rate.
+For each component, the analysis reports daily location and dispersion statistics, tail percentiles, skewness, excess kurtosis, frequency of positive return observations, cumulative and annualized return, annualized volatility, Sharpe ratio, and maximum drawdown. Annualization uses 252 trading days. Sharpe ratios use a 0% annual risk-free rate by default; a supplied annual rate is converted to an effective daily rate and subtracted from the daily arithmetic mean before annualization. Daily volatility is sample standard deviation (`ddof=1`) multiplied by `sqrt(252)`. CAGR compounds the daily returns and annualizes over the observed trading-day count. Samples shorter than two observations do not receive CAGR, volatility, or Sharpe estimates; zero-volatility Sharpe is undefined rather than infinite.
 
 The primary inferential comparison uses matched return pairs from the same trading dates. A paired design is appropriate because overnight and regular-hours observations are two components of the same day rather than unrelated samples. It avoids treating shared day-specific market conditions as though the samples were independent.
 
@@ -75,29 +75,48 @@ These procedures do not establish a causal mechanism, a stable market law, or ec
 
 ## Results
 
-The full-sample return decomposition favors the overnight component on compounded return, annualized return, volatility, Sharpe ratio, and maximum drawdown.
+The overnight component outperformed regular hours on compounded and annualized return, volatility, Sharpe ratio, and maximum drawdown. Close-to-close buy and hold still had the highest compounded and annualized return; overnight had the highest Sharpe ratio and lowest annualized volatility among the three return streams.
 
 | Metric | Overnight | Regular hours | Buy and hold |
 | --- | ---: | ---: | ---: |
 | Observations | 8,053 | 8,053 | 8,053 |
 | Arithmetic mean per day | 0.03962% | 0.00785% | 0.04748% |
 | Median per day | 0.06070% | 0.04775% | 0.07081% |
-| Positive observations | 56.33% | 52.61% | 54.28% |
-| Cumulative return | 1,917.13% | 28.63% | 2,494.64% |
+| Positive observations | 56.29% | 52.63% | 54.28% |
+| Cumulative return | 1,917.13% | 28.63% | 2,494.63% |
 | Annualized return | 9.86% | 0.79% | 10.73% |
 | Annualized volatility | 10.75% | 15.43% | 18.84% |
 | Sharpe ratio | 0.929 | 0.128 | 0.635 |
 | Maximum drawdown | -32.79% | -68.49% | -55.19% |
 
-The mean daily overnight-minus-regular-hours difference was 0.03177 percentage points, or 3.18 basis points. The paired t-test yielded a statistic of 2.409 and p = 0.0160. The Wilcoxon signed-rank statistic was 15,416,259 with p = 0.000163. The paired bootstrap's 95% interval was 0.55 to 5.74 basis points per day. Together, these results provide historical evidence of a positive paired difference under their stated assumptions. They do not say that the difference is constant, causal, or tradable.
+The ex-post rankings compare all return streams over the same 8,053 aligned
+observations:
+
+| Return stream | Daily standard deviation | CAGR | Annualized volatility | Sharpe | Win rate | CAGR rank | Sharpe rank | Excess CAGR vs. buy and hold |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Overnight | 0.6769% | 9.86% | 10.75% | 0.929 | 56.29% | 2 | 1 | -0.87 pp |
+| Regular hours | 0.9721% | 0.79% | 15.43% | 0.128 | 52.63% | 3 | 3 | -9.94 pp |
+| Buy and hold (benchmark) | 1.1867% | 10.73% | 18.84% | 0.635 | 54.28% | 1 | 2 | 0.00 pp |
+
+Return rank sorts by CAGR; risk-adjusted rank sorts by Sharpe ratio. Buy and
+hold is flagged by a descriptive rule because it ranks in the upper half by
+CAGR and the higher half by annualized volatility. It had the highest CAGR and
+the highest annualized volatility. This highlights a relative return-risk
+tradeoff, not a prediction or a strategy-selection rule.
+
+The mean daily overnight-minus-regular-hours difference was 0.03177 percentage points, or 3.18 basis points. The paired t-test yielded a statistic of 2.409 and p = 0.0160. The Wilcoxon signed-rank statistic was approximately 15,420,140 with p = 0.000162. The paired bootstrap's 95% interval was 0.55 to 5.74 basis points per day. Together, these results provide historical evidence of a positive paired difference under their stated assumptions. They do not say that the difference is constant, causal, or tradable.
 
 ![Growth of one dollar by return component](charts/growth-of-one-dollar.png)
 
 *Figure 1. Compounded adjusted growth of $1 by component. The logarithmic axis preserves proportional changes. Generated locally by the project pipeline.*
 
+![Annualized return versus annualized volatility](../../site/public/images/cic-001/risk-return-comparison.png)
+
+*Figure 2. CAGR versus sample daily standard deviation multiplied by `sqrt(252)`. Sharpe uses the default 0.00% annual risk-free rate. The outlined buy-and-hold point has an upper-half CAGR rank and higher-half annualized volatility rank.*
+
 ![Cumulative log-return contribution](charts/cumulative-log-return-contribution.png)
 
-*Figure 2. Cumulative log-return contribution. The two component series add to the close-to-close log return on each aligned date.*
+*Figure 3. Cumulative log-return contribution. The two component series add to the close-to-close log return on each aligned date.*
 
 ## Robustness Checks
 
@@ -126,11 +145,11 @@ The period results are descriptive, not causal tests, and they show that the eff
 
 ![Compounded return by calendar year](charts/yearly-return-comparison.png)
 
-*Figure 3. Calendar-year compounded return for the two components. The annual dispersion illustrates why an aggregate result should not be read as uniform year-to-year performance.*
+*Figure 4. Calendar-year compounded return for the two components. The annual dispersion illustrates why an aggregate result should not be read as uniform year-to-year performance.*
 
 ![Drawdown by return component](charts/drawdown-comparison.png)
 
-*Figure 4. Drawdown from each component's prior peak. Drawdowns are evaluated on component wealth paths, not on a simulated executable strategy.*
+*Figure 5. Drawdown from each component's prior peak. Drawdowns are evaluated on component wealth paths, not on a simulated executable strategy.*
 
 ## Transaction-Cost / Practical-Tradability Analysis
 
@@ -186,6 +205,6 @@ Run the offline validation suite with:
 ## References / Data Sources
 
 1. Yahoo Finance. Daily SPY historical OHLC data, retrieved through the yfinance Python package with auto_adjust=True for the verified run.
-2. CIC-001 generated artifacts: results/summary_statistics.csv, results/component_comparison.csv, results/inferential_tests.csv, results/robustness_checks.json, results/data_validation_report.json, and results/run_metadata.json.
+2. CIC-001 generated artifacts: results/summary_statistics.csv, results/strategy_comparison.csv, results/component_comparison.csv, results/inferential_tests.csv, results/robustness_checks.json, results/data_validation_report.json, and results/run_metadata.json.
 3. CIC-001 research pipeline: src/data.py, src/validation.py, src/returns.py, src/stats.py, src/robustness.py, and src/charts.py.
 

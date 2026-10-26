@@ -124,6 +124,36 @@ function Home() {
 
 const Metric = ({ label, value }) => <div className="metric"><span>{label}</span><strong>{value}</strong><small>annualized</small></div>;
 
+const cic001Performance = [
+  { stream: "Overnight", dailySD: "0.6769%", volatility: "10.75%", cagr: "9.86%", sharpe: "0.929", drawdown: "-32.79%", winRate: "56.29%", returnRank: "2", sharpeRank: "1", excessCagr: "-0.87 pp" },
+  { stream: "Regular hours", dailySD: "0.9721%", volatility: "15.43%", cagr: "0.79%", sharpe: "0.128", drawdown: "-68.49%", winRate: "52.63%", returnRank: "3", sharpeRank: "3", excessCagr: "-9.94 pp" },
+  { stream: "Buy and hold", dailySD: "1.1867%", volatility: "18.84%", cagr: "10.73%", sharpe: "0.635", drawdown: "-55.19%", winRate: "54.28%", returnRank: "1", sharpeRank: "2", excessCagr: "0.00 pp", highReturnHighVolatility: true },
+];
+
+function RiskAdjustedPerformance() {
+  return <section className="performance-section">
+    <div className="performance-intro">
+      <div><p className="section-label">RISK-ADJUSTED PERFORMANCE</p><h2>Overnight leads on Sharpe. Buy and hold leads on CAGR.</h2></div>
+      <p>All three return streams use the same 8,053 adjusted SPY observations from 1994-01-04 through 2025-12-31. Sharpe uses the default 0.00% annual risk-free rate. The ranking is historical and descriptive.</p>
+    </div>
+    <div className="performance-table-scroll" role="region" aria-label="CIC-001 performance comparison" tabIndex="0">
+      <table className="performance-table">
+        <caption>Gross adjusted returns; daily observations are not an execution ledger.</caption>
+        <thead><tr><th scope="col">Return stream</th><th scope="col">Daily SD</th><th scope="col">Annual vol</th><th scope="col">CAGR</th><th scope="col">Sharpe</th><th scope="col">Max drawdown</th><th scope="col">Win rate</th><th scope="col">CAGR rank</th><th scope="col">Sharpe rank</th><th scope="col">CAGR vs. B&amp;H</th></tr></thead>
+        <tbody>{cic001Performance.map((row) => <tr key={row.stream} className={row.highReturnHighVolatility ? "high-risk-return" : undefined}>
+          <th scope="row">{row.stream}{row.highReturnHighVolatility && <small className="risk-flag">High return / high volatility</small>}</th>
+          <td>{row.dailySD}</td><td>{row.volatility}</td><td>{row.cagr}</td><td>{row.sharpe}</td><td>{row.drawdown}</td><td>{row.winRate}</td><td>{row.returnRank}</td><td>{row.sharpeRank}</td><td>{row.excessCagr}</td>
+        </tr>)}</tbody>
+      </table>
+    </div>
+    <figure className="risk-return-figure">
+      <img src="/images/cic-001/risk-return-comparison.png" alt="Scatter chart comparing annualized return and volatility. Overnight has the highest Sharpe ratio; buy and hold is circled for ranking in the upper half by CAGR and higher half by volatility." />
+      <figcaption>Volatility is sample daily standard deviation multiplied by √252; CAGR is geometric annualized return. The outlined point is in the upper half by CAGR and higher half by annualized volatility.</figcaption>
+    </figure>
+    <p className="performance-note">Win rate is the share of return observations above zero. The table is gross of trading costs; the project’s existing sensitivity continues to charge 1 basis point on entry and 1 basis point on exit each day.</p>
+  </section>;
+}
+
 function Project() {
   return <Layout>
     <section className="project-intro">
@@ -132,6 +162,7 @@ function Project() {
       <div className="metrics"><Metric label="Overnight" value="9.86%" /><Metric label="Regular hours" value="0.79%" /><Metric label="Buy and hold" value="10.73%" /></div>
     </section>
     <section className="chart-section"><h2>Growth of $1 by return component</h2><img src="/images/cic-001/growth-of-one-dollar.png" alt="Logarithmic growth chart comparing overnight, regular-hours, and buy-and-hold returns for SPY." /><p className="caption">Adjusted SPY data from Yahoo Finance via yfinance; 8,053 aligned return observations from 1994-01-04 through 2025-12-31. The logarithmic axis preserves proportional changes.</p></section>
+    <RiskAdjustedPerformance />
     <section className="finding"><div><p className="section-label">What the test found</p><h2>Historical growth was concentrated in the close-to-next-open interval.</h2></div><div><p>The average overnight-minus-regular-hours difference was 3.18 basis points per trading day. The result was statistically detectable in the paired tests, but statistical significance does not establish a realistic or superior trading strategy.</p><LinkArrow to="/methods">How the analysis was designed</LinkArrow></div></section>
     <section className="project-links"><a href={REPORT_PATH} download="CIC-001-The-Overnight-Effect-in-SPY.pdf">Download full report (PDF) <span aria-hidden="true">↓</span></a><a href={PROJECT_PATH} target="_blank" rel="noreferrer">View source code <ExternalArrow /></a><a href={`${PROJECT_PATH}#run-the-analysis`} target="_blank" rel="noreferrer">Reproduce the analysis <ExternalArrow /></a><p><strong>Limitations</strong>Results are historical, adjusted-price evidence for one ETF and one sample. They are not a forecast or investment recommendation.</p></section>
     <section className="two-charts"><img src="/images/cic-001/yearly-return-comparison.png" alt="Annual comparison of overnight and regular-hours compounded returns." /><img src="/images/cic-001/drawdown-comparison.png" alt="Drawdown comparison for the three return components." /></section>

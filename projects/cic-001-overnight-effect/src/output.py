@@ -29,6 +29,7 @@ class OutputArtifacts:
 
     daily_returns: Path
     summary_statistics: Path
+    strategy_comparison: Path
     component_comparison: Path
     inferential_tests: Path
     yearly_statistics: Path
@@ -42,6 +43,7 @@ class OutputArtifacts:
         return [
             self.daily_returns,
             self.summary_statistics,
+            self.strategy_comparison,
             self.component_comparison,
             self.inferential_tests,
             self.yearly_statistics,
@@ -140,6 +142,40 @@ def build_run_metadata(
             "first_observation_removed": True,
             "annualization": (f"{config.trading_days_per_year} trading days per year"),
             "annual_risk_free_rate_decimal": config.risk_free_rate,
+            "annual_risk_free_rate_label": (
+                f"{config.risk_free_rate:.2%} annual risk-free rate; "
+                "the default is 0.00% when no rate is supplied"
+            ),
+            "sharpe_ratio": (
+                "daily mean excess return divided by sample daily standard "
+                "deviation, annualized by sqrt(trading_days_per_year); the "
+                "annual risk-free rate is converted to an effective daily rate"
+            ),
+            "annualized_volatility": (
+                "sample standard deviation of daily simple returns multiplied "
+                "by sqrt(trading_days_per_year)"
+            ),
+            "annualized_return": (
+                "CAGR = exp(sum(log(1 + daily return)) * trading_days_per_year "
+                "/ observation_count) - 1; not reported with fewer than two rows"
+            ),
+            "maximum_drawdown": (
+                "minimum peak-to-trough decline of compounded wealth, including "
+                "initial wealth of 1.0"
+            ),
+            "win_rate": (
+                "percentage of aligned return observations with a positive "
+                "return; daily observations are not an execution ledger"
+            ),
+            "strategy_comparison_scope": (
+                "ex-post comparison of the existing overnight and regular-hours "
+                "adjusted return components with close-to-close buy and hold; "
+                "not order-level execution strategies"
+            ),
+            "comparison_return_basis": (
+                "gross adjusted returns; the existing transaction-cost "
+                "sensitivity remains a separate 1-basis-point-per-leg model"
+            ),
             "maximum_return_reconstruction_error": maximum_reconstruction_error,
             "reconstruction_tolerance": 1e-12,
         },
@@ -156,6 +192,7 @@ def write_outputs(
     output_dir: Path,
     daily: pd.DataFrame,
     summary: pd.DataFrame,
+    strategy_comparison: pd.DataFrame,
     comparison: pd.DataFrame,
     inferential: pd.DataFrame,
     yearly: pd.DataFrame,
@@ -169,6 +206,7 @@ def write_outputs(
     artifacts = OutputArtifacts(
         daily_returns=output_dir / "daily_returns.csv",
         summary_statistics=output_dir / "summary_statistics.csv",
+        strategy_comparison=output_dir / "strategy_comparison.csv",
         component_comparison=output_dir / "component_comparison.csv",
         inferential_tests=output_dir / "inferential_tests.csv",
         yearly_statistics=output_dir / "yearly_statistics.csv",
@@ -181,6 +219,7 @@ def write_outputs(
     daily_for_output.index.name = "date"
     _atomic_csv(daily_for_output, artifacts.daily_returns, index=True)
     _atomic_csv(summary, artifacts.summary_statistics, index=False)
+    _atomic_csv(strategy_comparison, artifacts.strategy_comparison, index=False)
     _atomic_csv(comparison, artifacts.component_comparison, index=False)
     _atomic_csv(inferential, artifacts.inferential_tests, index=False)
     _atomic_csv(yearly, artifacts.yearly_statistics, index=False)

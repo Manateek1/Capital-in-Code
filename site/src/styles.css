@@ -42,3 +42,27 @@ footer { border-top: 1px solid #a8abb1; padding-top: 32px; padding-bottom: 40px;
   .cyclequant-preview-metrics { grid-template-columns: 1fr; }
   .cyclequant-preview-metrics > div { padding: 15px 0; border-right: 0; }
 }
+
+.performance-section { padding: 68px 0; border-bottom: 1px solid #a8abb1; }
+.performance-intro { display: grid; grid-template-columns: 1fr .85fr; gap: 60px; align-items: end; margin-bottom: 30px; }
+.performance-intro h2 { max-width: 740px; font-family: "Fraunces", serif; font-weight: 500; }
+.performance-intro p { margin: 0 0 5px; font-size: 15px; }
+.performance-table-scroll { overflow-x: auto; border-bottom: 1px solid #a8abb1; }
+.performance-table { width: 100%; min-width: 1080px; border-collapse: collapse; font-size: 12px; }
+.performance-table caption { padding: 0 0 12px; text-align: left; color: #595d64; font-size: 13px; }
+.performance-table th, .performance-table td { padding: 14px 11px; border-bottom: 1px solid #d8dadd; text-align: right; white-space: nowrap; }
+.performance-table thead th { color: #fff; background: #123675; font: 500 10px "DM Mono", monospace; letter-spacing: .02em; }
+.performance-table tbody th { min-width: 145px; text-align: left; white-space: normal; font-weight: 600; }
+.performance-table tbody tr:last-child th, .performance-table tbody tr:last-child td { border-bottom: 0; }
+.performance-table tbody tr.high-risk-return { background: #fff8ef; }
+.performance-table tbody tr.high-risk-return th { box-shadow: inset 3px 0 #b56b00; }
+.risk-flag { display: block; margin-top: 4px; color: #8c5200; font-size: 10px; font-weight: 500; }
+.risk-return-figure { margin: 34px 0 0; }
+.risk-return-figure img { display: block; width: 100%; border: 1px solid #c5c6c9; }
+.risk-return-figure figcaption, .performance-note { margin-top: 12px; color: #595d64; font-size: 13px; line-height: 1.5; }
+.performance-note { margin-bottom: 0; }
+@media (max-width: 800px) {
+  .performance-section { padding: 48px 0; }
+  .performance-intro { grid-template-columns: 1fr; gap: 8px; }
+  .performance-table { min-width: 1040px; }
+}

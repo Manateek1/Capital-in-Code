@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import re
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
@@ -59,8 +60,8 @@ class AnalysisConfig:
             )
         if self.start_date >= self.end_date:
             raise ValueError("start date must be earlier than end date")
-        if self.risk_free_rate <= -1.0:
-            raise ValueError("risk-free rate must be greater than -1.0")
+        if not math.isfinite(self.risk_free_rate) or self.risk_free_rate <= -1.0:
+            raise ValueError("risk-free rate must be finite and greater than -1.0")
         if self.trading_days_per_year <= 0:
             raise ValueError("trading days per year must be positive")
         if self.rolling_window <= 1:
@@ -156,7 +157,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--risk-free-rate",
         type=float,
         default=DEFAULT_RISK_FREE_RATE,
-        help="annual decimal risk-free rate used for Sharpe ratios",
+        help=(
+            "annual decimal risk-free rate used for Sharpe ratios "
+            "(default: zero percent, explicitly labeled in results)"
+        ),
     )
     parser.add_argument(
         "--trading-days-per-year",

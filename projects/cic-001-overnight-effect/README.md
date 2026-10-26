@@ -25,8 +25,11 @@ recommendation.
 
 ## Status
 
-Complete. The implementation and offline tests were verified on July 27, 2026.
-The reported results come from a successful live SPY download and analysis run.
+Complete. The original implementation and offline tests were verified on July
+27, 2026. On October 25, 2026, the fixed historical sample was refreshed and
+the pipeline added a same-period benchmark table, explicit return and Sharpe
+rankings, and a return-versus-volatility chart. The figures below come from an
+actual Yahoo Finance SPY download, not a simulated performance series.
 
 ## Research Question
 
@@ -48,7 +51,7 @@ date would have ended at:
 - **$20.17 overnight** — a cumulative return of **1,917.13%**
 - **$1.29 during regular hours** — a cumulative return of **28.63%**
 - **$25.95 in close-to-close buy and hold** — a cumulative return of
-  **2,494.64%**
+  **2,494.63%**
 
 The two component returns multiply rather than add. The ending buy-and-hold
 growth is therefore approximately `20.17 × 1.286 = 25.95`.
@@ -60,16 +63,39 @@ growth is therefore approximately `20.17 × 1.286 = 25.95`.
 | Aligned observations | 8,053 | 8,053 | 8,053 |
 | Arithmetic mean per day | 0.03962% | 0.00785% | 0.04748% |
 | Median per day | 0.06070% | 0.04775% | 0.07081% |
-| Positive observations | 56.33% | 52.61% | 54.28% |
-| Cumulative return | 1,917.13% | 28.63% | 2,494.64% |
+| Positive observations | 56.29% | 52.63% | 54.28% |
+| Cumulative return | 1,917.13% | 28.63% | 2,494.63% |
 | Annualized return | 9.86% | 0.79% | 10.73% |
 | Annualized volatility | 10.75% | 15.43% | 18.84% |
 | Sharpe ratio | 0.929 | 0.128 | 0.635 |
 | Maximum drawdown | -32.79% | -68.49% | -55.19% |
 
 Annualization uses 252 trading days per year. The default annual risk-free rate
-is 0%, so the Sharpe ratios are return divided by volatility on an annualized
-basis.
+is **0.00%** when no rate is provided. Sharpe uses daily mean excess return
+divided by sample daily standard deviation, annualized by `sqrt(252)`. These
+metrics use gross adjusted-price observations; the existing 1 bp-per-leg cost
+sensitivity remains separate.
+
+### Ranked Performance Comparison
+
+This table compares all three return streams over the same 8,053 dates. Daily
+standard deviation uses the sample convention (`ddof=1`); annualized volatility
+is that value multiplied by `sqrt(252)`. CAGR compounds the daily returns and
+annualizes over the observed trading-day count. Positive-day rate is the share
+of return observations above zero, not a count of executed trades.
+
+| Return stream | Daily SD | Annual volatility | CAGR | Sharpe | Maximum drawdown | Positive days | Return rank | Sharpe rank | CAGR vs. buy and hold |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Overnight | 0.6769% | 10.75% | 9.86% | 0.929 | -32.79% | 56.29% | 2 | 1 | -0.87 pp |
+| Regular hours | 0.9721% | 15.43% | 0.79% | 0.128 | -68.49% | 52.63% | 3 | 3 | -9.94 pp |
+| Buy and hold (benchmark) | 1.1867% | 18.84% | 10.73% | 0.635 | -55.19% | 54.28% | 1 | 2 | 0.00 pp |
+
+Return rank sorts by CAGR; Sharpe rank sorts by annualized Sharpe ratio. The
+overnight component ranks first on Sharpe (0.929), while buy and hold has the
+highest CAGR (10.73%). The pipeline flags a return stream in the upper half by
+CAGR and higher half by annualized volatility. Buy and hold is flagged: its
+higher return comes with 18.84% annualized volatility. This is a retrospective
+comparison of return streams, not evidence of an executable strategy.
 
 ## What the Statistical Tests Say
 
@@ -77,7 +103,7 @@ The average overnight return exceeded the average regular-hours return by
 **0.03177 percentage points, or 3.18 basis points, per trading day**.
 
 - A paired t-test produced `p = 0.0160`.
-- A Wilcoxon signed-rank test produced `p = 0.000163`.
+- A Wilcoxon signed-rank test produced `p = 0.000162`.
 - A 10,000-sample paired bootstrap estimated a 95% confidence interval of
   **0.55 to 5.74 basis points per day** for the difference in means.
 
@@ -192,9 +218,10 @@ It also reports the overnight-minus-intraday differences in mean, median,
 cumulative return, volatility, and Sharpe ratio.
 
 The default annual risk-free rate is 0%. If a different rate is supplied, it is
-converted to a compounded daily rate and subtracted from both component return
-series. Applying one daily risk-free rate to holding periods of different
-lengths is a simplifying convention and should be interpreted cautiously.
+converted to an effective daily rate and used to calculate excess return for
+each return stream. Applying the same daily rate to holding periods of
+different lengths is a simplifying convention and should be interpreted
+cautiously.
 
 ## Robustness Checks
 
@@ -335,7 +362,7 @@ Useful options include:
 | `--chart-dir` | `charts` | PNG chart destination |
 | `--cache-dir` | `data/raw` | Ignored raw-data cache |
 | `--cache-mode` | `use` | `use`, `refresh`, or `off` |
-| `--risk-free-rate` | `0.0` | Annual decimal rate |
+| `--risk-free-rate` | `0.0` (0.00%) | Annual decimal rate used for Sharpe |
 | `--trading-days-per-year` | `252` | Annualization convention |
 | `--rolling-window` | `63` | Rolling chart window |
 | `--bootstrap-samples` | `10000` | Paired bootstrap draws |
@@ -370,6 +397,7 @@ The pipeline writes:
 | --- | --- |
 | `results/daily_returns.csv` | Clean aligned prices, simple/log returns, identity error, growth, and cumulative returns |
 | `results/summary_statistics.csv` | Overall component statistics |
+| `results/strategy_comparison.csv` | Same-period benchmark metrics, excess returns, win rates, and return/Sharpe/volatility ranks |
 | `results/component_comparison.csv` | Overnight-minus-intraday differences |
 | `results/inferential_tests.csv` | Paired t-test, Wilcoxon test, and bootstrap interval |
 | `results/yearly_statistics.csv` | Tidy calendar-year component results |
@@ -383,7 +411,7 @@ create them locally.
 
 ## Charts
 
-The run creates six PNG files in `charts/`:
+The run creates seven PNG files in `charts/`:
 
 1. `growth-of-one-dollar.png` — overnight, regular-hours, and buy-and-hold
    wealth on a clearly labeled logarithmic axis.
@@ -396,13 +424,22 @@ The run creates six PNG files in `charts/`:
    annualized for scale.
 5. `drawdown-comparison.png` — each component's decline from its own prior
    wealth peak.
-6. `cumulative-log-return-contribution.png` — the additive log-return
+6. `risk-return-comparison.png` — CAGR against annualized daily volatility;
+   an outlined point marks a series in the upper half by CAGR and higher half
+   by annualized volatility.
+7. `cumulative-log-return-contribution.png` — the additive log-return
    decomposition through time.
 
 Each chart includes a title, units, legend, source note, consistent colors, and
 an explanation when an axis or visual treatment could otherwise be
 misunderstood. Generated charts are ignored by Git under the existing
 repository convention.
+
+To refresh the public comparison chart and PDF after the pipeline run, copy
+the generated chart into `site/public/images/cic-001/` and run
+`python scripts/generate_cic001_report.py` from the repository root. The PDF
+builder reads the pipeline's `strategy_comparison.csv`, run metadata, and cost
+sensitivity output so its table stays tied to the verified run.
 
 ## Interpretation
 

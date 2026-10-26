@@ -17,6 +17,8 @@ import pandas as pd
 OVERNIGHT_COLOR = "#0B3C5D"
 INTRADAY_COLOR = "#D97A0D"
 BUY_HOLD_COLOR = "#4D4D4D"
+HIGHLIGHT_COLOR = "#B56B00"
+INK = "#101114"
 GRID_COLOR = "#D8D8D8"
 SOURCE_NOTE = (
     "Source: Yahoo Finance via yfinance; split- and dividend-adjusted daily OHLC. "
@@ -269,6 +271,100 @@ def _drawdown_chart(daily: pd.DataFrame, path: Path, ticker: str) -> None:
     _finish_figure(figure, path)
 
 
+def _risk_return_chart(
+    comparison: pd.DataFrame,
+    path: Path,
+    ticker: str,
+    annual_risk_free_rate: float,
+) -> None:
+    figure, axis = plt.subplots()
+    colors = {
+        "overnight": OVERNIGHT_COLOR,
+        "intraday": INTRADAY_COLOR,
+        "buy_and_hold": BUY_HOLD_COLOR,
+    }
+    plottable = comparison.loc[
+        comparison["annualized_volatility"].map(np.isfinite)
+        & comparison["annualized_return"].map(np.isfinite)
+    ]
+    if plottable.empty:
+        axis.text(
+            0.5,
+            0.5,
+            "Insufficient observations for a risk-return comparison",
+            ha="center",
+            va="center",
+            transform=axis.transAxes,
+        )
+    else:
+        offsets = {
+            "overnight": (9, 8),
+            "intraday": (9, 8),
+            "buy_and_hold": (-9, -25),
+        }
+        for _, row in plottable.iterrows():
+            component = str(row["component"])
+            color = colors.get(component, OVERNIGHT_COLOR)
+            x_value = float(row["annualized_volatility"]) * 100.0
+            y_value = float(row["annualized_return"]) * 100.0
+            axis.scatter(
+                x_value,
+                y_value,
+                s=88,
+                color=color,
+                edgecolor="white",
+                linewidth=1.2,
+                zorder=3,
+            )
+            label = (
+                f"{row['return_stream']}  |  Sharpe {float(row['sharpe_ratio']):.3f}"
+            )
+            axis.annotate(
+                label,
+                (x_value, y_value),
+                xytext=offsets.get(component, (9, 8)),
+                textcoords="offset points",
+                horizontalalignment="right" if component == "buy_and_hold" else "left",
+                fontsize=9,
+                color=INK,
+            )
+            if bool(row["high_return_high_volatility_flag"]):
+                axis.scatter(
+                    x_value,
+                    y_value,
+                    s=190,
+                    facecolors="none",
+                    edgecolors=HIGHLIGHT_COLOR,
+                    linewidth=1.8,
+                    zorder=2,
+                    label="High return, higher-volatility half",
+                )
+
+    axis.axhline(
+        annual_risk_free_rate * 100.0,
+        color="#777777",
+        linestyle=":",
+        linewidth=1.0,
+        label=f"Risk-free rate ({annual_risk_free_rate:.2%})",
+    )
+    axis.set_title(f"{ticker}: Annualized Return and Volatility")
+    axis.set_xlabel("Annualized volatility (daily sample SD x sqrt(252), %)")
+    axis.set_ylabel("Annualized return (CAGR, %)")
+    axis.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100.0))
+    axis.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=100.0))
+    axis.legend(loc="best")
+    _finish_figure(
+        figure,
+        path,
+        note=(
+            SOURCE_NOTE
+            + f" Sharpe uses a {annual_risk_free_rate:.2%} annual risk-free rate "
+            "(default 0.00%). Gross adjusted return streams are shown; the "
+            "existing 1-basis-point-per-leg cost sensitivity is separate."
+        ),
+    )
+
+
 def _cumulative_contribution_chart(
     daily: pd.DataFrame,
     path: Path,
@@ -321,11 +417,13 @@ def _cumulative_contribution_chart(
 def generate_charts(
     daily: pd.DataFrame,
     yearly: pd.DataFrame,
+    strategy_comparison: pd.DataFrame,
     *,
     chart_dir: Path,
     ticker: str,
     rolling_window: int,
     trading_days_per_year: int,
+    annual_risk_free_rate: float,
 ) -> list[Path]:
     """Generate all documented charts and return their paths."""
 
@@ -337,6 +435,7 @@ def generate_charts(
         "yearly": chart_dir / "yearly-return-comparison.png",
         "rolling": chart_dir / "rolling-average-returns.png",
         "drawdown": chart_dir / "drawdown-comparison.png",
+        "risk_return": chart_dir / "risk-return-comparison.png",
         "contribution": chart_dir / "cumulative-log-return-contribution.png",
     }
     _growth_chart(daily, chart_paths["growth"], ticker)
@@ -350,5 +449,11 @@ def generate_charts(
         trading_days_per_year,
     )
     _drawdown_chart(daily, chart_paths["drawdown"], ticker)
+    _risk_return_chart(
+        strategy_comparison,
+        chart_paths["risk_return"],
+        ticker,
+        annual_risk_free_rate,
+    )
     _cumulative_contribution_chart(daily, chart_paths["contribution"], ticker)
     return list(chart_paths.values())

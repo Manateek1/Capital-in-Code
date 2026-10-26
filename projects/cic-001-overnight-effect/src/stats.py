@@ -46,11 +46,13 @@ def annualized_return(
     returns: Iterable[float] | pd.Series,
     trading_days_per_year: int,
 ) -> float:
-    """Annualize a compounded return from the observed daily series."""
+    """Calculate CAGR from the observed daily series when it has two rows."""
 
     if trading_days_per_year <= 0:
         raise ValueError("trading days per year must be positive")
     series = _clean_returns(returns)
+    if len(series) < 2:
+        return float("nan")
     return float(
         np.expm1(
             np.log1p(series.to_numpy()).sum() * trading_days_per_year / len(series)
@@ -79,13 +81,15 @@ def sharpe_ratio(
 ) -> float:
     """Calculate an arithmetic annualized Sharpe ratio from daily returns."""
 
-    if annual_risk_free_rate <= -1.0:
-        raise ValueError("annual risk-free rate must be greater than -1.0")
+    if not math.isfinite(annual_risk_free_rate) or annual_risk_free_rate <= -1.0:
+        raise ValueError("annual risk-free rate must be finite and greater than -1.0")
+    if trading_days_per_year <= 0:
+        raise ValueError("trading days per year must be positive")
     series = _clean_returns(returns)
     if len(series) < 2:
         return float("nan")
     standard_deviation = float(series.std(ddof=1))
-    if standard_deviation == 0.0:
+    if standard_deviation <= 0.0:
         return float("nan")
     daily_risk_free_rate = (1.0 + annual_risk_free_rate) ** (
         1.0 / trading_days_per_year
@@ -95,6 +99,28 @@ def sharpe_ratio(
         / standard_deviation
         * math.sqrt(trading_days_per_year)
     )
+
+
+def _complete_return_sample(
+    daily: pd.DataFrame,
+    columns: Iterable[str],
+) -> pd.DataFrame:
+    """Use one complete-case date sample and reject invalid return values."""
+
+    selected_columns = list(columns)
+    missing_columns = set(selected_columns).difference(daily.columns)
+    if missing_columns:
+        raise ValueError(
+            "daily returns are missing required columns: "
+            f"{', '.join(sorted(missing_columns))}"
+        )
+    selected = daily.loc[:, selected_columns].astype(float)
+    complete = selected.dropna(axis=0, how="any")
+    if complete.empty:
+        raise ValueError("daily return sample has no complete observations")
+    for column in selected_columns:
+        _clean_returns(complete[column])
+    return complete
 
 
 def maximum_drawdown(returns: Iterable[float] | pd.Series) -> float:
@@ -140,9 +166,15 @@ def summarize_return_series(
         "percentile_75": float(quantiles[3]),
         "percentile_95": float(quantiles[4]),
         "percentile_99": float(quantiles[5]),
-        "skewness": float(scipy_stats.skew(series.to_numpy(), bias=False)),
-        "excess_kurtosis": float(
-            scipy_stats.kurtosis(series.to_numpy(), fisher=True, bias=False)
+        "skewness": (
+            float(scipy_stats.skew(series.to_numpy(), bias=False))
+            if len(series) >= 3
+            else float("nan")
+        ),
+        "excess_kurtosis": (
+            float(scipy_stats.kurtosis(series.to_numpy(), fisher=True, bias=False))
+            if len(series) >= 4
+            else float("nan")
         ),
         "cumulative_return": compounded_return(series),
         "annualized_return": annualized_return(series, trading_days_per_year),
@@ -159,11 +191,12 @@ def build_summary_statistics(
     annual_risk_free_rate: float,
     trading_days_per_year: int,
 ) -> pd.DataFrame:
-    """Build overall statistics for overnight, intraday, and buy-and-hold."""
+    """Build matched-sample statistics for all existing return components."""
 
+    complete = _complete_return_sample(daily, RETURN_COLUMNS.values())
     records = [
         summarize_return_series(
-            daily[column],
+            complete[column],
             component=component,
             annual_risk_free_rate=annual_risk_free_rate,
             trading_days_per_year=trading_days_per_year,
@@ -171,6 +204,165 @@ def build_summary_statistics(
         for component, column in RETURN_COLUMNS.items()
     ]
     return pd.DataFrame.from_records(records)
+
+
+def build_strategy_comparison(
+    summary: pd.DataFrame,
+    *,
+    annual_risk_free_rate: float,
+) -> pd.DataFrame:
+    """Build a ranked, same-period comparison of observed return streams.
+
+    The ranking is descriptive and ex post. It does not create or simulate
+    executable strategies; the three rows are the existing overnight,
+    regular-hours, and close-to-close buy-and-hold return series.
+    """
+
+    if not math.isfinite(annual_risk_free_rate) or annual_risk_free_rate <= -1.0:
+        raise ValueError("annual risk-free rate must be finite and greater than -1.0")
+
+    required_columns = {
+        "component",
+        "observations",
+        "cumulative_return",
+        "annualized_return",
+        "standard_deviation_daily",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "maximum_drawdown",
+        "positive_observations_pct",
+    }
+    missing_columns = required_columns.difference(summary.columns)
+    if missing_columns:
+        raise ValueError(
+            "summary is missing comparison fields: "
+            f"{', '.join(sorted(missing_columns))}"
+        )
+
+    if summary["component"].duplicated().any():
+        raise ValueError("summary contains duplicate return components")
+    indexed = summary.set_index("component")
+    missing_components = set(RETURN_COLUMNS).difference(indexed.index)
+    if missing_components:
+        raise ValueError(
+            "summary is missing required return components: "
+            f"{', '.join(sorted(missing_components))}"
+        )
+    observation_counts = indexed.loc[list(RETURN_COLUMNS), "observations"]
+    if observation_counts.nunique() != 1:
+        raise ValueError(
+            "return components must use the same observations for benchmark comparison"
+        )
+
+    display_names = {
+        "overnight": "Overnight",
+        "intraday": "Regular hours",
+        "buy_and_hold": "Buy and hold",
+    }
+    comparison = indexed.loc[list(RETURN_COLUMNS)].reset_index().copy()
+    comparison.insert(
+        0,
+        "return_stream",
+        comparison["component"].map(display_names),
+    )
+    comparison.insert(
+        2,
+        "role",
+        comparison["component"].map(
+            lambda component: (
+                "benchmark" if component == "buy_and_hold" else "return_component"
+            )
+        ),
+    )
+    comparison["win_rate_pct"] = comparison["positive_observations_pct"]
+    comparison["annual_risk_free_rate"] = annual_risk_free_rate
+    comparison["return_basis"] = "gross_adjusted_return_stream"
+
+    benchmark = comparison.loc[comparison["component"] == "buy_and_hold"].iloc[0]
+    comparison["excess_cumulative_return_vs_buy_and_hold"] = (
+        comparison["cumulative_return"] - benchmark["cumulative_return"]
+    )
+    comparison["excess_annualized_return_vs_buy_and_hold"] = (
+        comparison["annualized_return"] - benchmark["annualized_return"]
+    )
+
+    enough_observations = comparison["observations"].ge(2)
+    finite_return = comparison["annualized_return"].map(
+        lambda value: pd.notna(value) and np.isfinite(float(value))
+    )
+    finite_sharpe = comparison["sharpe_ratio"].map(
+        lambda value: pd.notna(value) and np.isfinite(float(value))
+    )
+    rankable = enough_observations & finite_return & finite_sharpe
+    comparison["return_rank"] = (
+        comparison["annualized_return"]
+        .where(rankable)
+        .rank(method="min", ascending=False)
+        .astype("Int64")
+    )
+    comparison["risk_adjusted_rank"] = (
+        comparison["sharpe_ratio"]
+        .where(rankable)
+        .rank(method="min", ascending=False)
+        .astype("Int64")
+    )
+    comparison["volatility_rank"] = (
+        comparison["annualized_volatility"]
+        .where(rankable)
+        .rank(method="min", ascending=True)
+        .astype("Int64")
+    )
+
+    def sharpe_status(row: pd.Series) -> str:
+        if int(row["observations"]) < 2:
+            return "insufficient_observations"
+        daily_standard_deviation = row["standard_deviation_daily"]
+        if pd.isna(daily_standard_deviation):
+            return "unavailable"
+        if float(daily_standard_deviation) == 0.0:
+            return "undefined_zero_volatility"
+        if not pd.notna(row["sharpe_ratio"]) or not np.isfinite(
+            float(row["sharpe_ratio"])
+        ):
+            return "unavailable"
+        return "available"
+
+    comparison["sharpe_status"] = comparison.apply(sharpe_status, axis=1)
+    ranked_count = int(rankable.sum())
+    flagged = pd.Series(False, index=comparison.index, dtype=bool)
+    if ranked_count >= 2:
+        return_upper_half = comparison["return_rank"].le(math.ceil(ranked_count / 2))
+        volatility_upper_half = comparison["volatility_rank"].gt(ranked_count / 2)
+        flagged = (
+            (return_upper_half & volatility_upper_half & rankable)
+            .fillna(False)
+            .astype(bool)
+        )
+    comparison["high_return_high_volatility_flag"] = flagged
+
+    columns = [
+        "return_stream",
+        "component",
+        "role",
+        "observations",
+        "cumulative_return",
+        "annualized_return",
+        "excess_cumulative_return_vs_buy_and_hold",
+        "excess_annualized_return_vs_buy_and_hold",
+        "standard_deviation_daily",
+        "annualized_volatility",
+        "sharpe_ratio",
+        "annual_risk_free_rate",
+        "maximum_drawdown",
+        "win_rate_pct",
+        "return_rank",
+        "risk_adjusted_rank",
+        "volatility_rank",
+        "sharpe_status",
+        "high_return_high_volatility_flag",
+        "return_basis",
+    ]
+    return comparison.loc[:, columns]
 
 
 def build_component_comparison(summary: pd.DataFrame) -> pd.DataFrame:
@@ -229,8 +421,12 @@ def build_inferential_tests(
 ) -> pd.DataFrame:
     """Run paired tests and a paired bootstrap for daily component differences."""
 
-    overnight = daily["overnight_return"].to_numpy(dtype=float)
-    intraday = daily["intraday_return"].to_numpy(dtype=float)
+    paired = _complete_return_sample(
+        daily,
+        ["overnight_return", "intraday_return"],
+    )
+    overnight = paired["overnight_return"].to_numpy(dtype=float)
+    intraday = paired["intraday_return"].to_numpy(dtype=float)
     if len(overnight) != len(intraday) or len(overnight) < 2:
         raise ValueError("paired inferential analysis requires at least two rows")
     differences = overnight - intraday
@@ -313,8 +509,9 @@ def build_yearly_statistics(
     """Build tidy calendar-year statistics for each return component."""
 
     records: list[dict[str, object]] = []
-    date_index = pd.DatetimeIndex(daily.index)
-    for year, group in daily.groupby(date_index.year, sort=True):
+    complete = _complete_return_sample(daily, RETURN_COLUMNS.values())
+    date_index = pd.DatetimeIndex(complete.index)
+    for year, group in complete.groupby(date_index.year, sort=True):
         year_number = int(cast(int, year))
         for component, column in RETURN_COLUMNS.items():
             series = group[column]

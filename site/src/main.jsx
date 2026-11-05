@@ -5,6 +5,7 @@ import { loadCycleQuantPreview } from "./cyclequant/data";
 import "./styles.css";
 
 const CycleQuantDashboard = React.lazy(() => import("./cyclequant/CycleQuantDashboard"));
+const YieldCurvePage = React.lazy(() => import("./cic003/YieldCurvePage"));
 
 const REPOSITORY = "https://github.com/Manateek1/Capital-in-Code";
 const PROJECT_PATH = `${REPOSITORY}/tree/main/projects/cic-001-overnight-effect`;
@@ -25,6 +26,7 @@ function Header() {
       <nav aria-label="Primary navigation">
         <NavLink to="/projects/cic-001-overnight-effect">CIC-001</NavLink>
         <NavLink to="/projects/cic-002-cyclequant">CycleQuant</NavLink>
+        <NavLink to="/projects/cic-003-yield-curve">CIC-003</NavLink>
         <NavLink to="/methods">Methods</NavLink>
         <NavLink to="/about">About</NavLink>
       </nav>
@@ -115,6 +117,13 @@ function Home() {
         <CycleQuantPreview />
       </div>
     </section>
+    <section className="featured cic003-featured">
+      <div className="section-label">CIC-003 · Historical research</div>
+      <div className="feature-grid">
+        <div><h2>The Yield Curve’s Warning Window</h2><p>A study of confirmed 10-year/3-month Treasury spread inversions, NBER-based recession starts, lead times, and false alarms.</p><LinkArrow to="/projects/cic-003-yield-curve">View project</LinkArrow></div>
+        <img src="/images/cic-003/spread-and-recessions.svg" alt="Monthly 10-year minus 3-month Treasury spread with NBER-based recession months shaded." />
+      </div>
+    </section>
     <section className="principles">
       <h2>Every project is designed to be inspected.</h2>
       <div><p><strong>Question</strong>A specific question and recorded hypothesis.</p><p><strong>Method</strong>Data, assumptions, validation, and statistical tests made explicit.</p><p><strong>Evidence</strong>Results, charts, limitations, and reproducible source code.</p></div>
@@ -175,11 +184,11 @@ function Methods() {
 }
 
 function About() {
-  return <Layout><section className="about-hero"><div><h1>A place to make the work visible.</h1><p>Capital in Code was created by Dillon Nagar as an independent portfolio at the intersection of quantitative finance, investing, coding, and statistics.</p><p>The projects are a record of the process: carefully framed questions, transparent methods, reproducible code, and conclusions that state their limits.</p></div><div className="about-orbits" aria-hidden="true"><i /><i /><i /></div></section><section className="about-facts"><div><h2>Focus</h2><p>Quantitative finance, investing, coding, and statistics.</p></div><div><h2>Format</h2><p>Open projects, documented methods, research reports, and source code.</p></div><div><h2>Principle</h2><p>Clarity over complexity; evidence over opinion; reproducibility over polish.</p></div></section><section className="explore"><h2>Explore the work</h2><LinkArrow to="/projects/cic-001-overnight-effect">CIC-001 — The Overnight Effect</LinkArrow><LinkArrow to="/projects/cic-002-cyclequant">CIC-002 — CycleQuant</LinkArrow><LinkArrow to="/methods">Research methods</LinkArrow><a className="text-link" href={REPOSITORY} target="_blank" rel="noreferrer">GitHub repository <ExternalArrow /></a></section></Layout>;
+  return <Layout><section className="about-hero"><div><h1>A place to make the work visible.</h1><p>Capital in Code was created by Dillon Nagar as an independent portfolio at the intersection of quantitative finance, investing, coding, and statistics.</p><p>The projects are a record of the process: carefully framed questions, transparent methods, reproducible code, and conclusions that state their limits.</p></div><div className="about-orbits" aria-hidden="true"><i /><i /><i /></div></section><section className="about-facts"><div><h2>Focus</h2><p>Quantitative finance, investing, coding, and statistics.</p></div><div><h2>Format</h2><p>Open projects, documented methods, research reports, and source code.</p></div><div><h2>Principle</h2><p>Clarity over complexity; evidence over opinion; reproducibility over polish.</p></div></section><section className="explore"><h2>Explore the work</h2><LinkArrow to="/projects/cic-001-overnight-effect">CIC-001 — The Overnight Effect</LinkArrow><LinkArrow to="/projects/cic-002-cyclequant">CIC-002 — CycleQuant</LinkArrow><LinkArrow to="/projects/cic-003-yield-curve">CIC-003 — The Yield Curve’s Warning Window</LinkArrow><LinkArrow to="/methods">Research methods</LinkArrow><a className="text-link" href={REPOSITORY} target="_blank" rel="noreferrer">GitHub repository <ExternalArrow /></a></section></Layout>;
 }
 
 function NotFound() { return <Layout><section className="not-found"><h1>Page not found.</h1><LinkArrow to="/">Return home</LinkArrow></section></Layout>; }
 
-function App() { return <Routes><Route path="/" element={<Home />} /><Route path="/projects/cic-001-overnight-effect" element={<Project />} /><Route path="/projects/cic-002-cyclequant" element={<React.Suspense fallback={<div className="route-loading">Loading CycleQuant…</div>}><CycleQuantDashboard /></React.Suspense>} /><Route path="/methods" element={<Methods />} /><Route path="/about" element={<About />} /><Route path="*" element={<NotFound />} /></Routes>; }
+function App() { return <Routes><Route path="/" element={<Home />} /><Route path="/projects/cic-001-overnight-effect" element={<Project />} /><Route path="/projects/cic-002-cyclequant" element={<React.Suspense fallback={<div className="route-loading">Loading CycleQuant…</div>}><CycleQuantDashboard /></React.Suspense>} /><Route path="/projects/cic-003-yield-curve" element={<React.Suspense fallback={<div className="route-loading">Loading CIC-003…</div>}><Layout><YieldCurvePage /></Layout></React.Suspense>} /><Route path="/methods" element={<Methods />} /><Route path="/about" element={<About />} /><Route path="*" element={<NotFound />} /></Routes>; }
 
 createRoot(document.getElementById("root")).render(<React.StrictMode><BrowserRouter><App /></BrowserRouter></React.StrictMode>);

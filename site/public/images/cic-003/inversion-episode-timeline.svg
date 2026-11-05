@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 408" role="img" aria-labelledby="title desc">
+<title id="title">Confirmed yield-curve inversion episodes and NBER recession starts</title>
+<desc id="desc">Each row shows a run of three or more months with a monthly mean 10-year minus 3-month spread at or below zero. Solid navy marks the inversion; the dashed gray segment is the 12-month follow-up after the last inverted month; a navy circle marks a covered recession start.</desc>
+<rect width="1120" height="408" fill="#FFFFFF"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#101114}.muted{fill:#595D64}.axis{stroke:#8E939B;stroke-width:1}.grid{stroke:#E5E7EB;stroke-width:1}.small{font-size:12px}.label{font-size:13px}.title{font-size:19px;font-weight:600}.subtitle{font-size:12px;fill:#595D64}</style>
+<text class="title" x="208" y="31">Inversion episodes and recession starts</text>
+<text class="subtitle" x="208" y="53">Primary rule: 3 consecutive monthly means ≤ 0.00 percentage points; follow-up extends 12 months after the last inverted month.</text>
+<line class="grid" x1="266.59" y1="74" x2="266.59" y2="340"/>
+<text class="small muted" x="266.59" y="380" text-anchor="middle">1985</text>
+<line class="grid" x1="364.25" y1="74" x2="364.25" y2="340"/>
+<text class="small muted" x="364.25" y="380" text-anchor="middle">1990</text>
+<line class="grid" x1="461.90" y1="74" x2="461.90" y2="340"/>
+<text class="small muted" x="461.90" y="380" text-anchor="middle">1995</text>
+<line class="grid" x1="559.55" y1="74" x2="559.55" y2="340"/>
+<text class="small muted" x="559.55" y="380" text-anchor="middle">2000</text>
+<line class="grid" x1="657.21" y1="74" x2="657.21" y2="340"/>
+<text class="small muted" x="657.21" y="380" text-anchor="middle">2005</text>
+<line class="grid" x1="754.86" y1="74" x2="754.86" y2="340"/>
+<text class="small muted" x="754.86" y="380" text-anchor="middle">2010</text>
+<line class="grid" x1="852.51" y1="74" x2="852.51" y2="340"/>
+<text class="small muted" x="852.51" y="380" text-anchor="middle">2015</text>
+<line class="grid" x1="950.17" y1="74" x2="950.17" y2="340"/>
+<text class="small muted" x="950.17" y="380" text-anchor="middle">2020</text>
+<line class="grid" x1="1047.82" y1="74" x2="1047.82" y2="340"/>
+<text class="small muted" x="1047.82" y="380" text-anchor="middle">2025</text>
+<text class="small muted" x="196" y="100.00" text-anchor="end">Episode 1 · 1989-06-01–1989-08-01</text>
+<line x1="356.11" y1="96.00" x2="360.11" y2="96.00" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<line x1="356.11" y1="96.00" x2="375.64" y2="96.00" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<circle cx="375.64" cy="96.00" r="6" fill="#FFFFFF" stroke="#101114" stroke-width="2"/>
+<text class="small muted" x="384.64" y="87.00">1990-08</text>
+<text class="small muted" x="196" y="144.00" text-anchor="end">Episode 2 · 2000-07-01–2001-01-01</text>
+<line x1="572.57" y1="140.00" x2="579.08" y2="140.00" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<line x1="579.08" y1="140.00" x2="598.61" y2="140.00" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<circle cx="583.97" cy="140.00" r="6" fill="#FFFFFF" stroke="#101114" stroke-width="2"/>
+<text class="small muted" x="592.97" y="131.00">2001-04</text>
+<text class="small muted" x="196" y="188.00" text-anchor="end">Episode 3 · 2006-08-01–2007-05-01</text>
+<line x1="691.39" y1="184.00" x2="702.78" y2="184.00" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<line x1="702.78" y1="184.00" x2="722.31" y2="184.00" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<circle cx="715.80" cy="184.00" r="6" fill="#FFFFFF" stroke="#101114" stroke-width="2"/>
+<text class="small muted" x="724.80" y="175.00">2008-01</text>
+<text class="small muted" x="196" y="232.00" text-anchor="end">Episode 4 · 2019-05-01–2019-09-01</text>
+<line x1="940.40" y1="228.00" x2="944.40" y2="228.00" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<line x1="943.66" y1="228.00" x2="963.19" y2="228.00" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<circle cx="953.42" cy="228.00" r="6" fill="#FFFFFF" stroke="#101114" stroke-width="2"/>
+<text class="small muted" x="962.42" y="219.00">2020-03</text>
+<text class="small muted" x="196" y="276.00" text-anchor="end">Episode 5 · 2022-11-01–2024-11-01</text>
+<line x1="1008.76" y1="272.00" x2="1044.57" y2="272.00" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<line x1="1044.57" y1="272.00" x2="1064.10" y2="272.00" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<text class="small muted" x="196" y="320.00" text-anchor="end">Episode 6 · 2025-06-01–2025-08-01</text>
+<line x1="1059.21" y1="316.00" x2="1063.21" y2="316.00" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<line x1="1059.21" y1="316.00" x2="1078.74" y2="316.00" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<line class="axis" x1="208" y1="340" x2="1082" y2="340"/>
+<line x1="222" y1="357" x2="251" y2="357" stroke="#123675" stroke-width="8" stroke-linecap="round"/>
+<text class="small muted" x="260" y="361">Confirmed inversion</text>
+<line x1="424" y1="357" x2="455" y2="357" stroke="#A8ABB1" stroke-width="2" stroke-dasharray="4 4"/>
+<text class="small muted" x="464" y="361">12-month follow-up</text>
+<circle cx="655" cy="357" r="5" fill="#FFFFFF" stroke="#101114" stroke-width="2"/>
+<text class="small muted" x="667" y="361">NBER recession start</text>
+<text class="label" x="645.00" y="398" text-anchor="middle">Calendar month</text>
+</svg>

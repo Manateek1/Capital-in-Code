@@ -1,0 +1,555 @@
+{
+  "project": "CIC-003 — The Yield Curve's Warning Window",
+  "method": {
+    "confirmation_months": 3,
+    "post_inversion_follow_up_months": 12,
+    "primary_threshold_percent": 0.0,
+    "sensitivity_thresholds_percent": [
+      -0.25,
+      0.0,
+      0.25
+    ]
+  },
+  "metadata": {
+    "analysis_run_at_utc": "2026-11-05T03:38:20+00:00",
+    "data_retrieved_at_utc": "2026-11-05T03:13:24+00:00",
+    "source_file_modified_at_utc": {
+      "T10Y3M": "2026-11-05T03:13:24+00:00",
+      "USREC": "2026-11-05T03:13:49+00:00"
+    },
+    "curve_raw_first_date": "1982-01-04",
+    "curve_raw_last_date": "2026-11-04",
+    "curve_valid_daily_rows": 11213,
+    "curve_blank_source_rows": 485,
+    "recession_raw_first_month": "1854-12",
+    "recession_raw_last_month": "2026-10",
+    "common_months": 538,
+    "sample_start": "1982-01",
+    "sample_end": "2026-10",
+    "data_sources": {
+      "spread": "FRED T10Y3M daily series; monthly arithmetic mean",
+      "recession": "FRED USREC monthly NBER-based indicator"
+    }
+  },
+  "sample_start": "1982-01",
+  "sample_end": "2026-10",
+  "monthly_observations": 538,
+  "recession_onsets": [
+    "1990-08",
+    "2001-04",
+    "2008-01",
+    "2020-03"
+  ],
+  "primary": {
+    "threshold_percent": 0.0,
+    "confirmation_months": 3,
+    "post_episode_months": 12,
+    "confirmed_episodes": 6,
+    "evaluated_episodes": 6,
+    "hit_episodes": 4,
+    "false_alarm_episodes": 2,
+    "right_censored_episodes": 0,
+    "recession_onsets": 4,
+    "covered_recession_onsets": 4,
+    "missed_recession_onsets": 0,
+    "median_confirmation_lead_months": 10.0,
+    "episodes": [
+      {
+        "episode": 1,
+        "threshold_percent": 0.0,
+        "inversion_start": "1989-06",
+        "confirmation_month": "1989-08",
+        "inversion_end": "1989-08",
+        "duration_months": 3,
+        "evaluation_end": "1990-08",
+        "status": "hit",
+        "recession_onsets_in_window": [
+          "1990-08"
+        ],
+        "months_from_confirmation_to_first_onset": 12,
+        "months_from_inversion_end_to_first_onset": 12
+      },
+      {
+        "episode": 2,
+        "threshold_percent": 0.0,
+        "inversion_start": "2000-07",
+        "confirmation_month": "2000-09",
+        "inversion_end": "2001-01",
+        "duration_months": 7,
+        "evaluation_end": "2002-01",
+        "status": "hit",
+        "recession_onsets_in_window": [
+          "2001-04"
+        ],
+        "months_from_confirmation_to_first_onset": 7,
+        "months_from_inversion_end_to_first_onset": 3
+      },
+      {
+        "episode": 3,
+        "threshold_percent": 0.0,
+        "inversion_start": "2006-08",
+        "confirmation_month": "2006-10",
+        "inversion_end": "2007-05",
+        "duration_months": 10,
+        "evaluation_end": "2008-05",
+        "status": "hit",
+        "recession_onsets_in_window": [
+          "2008-01"
+        ],
+        "months_from_confirmation_to_first_onset": 15,
+        "months_from_inversion_end_to_first_onset": 8
+      },
+      {
+        "episode": 4,
+        "threshold_percent": 0.0,
+        "inversion_start": "2019-05",
+        "confirmation_month": "2019-07",
+        "inversion_end": "2019-09",
+        "duration_months": 5,
+        "evaluation_end": "2020-09",
+        "status": "hit",
+        "recession_onsets_in_window": [
+          "2020-03"
+        ],
+        "months_from_confirmation_to_first_onset": 8,
+        "months_from_inversion_end_to_first_onset": 6
+      },
+      {
+        "episode": 5,
+        "threshold_percent": 0.0,
+        "inversion_start": "2022-11",
+        "confirmation_month": "2023-01",
+        "inversion_end": "2024-11",
+        "duration_months": 25,
+        "evaluation_end": "2025-11",
+        "status": "false-alarm",
+        "recession_onsets_in_window": [],
+        "months_from_confirmation_to_first_onset": null,
+        "months_from_inversion_end_to_first_onset": null
+      },
+      {
+        "episode": 6,
+        "threshold_percent": 0.0,
+        "inversion_start": "2025-06",
+        "confirmation_month": "2025-08",
+        "inversion_end": "2025-08",
+        "duration_months": 3,
+        "evaluation_end": "2026-08",
+        "status": "false-alarm",
+        "recession_onsets_in_window": [],
+        "months_from_confirmation_to_first_onset": null,
+        "months_from_inversion_end_to_first_onset": null
+      }
+    ],
+    "recession_matches": [
+      {
+        "recession_start": "1990-08",
+        "status": "covered",
+        "latest_covering_episode": 1
+      },
+      {
+        "recession_start": "2001-04",
+        "status": "covered",
+        "latest_covering_episode": 2
+      },
+      {
+        "recession_start": "2008-01",
+        "status": "covered",
+        "latest_covering_episode": 3
+      },
+      {
+        "recession_start": "2020-03",
+        "status": "covered",
+        "latest_covering_episode": 4
+      }
+    ]
+  },
+  "threshold_sensitivity": [
+    {
+      "threshold_percent": -0.25,
+      "confirmation_months": 3,
+      "post_episode_months": 12,
+      "confirmed_episodes": 3,
+      "evaluated_episodes": 3,
+      "hit_episodes": 2,
+      "false_alarm_episodes": 1,
+      "right_censored_episodes": 0,
+      "recession_onsets": 4,
+      "covered_recession_onsets": 2,
+      "missed_recession_onsets": 2,
+      "median_confirmation_lead_months": 9.5
+    },
+    {
+      "threshold_percent": 0.0,
+      "confirmation_months": 3,
+      "post_episode_months": 12,
+      "confirmed_episodes": 6,
+      "evaluated_episodes": 6,
+      "hit_episodes": 4,
+      "false_alarm_episodes": 2,
+      "right_censored_episodes": 0,
+      "recession_onsets": 4,
+      "covered_recession_onsets": 4,
+      "missed_recession_onsets": 0,
+      "median_confirmation_lead_months": 10.0
+    },
+    {
+      "threshold_percent": 0.25,
+      "confirmation_months": 3,
+      "post_episode_months": 12,
+      "confirmed_episodes": 7,
+      "evaluated_episodes": 6,
+      "hit_episodes": 4,
+      "false_alarm_episodes": 2,
+      "right_censored_episodes": 1,
+      "recession_onsets": 4,
+      "covered_recession_onsets": 4,
+      "missed_recession_onsets": 0,
+      "median_confirmation_lead_months": 13.0
+    }
+  ],
+  "threshold_details": [
+    {
+      "threshold_percent": -0.25,
+      "confirmation_months": 3,
+      "post_episode_months": 12,
+      "confirmed_episodes": 3,
+      "evaluated_episodes": 3,
+      "hit_episodes": 2,
+      "false_alarm_episodes": 1,
+      "right_censored_episodes": 0,
+      "recession_onsets": 4,
+      "covered_recession_onsets": 2,
+      "missed_recession_onsets": 2,
+      "median_confirmation_lead_months": 9.5,
+      "episodes": [
+        {
+          "episode": 1,
+          "threshold_percent": -0.25,
+          "inversion_start": "2000-08",
+          "confirmation_month": "2000-10",
+          "inversion_end": "2000-12",
+          "duration_months": 5,
+          "evaluation_end": "2001-12",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2001-04"
+          ],
+          "months_from_confirmation_to_first_onset": 6,
+          "months_from_inversion_end_to_first_onset": 4
+        },
+        {
+          "episode": 2,
+          "threshold_percent": -0.25,
+          "inversion_start": "2006-10",
+          "confirmation_month": "2006-12",
+          "inversion_end": "2007-04",
+          "duration_months": 7,
+          "evaluation_end": "2008-04",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2008-01"
+          ],
+          "months_from_confirmation_to_first_onset": 13,
+          "months_from_inversion_end_to_first_onset": 9
+        },
+        {
+          "episode": 3,
+          "threshold_percent": -0.25,
+          "inversion_start": "2022-11",
+          "confirmation_month": "2023-01",
+          "inversion_end": "2024-11",
+          "duration_months": 25,
+          "evaluation_end": "2025-11",
+          "status": "false-alarm",
+          "recession_onsets_in_window": [],
+          "months_from_confirmation_to_first_onset": null,
+          "months_from_inversion_end_to_first_onset": null
+        }
+      ],
+      "recession_matches": [
+        {
+          "recession_start": "1990-08",
+          "status": "missed",
+          "latest_covering_episode": null
+        },
+        {
+          "recession_start": "2001-04",
+          "status": "covered",
+          "latest_covering_episode": 1
+        },
+        {
+          "recession_start": "2008-01",
+          "status": "covered",
+          "latest_covering_episode": 2
+        },
+        {
+          "recession_start": "2020-03",
+          "status": "missed",
+          "latest_covering_episode": null
+        }
+      ]
+    },
+    {
+      "threshold_percent": 0.0,
+      "confirmation_months": 3,
+      "post_episode_months": 12,
+      "confirmed_episodes": 6,
+      "evaluated_episodes": 6,
+      "hit_episodes": 4,
+      "false_alarm_episodes": 2,
+      "right_censored_episodes": 0,
+      "recession_onsets": 4,
+      "covered_recession_onsets": 4,
+      "missed_recession_onsets": 0,
+      "median_confirmation_lead_months": 10.0,
+      "episodes": [
+        {
+          "episode": 1,
+          "threshold_percent": 0.0,
+          "inversion_start": "1989-06",
+          "confirmation_month": "1989-08",
+          "inversion_end": "1989-08",
+          "duration_months": 3,
+          "evaluation_end": "1990-08",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "1990-08"
+          ],
+          "months_from_confirmation_to_first_onset": 12,
+          "months_from_inversion_end_to_first_onset": 12
+        },
+        {
+          "episode": 2,
+          "threshold_percent": 0.0,
+          "inversion_start": "2000-07",
+          "confirmation_month": "2000-09",
+          "inversion_end": "2001-01",
+          "duration_months": 7,
+          "evaluation_end": "2002-01",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2001-04"
+          ],
+          "months_from_confirmation_to_first_onset": 7,
+          "months_from_inversion_end_to_first_onset": 3
+        },
+        {
+          "episode": 3,
+          "threshold_percent": 0.0,
+          "inversion_start": "2006-08",
+          "confirmation_month": "2006-10",
+          "inversion_end": "2007-05",
+          "duration_months": 10,
+          "evaluation_end": "2008-05",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2008-01"
+          ],
+          "months_from_confirmation_to_first_onset": 15,
+          "months_from_inversion_end_to_first_onset": 8
+        },
+        {
+          "episode": 4,
+          "threshold_percent": 0.0,
+          "inversion_start": "2019-05",
+          "confirmation_month": "2019-07",
+          "inversion_end": "2019-09",
+          "duration_months": 5,
+          "evaluation_end": "2020-09",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2020-03"
+          ],
+          "months_from_confirmation_to_first_onset": 8,
+          "months_from_inversion_end_to_first_onset": 6
+        },
+        {
+          "episode": 5,
+          "threshold_percent": 0.0,
+          "inversion_start": "2022-11",
+          "confirmation_month": "2023-01",
+          "inversion_end": "2024-11",
+          "duration_months": 25,
+          "evaluation_end": "2025-11",
+          "status": "false-alarm",
+          "recession_onsets_in_window": [],
+          "months_from_confirmation_to_first_onset": null,
+          "months_from_inversion_end_to_first_onset": null
+        },
+        {
+          "episode": 6,
+          "threshold_percent": 0.0,
+          "inversion_start": "2025-06",
+          "confirmation_month": "2025-08",
+          "inversion_end": "2025-08",
+          "duration_months": 3,
+          "evaluation_end": "2026-08",
+          "status": "false-alarm",
+          "recession_onsets_in_window": [],
+          "months_from_confirmation_to_first_onset": null,
+          "months_from_inversion_end_to_first_onset": null
+        }
+      ],
+      "recession_matches": [
+        {
+          "recession_start": "1990-08",
+          "status": "covered",
+          "latest_covering_episode": 1
+        },
+        {
+          "recession_start": "2001-04",
+          "status": "covered",
+          "latest_covering_episode": 2
+        },
+        {
+          "recession_start": "2008-01",
+          "status": "covered",
+          "latest_covering_episode": 3
+        },
+        {
+          "recession_start": "2020-03",
+          "status": "covered",
+          "latest_covering_episode": 4
+        }
+      ]
+    },
+    {
+      "threshold_percent": 0.25,
+      "confirmation_months": 3,
+      "post_episode_months": 12,
+      "confirmed_episodes": 7,
+      "evaluated_episodes": 6,
+      "hit_episodes": 4,
+      "false_alarm_episodes": 2,
+      "right_censored_episodes": 1,
+      "recession_onsets": 4,
+      "covered_recession_onsets": 4,
+      "missed_recession_onsets": 0,
+      "median_confirmation_lead_months": 13.0,
+      "episodes": [
+        {
+          "episode": 1,
+          "threshold_percent": 0.25,
+          "inversion_start": "1989-03",
+          "confirmation_month": "1989-05",
+          "inversion_end": "1989-12",
+          "duration_months": 10,
+          "evaluation_end": "1990-12",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "1990-08"
+          ],
+          "months_from_confirmation_to_first_onset": 15,
+          "months_from_inversion_end_to_first_onset": 8
+        },
+        {
+          "episode": 2,
+          "threshold_percent": 0.25,
+          "inversion_start": "2000-06",
+          "confirmation_month": "2000-08",
+          "inversion_end": "2001-02",
+          "duration_months": 9,
+          "evaluation_end": "2002-02",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2001-04"
+          ],
+          "months_from_confirmation_to_first_onset": 8,
+          "months_from_inversion_end_to_first_onset": 2
+        },
+        {
+          "episode": 3,
+          "threshold_percent": 0.25,
+          "inversion_start": "2006-01",
+          "confirmation_month": "2006-03",
+          "inversion_end": "2006-03",
+          "duration_months": 3,
+          "evaluation_end": "2007-03",
+          "status": "false-alarm",
+          "recession_onsets_in_window": [],
+          "months_from_confirmation_to_first_onset": null,
+          "months_from_inversion_end_to_first_onset": null
+        },
+        {
+          "episode": 4,
+          "threshold_percent": 0.25,
+          "inversion_start": "2006-06",
+          "confirmation_month": "2006-08",
+          "inversion_end": "2007-05",
+          "duration_months": 12,
+          "evaluation_end": "2008-05",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2008-01"
+          ],
+          "months_from_confirmation_to_first_onset": 17,
+          "months_from_inversion_end_to_first_onset": 8
+        },
+        {
+          "episode": 5,
+          "threshold_percent": 0.25,
+          "inversion_start": "2019-02",
+          "confirmation_month": "2019-04",
+          "inversion_end": "2019-11",
+          "duration_months": 10,
+          "evaluation_end": "2020-11",
+          "status": "hit",
+          "recession_onsets_in_window": [
+            "2020-03"
+          ],
+          "months_from_confirmation_to_first_onset": 11,
+          "months_from_inversion_end_to_first_onset": 4
+        },
+        {
+          "episode": 6,
+          "threshold_percent": 0.25,
+          "inversion_start": "2022-10",
+          "confirmation_month": "2022-12",
+          "inversion_end": "2024-12",
+          "duration_months": 27,
+          "evaluation_end": "2025-12",
+          "status": "false-alarm",
+          "recession_onsets_in_window": [],
+          "months_from_confirmation_to_first_onset": null,
+          "months_from_inversion_end_to_first_onset": null
+        },
+        {
+          "episode": 7,
+          "threshold_percent": 0.25,
+          "inversion_start": "2025-02",
+          "confirmation_month": "2025-04",
+          "inversion_end": "2025-11",
+          "duration_months": 10,
+          "evaluation_end": "2026-11",
+          "status": "right-censored",
+          "recession_onsets_in_window": [],
+          "months_from_confirmation_to_first_onset": null,
+          "months_from_inversion_end_to_first_onset": null
+        }
+      ],
+      "recession_matches": [
+        {
+          "recession_start": "1990-08",
+          "status": "covered",
+          "latest_covering_episode": 1
+        },
+        {
+          "recession_start": "2001-04",
+          "status": "covered",
+          "latest_covering_episode": 2
+        },
+        {
+          "recession_start": "2008-01",
+          "status": "covered",
+          "latest_covering_episode": 4
+        },
+        {
+          "recession_start": "2020-03",
+          "status": "covered",
+          "latest_covering_episode": 5
+        }
+      ]
+    }
+  ]
+}

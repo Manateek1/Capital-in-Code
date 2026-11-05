@@ -242,6 +242,25 @@ caveats in a public-facing format.
   formulas, matched samples, missing and insufficient data, and zero
   volatility.
 
+### CIC-003 yield-curve study — 2026-11-04
+
+- `CIC-003`, **The Yield Curve’s Warning Window**, studies whether a
+  three-month-confirmed 10-year/3-month Treasury spread inversion is followed
+  by an NBER-based recession start during the inversion or within twelve
+  months after its final inverted month.
+- The fixed FRED sample spans 1982-01 through 2026-10 (538 monthly
+  observations). The primary 0.00 percentage-point rule produced six episodes:
+  four covered the four recession starts in the sample and two were false
+  alarms. The median confirmation-to-start interval for covered events was
+  ten months. A −0.25 pp sensitivity missed two starts; +0.25 pp left one
+  episode right-censored.
+- The project is implemented under `projects/cic-003-yield-curve` with a
+  standard-library Python pipeline, cited FRED inputs, episode-level CSV/JSON
+  outputs, accessible SVG charts, a research report, and a public site page.
+- These are small, retrospective event counts. The NBER-based labels are not
+  available in real time, the episode windows are not independent, and the
+  study makes no causal, forecast, or investment claim.
+
 ### CIC-002 reliability, truth-in-reporting, and site design — 2026-09-22
 
 - Dillon's priority is a continuously operating Alpaca **paper** bot whose

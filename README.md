@@ -29,6 +29,7 @@ Each project is designed to include:
 | --- | --- | --- |
 | CIC-001 | [The Overnight Effect](projects/cic-001-overnight-effect/) | Complete |
 | CIC-002 | [CycleQuant](projects/cic-002-cyclequant/) | Live Alpaca paper account and public mirror; [project report](projects/cic-002-cyclequant/PROJECT_REPORT.md) |
+| CIC-003 | [The Yield Curve’s Warning Window](projects/cic-003-yield-curve/) | Complete; historical sample through 2026-10; two false-alarm episodes |
 
 ## Links
 

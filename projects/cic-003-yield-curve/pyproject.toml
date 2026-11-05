@@ -1,0 +1,18 @@
+[project]
+name = "cic-003-yield-curve"
+version = "1.0.0"
+description = "A reproducible study of yield-curve inversion episodes and NBER recession starts."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "RUF", "SIM", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
